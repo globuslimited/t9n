@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "CommonJS",
         "target": "ESNext",
-        "jsx": "react",
+        "jsx": "preserve",
         "strict": true,
         "declaration": true,
         "outDir": "./dist"
