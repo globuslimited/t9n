@@ -10,8 +10,9 @@ export type Translation = {
 };
 
 export type TranslationMap = {
-    ru: Translation;
-    en: Translation;
+    ru?: Translation;
+    en?: Translation;
+    zh?: Translation;
 };
 
 type TranslationSettings = {

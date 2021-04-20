@@ -3,8 +3,8 @@ import { curry, path } from "ramda";
 import { Language, TranslationContext, TranslationMap } from "./context";
 
 type Params = {
-    [key: string]: string
-}
+    [key: string]: string;
+};
 
 const getTranslation = (translationMap: TranslationMap, lang: Language, key: string, params: Params): string | null => {
     if (typeof params.count === "number") {
@@ -23,7 +23,12 @@ const getTranslation = (translationMap: TranslationMap, lang: Language, key: str
     ) as string | null;
 };
 
-export const translate = (translationMap: TranslationMap, lang: Language, key: string, params: Params = {}): string | null => {
+export const translate = (
+    translationMap: TranslationMap,
+    lang: Language,
+    key: string,
+    params: Params = {}
+): string | null => {
     if (key == null) return null;
     const variables = Object.keys(params);
     const translation = getTranslation(translationMap, lang, key, params);
@@ -62,7 +67,7 @@ const getSuffix = (language: Language, key: string, params: Params) => {
     if (typeof params.count === "number") {
         if (language === "en") {
             return params.count === 1 ? "" : "_plural";
-        } else {
+        } else if (language === "ru") {
             return `_${toLowestTheSame(toRussianCasesRules(params.count))}`;
         }
     }
