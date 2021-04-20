@@ -1,0 +1,26 @@
+{
+    "name": "@globus/translation",
+    "version": "0.1.0",
+    "description": "Hooks for handling translation",
+    "repository": "git@github.com:globuslimited/globus-translation.git",
+    "author": "Andrei izotov <faradaytrs@gmail.com>",
+    "license": "MIT",
+    "private": true,
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "/dist"
+    ],
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "ramda": "^0.27.1",
+        "react": "^17.0.2"
+    },
+    "devDependencies": {
+        "@types/ramda": "^0.27.40",
+        "@types/react": "^17.0.3",
+        "typescript": "^4.2.4"
+    }
+}
