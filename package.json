@@ -5,7 +5,7 @@
     "repository": "git@github.com:globuslimited/globus-translation.git",
     "author": "Andrei izotov <faradaytrs@gmail.com>",
     "license": "MIT",
-    "private": true,
+    "private": false,
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
