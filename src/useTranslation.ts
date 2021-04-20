@@ -2,6 +2,14 @@ import { useContext } from "react";
 import { curry, path } from "ramda";
 import { Language, TranslationContext, TranslationMap } from "./context";
 
+const replaceAll = (string: string, token: string, newToken: string) => {
+    if (token != newToken)
+        while (string.indexOf(token) > -1) {
+            string = string.replace(token, newToken);
+        }
+    return string;
+}
+
 type Params = {
     [key: string]: string;
 };
@@ -42,7 +50,7 @@ export const translate = (
         return translation;
     }
     return variables.reduce((ft: string, key: string) => {
-        return ft.replaceAll(`{{${key}}}`, params[key]);
+        return replaceAll(ft, `{{${key}}}`, params[key]);
     }, translation);
 };
 
