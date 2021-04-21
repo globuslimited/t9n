@@ -1,4 +1,6 @@
-import {TranslationContext} from "./context";
-export {TranslationContext} from "./context";
-export {useTranslation} from "./useTranslation";
+import { TranslationContext } from "./context";
+export { TranslationContext } from "./context";
+export { useTranslation } from "./useTranslation";
 export const TranslationProvider = TranslationContext.Provider;
+export { TFunction, TranslationProperties, UseTranslationResponse } from "./useTranslation";
+export { TranslationMap, Translation, TranslationSettings, Language } from "./context";

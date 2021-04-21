@@ -8,13 +8,18 @@ const replaceAll = (string: string, token: string, newToken: string) => {
             string = string.replace(token, newToken);
         }
     return string;
-}
+};
 
-type Params = {
+export type TranslationProperties = {
     [key: string]: string;
 };
 
-const getTranslation = (translationMap: TranslationMap, lang: Language, key: string, params: Params): string | null => {
+const getTranslation = (
+    translationMap: TranslationMap,
+    lang: Language,
+    key: string,
+    params: TranslationProperties
+): string | null => {
     if (typeof params.count === "number") {
         const suffix = getSuffix(lang, key, params);
         const candidate = path(
@@ -35,7 +40,7 @@ export const translate = (
     translationMap: TranslationMap,
     lang: Language,
     key: string,
-    params: Params = {}
+    params: TranslationProperties = {}
 ): string | null => {
     if (key == null) return null;
     const variables = Object.keys(params);
@@ -71,7 +76,7 @@ const toRussianCasesRules = (n: number) => {
     }
     return 0;
 };
-const getSuffix = (language: Language, key: string, params: Params) => {
+const getSuffix = (language: Language, key: string, params: TranslationProperties) => {
     if (typeof params.count === "number") {
         if (language === "en") {
             return params.count === 1 ? "" : "_plural";
@@ -81,15 +86,21 @@ const getSuffix = (language: Language, key: string, params: Params) => {
     }
     return "";
 };
+
 const t = curry(translate);
-export const useTranslation = () => {
+
+export type TFunction = (key: string, params: TranslationProperties) => string | null;
+
+export type UseTranslationResponse = {
+    t: TFunction;
+    language: Language;
+};
+
+export const useTranslation = (): UseTranslationResponse => {
     const settings = useContext(TranslationContext);
-    if (settings == null) {
-        return null;
-    }
-    const { language, fallbackLanguage, translations } = settings;
+    const { fallbackLanguage, translations } = settings;
     return {
-        t: t(translations, language ?? fallbackLanguage),
-        language: language ?? fallbackLanguage,
+        t: t(translations, settings?.language ?? fallbackLanguage),
+        language: settings?.language ?? fallbackLanguage,
     };
 };

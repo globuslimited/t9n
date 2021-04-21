@@ -15,10 +15,15 @@ export type TranslationMap = {
     zh?: Translation;
 };
 
-type TranslationSettings = {
+export type TranslationSettings = {
     translations: TranslationMap;
-    language: Language;
+    language?: Language;
     fallbackLanguage: Language;
-} | null;
+};
 
-export const TranslationContext = createContext<TranslationSettings>(null);
+export const TranslationContext = createContext<TranslationSettings>({
+    fallbackLanguage: Language.English,
+    translations: {
+        en: {},
+    },
+});
