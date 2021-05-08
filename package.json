@@ -30,7 +30,7 @@
             "commit": true,
             "tag": true,
             "push": true,
-            "requireBranch": "master"
+            "requireBranch": "main"
         },
         "github": {
             "release": true,

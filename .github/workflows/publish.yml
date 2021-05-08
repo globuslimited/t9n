@@ -1,4 +1,4 @@
-name: Publish to npm registy
+name: Publish to npm registry
 on:
     release:
         types: [published]
