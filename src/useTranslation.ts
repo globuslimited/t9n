@@ -76,7 +76,7 @@ const toRussianCasesRules = (n: number) => {
     }
     return 0;
 };
-const getSuffix = (language: Language, key: string, params: TranslationProperties) => {
+const getSuffix = (language: Language, _key: string, params: TranslationProperties) => {
     if (typeof params.count === "number") {
         if (language === "en") {
             return params.count === 1 ? "" : "_plural";
@@ -89,7 +89,7 @@ const getSuffix = (language: Language, key: string, params: TranslationPropertie
 
 const t = curry(translate);
 
-export type TFunction = (key: string, params: TranslationProperties) => string | null;
+export type TFunction = (key: string, params?: TranslationProperties) => string | null;
 
 export type UseTranslationResponse = {
     t: TFunction;
@@ -100,7 +100,7 @@ export const useTranslation = (): UseTranslationResponse => {
     const settings = useContext(TranslationContext);
     const { fallbackLanguage, translations } = settings;
     return {
-        t: t(translations, settings?.language ?? fallbackLanguage),
+        t: t(translations, settings?.language ?? fallbackLanguage) as TFunction,
         language: settings?.language ?? fallbackLanguage,
     };
 };
