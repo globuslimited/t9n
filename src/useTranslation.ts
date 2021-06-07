@@ -55,7 +55,7 @@ export const translate = (
         return translation;
     }
     return variables.reduce((ft: string, key: string) => {
-        return replaceAll(ft, `{{${key}}}`, params[key]);
+        return replaceAll(ft, `{{${key}}}`, params[key].toString());
     }, translation);
 };
 
