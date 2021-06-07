@@ -11,7 +11,7 @@ const replaceAll = (string: string, token: string, newToken: string) => {
 };
 
 export type TranslationProperties = {
-    [key: string]: string;
+    [key: string]: string | number;
 };
 
 const getTranslation = (
