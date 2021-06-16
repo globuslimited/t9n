@@ -41,8 +41,8 @@ export const translate = (
     lang: Language,
     key: string,
     params: TranslationProperties = {}
-): string | null => {
-    if (key == null) return null;
+): string | undefined => {
+    if (key == null) return;
     const variables = Object.keys(params);
     const translation = getTranslation(translationMap, lang, key, params);
     if (translation == null) {
