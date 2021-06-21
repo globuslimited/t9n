@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { curry, path } from "ramda";
+import { path } from "ramda";
 import { Language, TranslationContext, TranslationMap } from "./context";
 
 const replaceAll = (string: string, token: string, newToken: string) => {
