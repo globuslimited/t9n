@@ -87,12 +87,16 @@ const getSuffix = (language: Language, _key: string, params: TranslationProperti
     return "";
 };
 
-const t = curry(translate);
+const generateTranslationFunction = (translations: TranslationMap, language: Language) => {
+    return (key: string, params?: TranslationProperties) => {
+        return translate(translations, language, key, params);
+    }
+}
 
-export type TFunction = (key: string, params?: TranslationProperties) => string | null;
+//export type TFunction = (key: string, params?: TranslationProperties) => string | undefined;
 
 export type UseTranslationResponse = {
-    t: TFunction;
+    t: ReturnType<typeof generateTranslationFunction>;
     language: Language;
 };
 
@@ -100,7 +104,7 @@ export const useTranslation = (): UseTranslationResponse => {
     const settings = useContext(TranslationContext);
     const { fallbackLanguage, translations } = settings;
     return {
-        t: t(translations, settings?.language ?? fallbackLanguage) as TFunction,
+        t: generateTranslationFunction(translations, settings?.language ?? fallbackLanguage),
         language: settings?.language ?? fallbackLanguage,
     };
 };
