@@ -93,14 +93,7 @@ const generateTranslationFunction = (translations: TranslationMap, language: Lan
     }
 }
 
-//export type TFunction = (key: string, params?: TranslationProperties) => string | undefined;
-
-export type UseTranslationResponse = {
-    t: ReturnType<typeof generateTranslationFunction>;
-    language: Language;
-};
-
-export const useTranslation = (): UseTranslationResponse => {
+export const useTranslation = () => {
     const settings = useContext(TranslationContext);
     const { fallbackLanguage, translations } = settings;
     return {
@@ -108,3 +101,5 @@ export const useTranslation = (): UseTranslationResponse => {
         language: settings?.language ?? fallbackLanguage,
     };
 };
+
+export type UseTranslationResponse = ReturnType<typeof useTranslation>
