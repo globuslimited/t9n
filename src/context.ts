@@ -3,6 +3,7 @@ import { createContext } from "react";
 export enum Language {
     English = "en",
     Russian = "ru",
+    Chinese = "zn"
 }
 
 export type Translation = {
