@@ -88,8 +88,8 @@ const getSuffix = (language: Language, _key: string, params: TranslationProperti
 };
 
 const generateTranslationFunction = (translations: TranslationMap, language: Language) => {
-    return (key: string, params?: TranslationProperties) => {
-        return translate(translations, language, key, params);
+    return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
+        return translate(translations, enforceLanguage ?? language, key, params);
     }
 }
 

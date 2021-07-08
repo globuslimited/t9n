@@ -11,9 +11,7 @@ export type Translation = {
 };
 
 export type TranslationMap = {
-    ru?: Translation;
-    en?: Translation;
-    zh?: Translation;
+    [language in Language]?: Translation;
 };
 
 export type TranslationSettings = {
