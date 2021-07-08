@@ -18,6 +18,10 @@ jobs:
               uses: borales/actions-yarn@v2.3.0
               with:
                   cmd: install
+            - name: Run tests
+              uses: borales/actions-yarn@v2.3.0
+              with:
+                  cmd: test
             - name: Build package
               uses: borales/actions-yarn@v2.3.0
               with:
