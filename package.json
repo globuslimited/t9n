@@ -13,7 +13,7 @@
     ],
     "scripts": {
         "build": "tsc",
-        "release": "release-it",
+        "release": "set -a && source .env && set +a && release-it",
         "test": "jest",
         "prepare": "install-peers"
     },
