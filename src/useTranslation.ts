@@ -1,6 +1,6 @@
-import { useContext } from "react";
-import { path } from "ramda";
-import { Language, TranslationContext, TranslationMap } from "./context";
+import {useContext} from "react";
+import {path} from "ramda";
+import {Language, TranslationContext, TranslationMap} from "./context";
 
 const replaceAll = (string: string, token: string, newToken: string) => {
     if (token != newToken)
@@ -18,13 +18,16 @@ const getTranslation = (
     translationMap: TranslationMap,
     lang: Language,
     key: string,
-    params: TranslationProperties
+    params: TranslationProperties,
 ): string | null => {
+    if (key == null) {
+        return null;
+    }
     if (typeof params.count === "number") {
         const suffix = getSuffix(lang, key, params);
         const candidate = path(
             `${key}${suffix}`.split(".").map(path => (/^\d+$/.test(path) ? +path : path)),
-            translationMap[lang]
+            translationMap[lang],
         ) as string | null;
         if (candidate != null) {
             return candidate;
@@ -32,7 +35,7 @@ const getTranslation = (
     }
     return path(
         key.split(".").map(path => (/^\d+$/.test(path) ? +path : path)),
-        translationMap[lang]
+        translationMap[lang],
     ) as string | null;
 };
 
@@ -40,7 +43,7 @@ export const translate = (
     translationMap: TranslationMap,
     lang: Language,
     key: string,
-    params: TranslationProperties = {}
+    params: TranslationProperties = {},
 ): string => {
     const variables = Object.keys(params);
     const translation = getTranslation(translationMap, lang, key, params);
@@ -89,16 +92,16 @@ const getSuffix = (language: Language, _key: string, params: TranslationProperti
 const generateTranslationFunction = (translations: TranslationMap, language: Language) => {
     return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
         return translate(translations, enforceLanguage ?? language, key, params);
-    }
-}
+    };
+};
 
 export const useTranslation = () => {
     const settings = useContext(TranslationContext);
-    const { fallbackLanguage, translations } = settings;
+    const {fallbackLanguage, translations} = settings;
     return {
         t: generateTranslationFunction(translations, settings?.language ?? fallbackLanguage),
         language: settings?.language ?? fallbackLanguage,
     };
 };
 
-export type UseTranslationResponse = ReturnType<typeof useTranslation>
+export type UseTranslationResponse = ReturnType<typeof useTranslation>;
