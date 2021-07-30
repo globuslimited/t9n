@@ -44,14 +44,17 @@ export const translate = (
     lang: Language,
     key: string,
     params: TranslationProperties = {},
+    fallbackLanguage: Language,
 ): string => {
     const variables = Object.keys(params);
-    const translation = getTranslation(translationMap, lang, key, params);
+    const translation =
+        getTranslation(translationMap, lang, key, params) ??
+        getTranslation(translationMap, fallbackLanguage, key, params);
     if (translation == null) {
         return key;
     }
     if (typeof translation === "object") {
-        return translate(translationMap, lang, `${key}.default`, params) ?? key;
+        return translate(translationMap, lang, `${key}.default`, params, fallbackLanguage) ?? key;
     }
     if (variables.length === 0) {
         return translation;
@@ -89,9 +92,9 @@ const getSuffix = (language: Language, _key: string, params: TranslationProperti
     return "";
 };
 
-const generateTranslationFunction = (translations: TranslationMap, language: Language) => {
+const generateTranslationFunction = (translations: TranslationMap, language: Language, fallbackLanguage: Language) => {
     return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
-        return translate(translations, enforceLanguage ?? language, key, params);
+        return translate(translations, enforceLanguage ?? language ?? fallbackLanguage, key, params, fallbackLanguage);
     };
 };
 
@@ -99,7 +102,7 @@ export const useTranslation = () => {
     const settings = useContext(TranslationContext);
     const {fallbackLanguage, translations} = settings;
     return {
-        t: generateTranslationFunction(translations, settings?.language ?? fallbackLanguage),
+        t: generateTranslationFunction(translations, settings.language, fallbackLanguage),
         language: settings?.language ?? fallbackLanguage,
     };
 };

@@ -16,12 +16,13 @@ export type TranslationMap = {
 
 export type TranslationSettings = {
     translations: TranslationMap;
-    language?: Language;
+    language: Language;
     fallbackLanguage: Language;
 };
 
 export const TranslationContext = createContext<TranslationSettings>({
     fallbackLanguage: Language.English,
+    language: Language.English,
     translations: {
         en: {},
     },
