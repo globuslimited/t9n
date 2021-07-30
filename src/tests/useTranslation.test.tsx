@@ -12,6 +12,9 @@ const settings: TranslationSettings = {
             people_plural: "People",
             cool: "Cool",
             bad: "bad",
+            only: {
+                english: "Hello",
+            },
         },
         [Language.Chinese]: {
             people: "{{people}}个人",
@@ -48,6 +51,12 @@ test("language should be currently set language", () => {
     const {t, language} = result.current;
     expect(language).toBe(Language.Chinese);
 });
+
+test("should use fallback language property when target property is not available", () => {
+    const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+    const {t, language} = result.current;
+    expect(t('only.english')).toBe("Hello");
+})
 
 test("should return translation when key is correct", () => {
     const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
