@@ -98,12 +98,27 @@ export const generateTranslationFunction = (translations: TranslationMap, langua
     };
 };
 
+export const generateDictFunction = (translationMap: TranslationMap) => {
+    const ramdaPath = path;
+    return (path: string, mapper: (key: string, path: string) => string = key => key) => {
+        const subMap = ramdaPath(path.split("."), translationMap) as Record<string, unknown>;
+        if (Object.prototype.toString.call(subMap) !== "[object Object]") return [];
+
+        return Object.keys(subMap).reduce((acc, key) => {
+            return key === "default"
+                ? acc
+                : acc.concat(mapper(key, `${path}.${key}`));
+        }, [] as string[]);
+    }
+};
+
 export const useTranslation = () => {
     const settings = useContext(TranslationContext);
     const {fallbackLanguage, translations} = settings;
     return {
         t: generateTranslationFunction(translations, settings.language, fallbackLanguage),
         language: settings?.language ?? fallbackLanguage,
+        dict: generateDictFunction(translations)
     };
 };
 
