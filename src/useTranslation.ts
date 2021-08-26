@@ -92,7 +92,7 @@ const getSuffix = (language: Language, _key: string, params: TranslationProperti
     return "";
 };
 
-const generateTranslationFunction = (translations: TranslationMap, language: Language, fallbackLanguage: Language) => {
+export const generateTranslationFunction = (translations: TranslationMap, language: Language, fallbackLanguage: Language) => {
     return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
         return translate(translations, enforceLanguage ?? language ?? fallbackLanguage, key, params, fallbackLanguage);
     };
