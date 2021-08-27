@@ -98,10 +98,12 @@ export const generateTranslationFunction = (translations: TranslationMap, langua
     };
 };
 
-export const generateDictFunction = (translationMap: TranslationMap) => {
+export const generateDictFunction = (translationMap: TranslationMap, language: Language, fallbackLanguage: Language) => {
     const ramdaPath = path;
-    return (path: string, mapper: (key: string, path: string) => string = key => key) => {
-        const subMap = ramdaPath(path.split("."), translationMap) as Record<string, unknown>;
+    return (path: string, mapper: (key: string, path: string) => string = key => key, enforceLanguage?: Language) => {
+        const finalLanguage = enforceLanguage ?? language ?? fallbackLanguage
+
+        const subMap = ramdaPath([finalLanguage as string].concat(path.split(".")), translationMap) as Record<string, unknown>;
         if (Object.prototype.toString.call(subMap) !== "[object Object]") return [];
 
         return Object.keys(subMap).reduce((acc, key) => {
@@ -118,7 +120,7 @@ export const useTranslation = () => {
     return {
         t: generateTranslationFunction(translations, settings.language, fallbackLanguage),
         language: settings?.language ?? fallbackLanguage,
-        dict: generateDictFunction(translations)
+        dict: generateDictFunction(translations, settings.language, fallbackLanguage)
     };
 };
 
