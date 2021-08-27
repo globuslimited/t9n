@@ -4,7 +4,8 @@ import {FC} from "react";
 import React = require("react");
 import {Language, TranslationSettings} from "../context";
 import {TranslationProvider} from "../index";
-import {combin, translated, useTranslation} from "../useTranslation";
+import {useTranslation} from "../useTranslation";
+import {translation} from "../translation";
 
 const settings: TranslationSettings = {
     translations: {
@@ -166,14 +167,33 @@ describe("dict", () => {
     });    
 });
 
+const extendTranslation = translation({
+    [Language.Chinese]: {
+        categories: {
+            "default": "种类",
+            "category3": "分类 3",
+            "category4": "分类 4",
+            "category7": "分类 7",
+        }
+    },
 
-const combinTranslation = combin(
-    translated({
+    [Language.English]: {
+        categories: {
+            "default": "Category",
+            "category3": "Category 3",
+            "category4": "Category 4",
+            "category7": "Category 7",
+        }
+    }
+})
+.extend(
+    translation({
         [Language.Chinese]: {
             categories: {
                 "default": "分类",
                 "category1": "分类 1",
                 "category2": "分类 2",
+                "category6": "分类 6"
             }
         },
 
@@ -182,30 +202,49 @@ const combinTranslation = combin(
                 "default": "Category",
                 "category1": "Category 1",
                 "category2": "Category 2",
+                "category6": "Category 6"
             }
         }
-    }),
-    translated({
-        [Language.Chinese]: {
-            categories: {
-                "default": "种类",
-                "category3": "分类 3",
-                "category4": "分类 4",
-            }
-        },
+    })
+)
+.extend({
+    [Language.Chinese]: {
+        categories: {
+            "default": "分类!",
+            "category1": "分类 1!",
+            "category2": "分类 2!",
+            "category3": "分类 3!",
+            "category4": "分类 4!",
+            "category5": "分类 5!",
+        }
+    },
 
-        [Language.English]: {
-            categories: {
-                "default": "Category",
-                "category3": "Category 3",
-                "category4": "Category 4",
-            }
+    [Language.English]: {
+        categories: {
+            "default": "Category!",
+            "category1": "Category 1!",
+            "category2": "Category 2!",
+            "category3": "Category 3!",
+            "category4": "Category 4!",
+            "category5": "Category 5!",
         }
-    }),
-);
+    },
+
+    [Language.Russian]: {
+        categories: {
+            "default": "Категория!",
+            "category1": "Категория 1!",
+            "category2": "Категория 2!",
+            "category3": "Категория 3!",
+            "category4": "Категория 4!",
+            "category5": "Категория 5!",
+        }
+    }
+})
 
 test("combinTranslation 的正确性", () => {
-    expect(combinTranslation).toEqual({
+    expect(extendTranslation.translationMap)
+    .toEqual({
         [Language.Chinese]: {
             categories: {
                 "default": "种类",
@@ -213,6 +252,9 @@ test("combinTranslation 的正确性", () => {
                 "category2": "分类 2",
                 "category3": "分类 3",
                 "category4": "分类 4",
+                "category5": "分类 5!",
+                "category6": "分类 6",
+                "category7": "分类 7",
             }
         },
 
@@ -223,7 +265,30 @@ test("combinTranslation 的正确性", () => {
                 "category2": "Category 2",
                 "category3": "Category 3",
                 "category4": "Category 4",
+                "category5": "Category 5!",
+                "category6": "Category 6",
+                "category7": "Category 7",
+            }
+        },
+
+        [Language.Russian]: {
+            categories: {
+                "default": "Категория!",
+                "category1": "Категория 1!",
+                "category2": "Категория 2!",
+                "category3": "Категория 3!",
+                "category4": "Категория 4!",
+                "category5": "Категория 5!",
             }
         }
     })
+});
+
+test("useTranslation 的 extend 特性", () => {
+    const {result} = renderHook(() => useTranslation(extendTranslation), {wrapper: ContextMockWrapper});
+    const {t, language} = result.current;
+
+    expect(t("cool")).toBe("厉害");
+    expect(t("categories.category1", undefined, Language.Russian)).toBe("Категория 1!");
+    expect(t("categories.category7")).toBe("分类 7");
 });

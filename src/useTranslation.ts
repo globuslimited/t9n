@@ -1,6 +1,7 @@
 import {useContext} from "react";
-import {path, assoc, mergeDeepRight} from "ramda";
+import {path} from "ramda";
 import {Language, TranslationContext, TranslationMap} from "./context";
+import {Translation, translation as translationFunc} from "./translation";
 
 const replaceAll = (string: string, token: string, newToken: string) => {
     if (token != newToken)
@@ -125,28 +126,20 @@ export const generateDictFunction = (
     };
 };
 
-export const useTranslation = () => {
+export const useTranslation = (translation?: Translation | TranslationMap) => {
     const settings = useContext(TranslationContext);
     const {fallbackLanguage, translations} = settings;
+
+    const translationMap = translation == null
+        ? translations
+        : translationFunc(translation).extend(translations).translationMap;
+
     return {
-        t: generateTranslationFunction(translations, settings.language, fallbackLanguage),
+        t: generateTranslationFunction(translationMap, settings.language, fallbackLanguage),
         language: settings?.language ?? fallbackLanguage,
-        dict: generateDictFunction(translations, settings.language, fallbackLanguage),
+        dict: generateDictFunction(translationMap, settings.language, fallbackLanguage),
     };
 };
 
 export type UseTranslationResponse = ReturnType<typeof useTranslation>;
 
-export const translated = (translateMap: TranslationMap): TranslationMap => translateMap;
-export const combin = (...translateMaps: TranslationMap[]): TranslationMap => {
-    return translateMaps.reduce((acc, map) => {
-        return Object.entries(map).reduce((acc, [language, translation]) => {
-            return assoc(
-                language,
-                // @ts-ignore
-                mergeDeepRight(acc[language], translation),
-                acc
-            );
-        }, acc);
-    }, {} as TranslationMap);
-};
