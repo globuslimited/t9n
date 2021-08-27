@@ -26,7 +26,7 @@ const getTranslationMap = (translation: Translation | TranslationMap): Translati
         : (translation as TranslationMap);
 };
 
-const extend = (parent: Translation | TranslationMap | null, children: Translation | TranslationMap): Translation => {
+export const extend = (parent: Translation | TranslationMap | null, children: Translation | TranslationMap): Translation => {
     const translationMap = parent == null
         ? getTranslationMap(children)
         : mergeTranslationMaps(getTranslationMap(parent), getTranslationMap(children));

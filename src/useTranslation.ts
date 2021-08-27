@@ -1,7 +1,7 @@
 import {useContext} from "react";
 import {path} from "ramda";
 import {Language, TranslationContext, TranslationMap} from "./context";
-import {Translation, translation as translationFunc} from "./translation";
+import {Translation, extend} from "./translation";
 
 const replaceAll = (string: string, token: string, newToken: string) => {
     if (token != newToken)
@@ -132,7 +132,7 @@ export const useTranslation = (translation?: Translation | TranslationMap) => {
 
     const translationMap = translation == null
         ? translations
-        : translationFunc(translation).extend(translations).translationMap;
+        : extend(translations, translation).translationMap;
 
     return {
         t: generateTranslationFunction(translationMap, settings.language, fallbackLanguage),
