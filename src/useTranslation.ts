@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import {path} from "ramda";
+import {path, assoc, mergeDeepRight} from "ramda";
 import {Language, TranslationContext, TranslationMap} from "./context";
 
 const replaceAll = (string: string, token: string, newToken: string) => {
@@ -92,26 +92,37 @@ const getSuffix = (language: Language, _key: string, params: TranslationProperti
     return "";
 };
 
-export const generateTranslationFunction = (translations: TranslationMap, language: Language, fallbackLanguage: Language) => {
+export const generateTranslationFunction = (
+    translations: TranslationMap,
+    language: Language,
+    fallbackLanguage: Language,
+) => {
     return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
         return translate(translations, enforceLanguage ?? language ?? fallbackLanguage, key, params, fallbackLanguage);
     };
 };
 
-export const generateDictFunction = (translationMap: TranslationMap, language: Language, fallbackLanguage: Language) => {
+export const generateDictFunction = (
+    translationMap: TranslationMap,
+    language: Language,
+    fallbackLanguage: Language,
+) => {
     const ramdaPath = path;
-    return (path: string, mapper: (key: string, path: string) => string = key => key, enforceLanguage?: Language) => {
-        const finalLanguage = enforceLanguage ?? language ?? fallbackLanguage
+    return <T>(
+        path: string,
+        mapper: (key: string, path: string) => T = key => key as unknown as T,
+        enforceLanguage?: Language
+    ): T[] => {
+        const finalLanguage = enforceLanguage ?? language ?? fallbackLanguage;
+        const finalPath = [finalLanguage as string].concat(path.split("."));
 
-        const subMap = ramdaPath([finalLanguage as string].concat(path.split(".")), translationMap) as Record<string, unknown>;
+        const subMap = ramdaPath(finalPath, translationMap) as TranslationProperties;
         if (Object.prototype.toString.call(subMap) !== "[object Object]") return [];
 
-        return Object.keys(subMap).reduce((acc, key) => {
-            return key === "default"
-                ? acc
-                : acc.concat(mapper(key, `${path}.${key}`));
-        }, [] as string[]);
-    }
+        return Object.keys(subMap)
+            .filter(key => key !== "default")
+            .map(key => mapper(key, `${path}.${key}`));
+    };
 };
 
 export const useTranslation = () => {
@@ -120,8 +131,22 @@ export const useTranslation = () => {
     return {
         t: generateTranslationFunction(translations, settings.language, fallbackLanguage),
         language: settings?.language ?? fallbackLanguage,
-        dict: generateDictFunction(translations, settings.language, fallbackLanguage)
+        dict: generateDictFunction(translations, settings.language, fallbackLanguage),
     };
 };
 
 export type UseTranslationResponse = ReturnType<typeof useTranslation>;
+
+export const translated = (translateMap: TranslationMap): TranslationMap => translateMap;
+export const combin = (...translateMaps: TranslationMap[]): TranslationMap => {
+    return translateMaps.reduce((acc, map) => {
+        return Object.entries(map).reduce((acc, [language, translation]) => {
+            return assoc(
+                language,
+                // @ts-ignore
+                mergeDeepRight(acc[language], translation),
+                acc
+            );
+        }, acc);
+    }, {} as TranslationMap);
+};

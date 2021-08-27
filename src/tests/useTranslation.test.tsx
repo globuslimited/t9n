@@ -4,7 +4,7 @@ import {FC} from "react";
 import React = require("react");
 import {Language, TranslationSettings} from "../context";
 import {TranslationProvider} from "../index";
-import {useTranslation} from "../useTranslation";
+import {combin, translated, useTranslation} from "../useTranslation";
 
 const settings: TranslationSettings = {
     translations: {
@@ -164,4 +164,66 @@ describe("dict", () => {
             expect(dict("categories", (_key, path) => t(path, undefined, Language.English))).toEqual(["Category 1", "Category 2", "Category 3", "Category 4"])
         });
     });    
+});
+
+
+const combinTranslation = combin(
+    translated({
+        [Language.Chinese]: {
+            categories: {
+                "default": "分类",
+                "category1": "分类 1",
+                "category2": "分类 2",
+            }
+        },
+
+        [Language.English]: {
+            categories: {
+                "default": "Category",
+                "category1": "Category 1",
+                "category2": "Category 2",
+            }
+        }
+    }),
+    translated({
+        [Language.Chinese]: {
+            categories: {
+                "default": "种类",
+                "category3": "分类 3",
+                "category4": "分类 4",
+            }
+        },
+
+        [Language.English]: {
+            categories: {
+                "default": "Category",
+                "category3": "Category 3",
+                "category4": "Category 4",
+            }
+        }
+    }),
+);
+
+test("combinTranslation 的正确性", () => {
+    expect(combinTranslation).toEqual({
+        [Language.Chinese]: {
+            categories: {
+                "default": "种类",
+                "category1": "分类 1",
+                "category2": "分类 2",
+                "category3": "分类 3",
+                "category4": "分类 4",
+            }
+        },
+
+        [Language.English]: {
+            categories: {
+                "default": "Category",
+                "category1": "Category 1",
+                "category2": "Category 2",
+                "category3": "Category 3",
+                "category4": "Category 4",
+            }
+        }
+    })
 });
