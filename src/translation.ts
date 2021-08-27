@@ -37,4 +37,4 @@ const extend = (parent: Translation | TranslationMap | null, children: Translati
     };
 };
 
-export const translation = (translationMap: Translation | TranslationMap): Translation => extend({}, translationMap);
+export const translation = (translationMap: Translation | TranslationMap): Translation => extend(null, translationMap);
