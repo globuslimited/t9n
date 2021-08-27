@@ -30,6 +30,7 @@ const extend = (parent: Translation | TranslationMap | null, children: Translati
     const translationMap = parent == null
         ? getTranslationMap(children)
         : mergeTranslationMaps(getTranslationMap(parent), getTranslationMap(children));
+
     return {
         __isTranslation: true,
         translationMap,
