@@ -124,7 +124,7 @@ export const generateDictFunction = (
 
         return Object.keys(subMap)
             .filter(key => key !== "default")
-            .map(key => mapper(key, `${path}.${key}`));
+            .map(key => mapper(key, path == null ? key : `${path}.${key}`));
     };
 };
 
