@@ -242,53 +242,237 @@ const extendTranslation = translation({
     }
 })
 
-test("combinTranslation 的正确性", () => {
-    expect(extendTranslation.translationMap)
-    .toEqual({
-        [Language.Chinese]: {
-            categories: {
-                "default": "种类",
-                "category1": "分类 1",
-                "category2": "分类 2",
-                "category3": "分类 3",
-                "category4": "分类 4",
-                "category5": "分类 5!",
-                "category6": "分类 6",
-                "category7": "分类 7",
+describe("extend", () => {
+    test("extendTranslation 的正确性", () => {
+        expect(extendTranslation.translationMap)
+        .toEqual({
+            [Language.Chinese]: {
+                categories: {
+                    "default": "种类",
+                    "category1": "分类 1",
+                    "category2": "分类 2",
+                    "category3": "分类 3",
+                    "category4": "分类 4",
+                    "category5": "分类 5!",
+                    "category6": "分类 6",
+                    "category7": "分类 7",
+                }
+            },
+    
+            [Language.English]: {
+                categories: {
+                    "default": "Category",
+                    "category1": "Category 1",
+                    "category2": "Category 2",
+                    "category3": "Category 3",
+                    "category4": "Category 4",
+                    "category5": "Category 5!",
+                    "category6": "Category 6",
+                    "category7": "Category 7",
+                }
+            },
+    
+            [Language.Russian]: {
+                categories: {
+                    "default": "Категория!",
+                    "category1": "Категория 1!",
+                    "category2": "Категория 2!",
+                    "category3": "Категория 3!",
+                    "category4": "Категория 4!",
+                    "category5": "Категория 5!",
+                }
             }
-        },
+        })
+    });
+    
+    test("useTranslation 的 extend 特性", () => {
+        const {result} = renderHook(() => useTranslation(extendTranslation), {wrapper: ContextMockWrapper});
+        const {t, language} = result.current;
+    
+        expect(t("cool")).toBe("厉害");
+        expect(t("categories.category1", undefined, Language.Russian)).toBe("Категория 1!");
+        expect(t("categories.category7")).toBe("分类 7");
+    });
+    
+    test("关于 default 与 extend", () => {
+        const translation1 = translation({
+            [Language.Chinese]: {
+                category: "分类"
+            },
 
-        [Language.English]: {
-            categories: {
-                "default": "Category",
-                "category1": "Category 1",
-                "category2": "Category 2",
-                "category3": "Category 3",
-                "category4": "Category 4",
-                "category5": "Category 5!",
-                "category6": "Category 6",
-                "category7": "Category 7",
+            [Language.English]: {
+                category: "Category"
+            },
+
+            [Language.Russian]: {
+                category: "Категория"
             }
-        },
+        });
 
-        [Language.Russian]: {
-            categories: {
-                "default": "Категория!",
-                "category1": "Категория 1!",
-                "category2": "Категория 2!",
-                "category3": "Категория 3!",
-                "category4": "Категория 4!",
-                "category5": "Категория 5!",
+        const translation2 = translation({
+            [Language.Chinese]: {
+                category: {
+                    "category1": "分类 1",
+                    "category2": "分类 2",
+                    "category3": "分类 3",
+                }
+            },
+
+            [Language.English]: {
+                category: {
+                    "default": "default Category",
+                    "category1": "Category 1",
+                    "category2": "Category 2",
+                    "category3": "Category 3",
+                }
+            },
+
+            [Language.Russian]: {
+                category: {
+                    "category1": "Категория 1",
+                    "category2": "Категория 2",
+                    "category3": "Категория 3",
+                }
             }
-        }
-    })
-});
+        });
 
-test("useTranslation 的 extend 特性", () => {
-    const {result} = renderHook(() => useTranslation(extendTranslation), {wrapper: ContextMockWrapper});
-    const {t, language} = result.current;
+        expect(translation1.extend(translation2).translationMap).toEqual({
+            [Language.Chinese]: {
+                category: {
+                    "default": "分类",
+                    "category1": "分类 1",
+                    "category2": "分类 2",
+                    "category3": "分类 3",
+                }
+            },
 
-    expect(t("cool")).toBe("厉害");
-    expect(t("categories.category1", undefined, Language.Russian)).toBe("Категория 1!");
-    expect(t("categories.category7")).toBe("分类 7");
+            [Language.English]: {
+                category: {
+                    "default": "Category",
+                    "category1": "Category 1",
+                    "category2": "Category 2",
+                    "category3": "Category 3",
+                }
+            },
+
+            [Language.Russian]: {
+                category: {
+                    "default": "Категория",
+                    "category1": "Категория 1",
+                    "category2": "Категория 2",
+                    "category3": "Категория 3",
+                }
+            }
+        });
+        expect(translation2.extend(translation1).translationMap).toEqual({
+            [Language.Chinese]: {
+                category: {
+                    "default": "分类",
+                    "category1": "分类 1",
+                    "category2": "分类 2",
+                    "category3": "分类 3",
+                }
+            },
+
+            [Language.English]: {
+                category: {
+                    "default": "default Category",
+                    "category1": "Category 1",
+                    "category2": "Category 2",
+                    "category3": "Category 3",
+                }
+            },
+
+            [Language.Russian]: {
+                category: {
+                    "default": "Категория",
+                    "category1": "Категория 1",
+                    "category2": "Категория 2",
+                    "category3": "Категория 3",
+                }
+            }
+        });
+
+        expect(
+            translation({
+                zh: {
+                    category: {
+                        default: "default 分类"
+                    }
+                }
+            }).extend({
+                zh: {
+                    category: "分类"
+                }
+            }).translationMap
+        ).toEqual({
+            zh: {
+                category: {
+                    default: "default 分类"
+                }
+            }
+        });
+
+        expect(
+            translation({
+                zh: {
+                    category: {
+                        "category1": "分类1"
+                    }
+                }
+            }).extend({
+                zh: {
+                    category: "分类"
+                }
+            }).translationMap
+        ).toEqual({
+            zh: {
+                category: {
+                    default: "分类",
+                    "category1": "分类1"
+                }
+            }
+        });
+
+        expect(
+            translation({
+                zh: {
+                    category: "分类"
+                }
+            }).extend({
+                zh: {
+                    category: {
+                        "category1": "分类1"
+                    }
+                }
+            }).translationMap
+        ).toEqual({
+            zh: {
+                category: {
+                    default: "分类",
+                    "category1": "分类1"
+                }
+            }
+        });
+
+        expect(
+            translation({
+                zh: {
+                    category: "分类"
+                }
+            }).extend({
+                zh: {
+                    category: {
+                        default: "default 分类"
+                    }
+                }
+            }).translationMap
+        ).toEqual({
+            zh: {
+                category: {
+                    default: "分类",
+                }
+            }
+        });
+    });
 });

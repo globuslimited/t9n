@@ -1,5 +1,5 @@
 import {TranslationMap} from "./context";
-import {assoc, mergeDeepRight} from "ramda";
+import {assoc, mergeDeepWith} from "ramda";
 
 export type Translation = {
     __isTranslation: true;
@@ -8,12 +8,29 @@ export type Translation = {
 };
 
 const mergeTranslationMaps = (...translateMaps: TranslationMap[]): TranslationMap => {
+    const mergeDeep = mergeDeepWith((a, b) => {
+        const aType = Object.prototype.toString.call(a);
+        const bType = Object.prototype.toString.call(b);
+        const stringType = "[object String]";
+        const objectType = "[object Object]";
+        const validTypes = [stringType, objectType];
+
+        return (aType === stringType && bType === stringType) ||
+            (!validTypes.includes(aType) && !validTypes.includes(bType))
+            ? b
+            : aType === objectType
+            ? assoc("default", b, a)
+            : b.default === undefined
+            ? assoc("default", a, b)
+            : b;
+    });
+
     return translateMaps.reduce((acc, map) => {
         return Object.entries(map).reduce((acc, [language, translation]) => {
             return assoc(
                 language,
                 // @ts-ignore
-                mergeDeepRight(acc[language], translation),
+                mergeDeep(acc[language], translation),
                 acc,
             );
         }, acc);
@@ -26,10 +43,14 @@ const getTranslationMap = (translation: Translation | TranslationMap): Translati
         : (translation as TranslationMap);
 };
 
-export const extend = (parent: Translation | TranslationMap | null, children: Translation | TranslationMap): Translation => {
-    const translationMap = parent == null
-        ? getTranslationMap(children)
-        : mergeTranslationMaps(getTranslationMap(parent), getTranslationMap(children));
+export const extend = (
+    parent: Translation | TranslationMap | null,
+    children: Translation | TranslationMap,
+): Translation => {
+    const translationMap =
+        parent == null
+            ? getTranslationMap(children)
+            : mergeTranslationMaps(getTranslationMap(parent), getTranslationMap(children));
 
     return {
         __isTranslation: true,
