@@ -110,12 +110,14 @@ export const generateDictFunction = (
 ) => {
     const ramdaPath = path;
     return <T>(
-        path: string,
+        path: string | null,
         mapper: (key: string, path: string) => T = key => key as unknown as T,
         enforceLanguage?: Language
     ): T[] => {
         const finalLanguage = enforceLanguage ?? language ?? fallbackLanguage;
-        const finalPath = [finalLanguage as string].concat(path.split("."));
+        const finalPath = path == null
+            ? [finalLanguage as string]
+            : [finalLanguage as string].concat(path.split("."));
 
         const subMap = ramdaPath(finalPath, translationMap) as TranslationProperties;
         if (Object.prototype.toString.call(subMap) !== "[object Object]") return [];
