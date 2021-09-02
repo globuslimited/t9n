@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import {TranslationProperties} from "./useTranslation";
 
 export enum Language {
     English = "en",
@@ -6,7 +7,7 @@ export enum Language {
     Chinese = "zh"
 }
 
-export type TemplateFunction = (args: Record<string, any>) => string;
+export type TemplateFunction = (args: TranslationProperties) => string;
 
 export type Translation = {
     [key: string]: Translation | string | number | TemplateFunction;

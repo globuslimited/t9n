@@ -40,14 +40,23 @@ const getTranslation = (
     ) as string | null;
 };
 
+const applyTemplate = (str: string, params: TranslationProperties) => {
+    const variables = Object.keys(params);
+    if (variables.length === 0) {
+        return str;
+    }
+    return variables.reduce((ft: string, key: string) => {
+        return replaceAll(ft, `{{${key}}}`, params[key].toString());
+    }, str);
+}
+
 export const translate = (
     translationMap: TranslationMap,
     lang: Language,
     key: string,
     params: TranslationProperties = {},
     fallbackLanguage: Language,
-): string | number => {
-    const variables = Object.keys(params);
+): string => {
     const translation =
         getTranslation(translationMap, lang, key, params) ??
         getTranslation(translationMap, fallbackLanguage, key, params);
@@ -60,12 +69,13 @@ export const translate = (
     if (typeof translation === "function") {
         return translation(params);
     }
-    if (typeof translation === "number" || variables.length === 0) {
-        return translation;
+    if (typeof translation === "number"){
+        return translation.toString();
     }
-    return variables.reduce((ft: string, key: string) => {
-        return replaceAll(ft, `{{${key}}}`, params[key].toString());
-    }, translation);
+    if (typeof translation === "string") {
+        return applyTemplate(translation, params);
+    }
+    return key;
 };
 
 const lastDigit = (n: number) => parseInt(n.toString().slice(-1));
