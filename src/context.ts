@@ -6,8 +6,10 @@ export enum Language {
     Chinese = "zh"
 }
 
+export type TemplateFunction = (args: Record<string, any>) => string;
+
 export type Translation = {
-    [key: string]: Translation | string;
+    [key: string]: Translation | string | number | TemplateFunction;
 };
 
 export type TranslationMap = {
