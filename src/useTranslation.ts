@@ -1,6 +1,6 @@
 import {useContext} from "react";
 import {path} from "ramda";
-import {Language, TranslationContext, TranslationMap} from "./context";
+import {Language, TemplateFunction, TranslationContext, TranslationMap} from "./context";
 import {Translation, extend} from "./translation";
 
 const replaceAll = (string: string, token: string, newToken: string) => {
@@ -20,7 +20,7 @@ const getTranslation = (
     lang: Language,
     key: string,
     params: TranslationProperties,
-): string | null => {
+): string | number | TemplateFunction | null => {
     if (key == null) {
         return null;
     }
@@ -46,7 +46,7 @@ export const translate = (
     key: string,
     params: TranslationProperties = {},
     fallbackLanguage: Language,
-): string => {
+): string | number => {
     const variables = Object.keys(params);
     const translation =
         getTranslation(translationMap, lang, key, params) ??
@@ -57,7 +57,10 @@ export const translate = (
     if (typeof translation === "object") {
         return translate(translationMap, lang, `${key}.default`, params, fallbackLanguage) ?? key;
     }
-    if (variables.length === 0) {
+    if (typeof translation === "function") {
+        return translation(params);
+    }
+    if (typeof translation === "number" || variables.length === 0) {
         return translation;
     }
     return variables.reduce((ft: string, key: string) => {
@@ -112,12 +115,10 @@ export const generateDictFunction = (
     return <T>(
         path: string | null,
         mapper: (key: string, path: string) => T = key => key as unknown as T,
-        enforceLanguage?: Language
+        enforceLanguage?: Language,
     ): T[] => {
         const finalLanguage = enforceLanguage ?? language ?? fallbackLanguage;
-        const finalPath = path == null
-            ? [finalLanguage as string]
-            : [finalLanguage as string].concat(path.split("."));
+        const finalPath = path == null ? [finalLanguage as string] : [finalLanguage as string].concat(path.split("."));
 
         const subMap = ramdaPath(finalPath, translationMap) as TranslationProperties;
         if (Object.prototype.toString.call(subMap) !== "[object Object]") return [];
@@ -132,9 +133,7 @@ export const useTranslation = (translation?: Translation | TranslationMap) => {
     const settings = useContext(TranslationContext);
     const {fallbackLanguage, translations} = settings;
 
-    const translationMap = translation == null
-        ? translations
-        : extend(translations, translation).translationMap;
+    const translationMap = translation == null ? translations : extend(translations, translation).translationMap;
 
     return {
         t: generateTranslationFunction(translationMap, settings.language, fallbackLanguage),
@@ -144,4 +143,3 @@ export const useTranslation = (translation?: Translation | TranslationMap) => {
 };
 
 export type UseTranslationResponse = ReturnType<typeof useTranslation>;
-
