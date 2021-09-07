@@ -1,6 +1,6 @@
 {
     "name": "@globuslimited/translation",
-    "version": "0.11.1",
+    "version": "0.12.0",
     "description": "Hooks for handling translation",
     "repository": "git@github.com:globuslimited/globus-translation.git",
     "author": "Andrei izotov <faradaytrs@gmail.com>",
