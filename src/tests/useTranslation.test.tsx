@@ -123,64 +123,6 @@ test("should support templates", () => {
     expect(t("people", {people: 2})).toBe("2个人");
 });
 
-describe("dict", () => {
-    test("默认 mapper 下，dict 通过路径，拿到这个路径下的所有 key，不包括 default", () => {
-        const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
-        const {t, language, dict} = result.current;
-        expect(dict("categories")).toEqual(["category1", "category2", "category3", "category4"]);
-    });
-
-    describe("mapper", () => {
-        test("path 是完整路径", () => {
-            const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
-            const {t, language, dict} = result.current;
-            dict("categories", (key, path) => {
-                expect(path).toEqual("categories." + key);
-                return key;
-            });
-        });
-
-        test("映射出来的 path，全都正确", () => {
-            const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
-            const {t, language, dict} = result.current;
-            expect(dict("categories", (_key, path) => path)).toEqual([
-                "categories.category1",
-                "categories.category2",
-                "categories.category3",
-                "categories.category4",
-            ]);
-        });
-
-        test("映射出来的 path，全都正确", () => {
-            const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
-            const {t, language, dict} = result.current;
-            expect(dict("categories", (_key, path) => path)).toEqual([
-                "categories.category1",
-                "categories.category2",
-                "categories.category3",
-                "categories.category4",
-            ]);
-        });
-
-        test("映射出 key val", () => {
-            const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
-            const {t, language, dict} = result.current;
-            expect(dict("categories", (_key, path) => t(path))).toEqual(["分类 1", "分类 2", "分类 3", "分类 4"]);
-        });
-
-        test("切换成英文", () => {
-            const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
-            const {t, language, dict} = result.current;
-            expect(dict("categories", (_key, path) => t(path, undefined, Language.English))).toEqual([
-                "Category 1",
-                "Category 2",
-                "Category 3",
-                "Category 4",
-            ]);
-        });
-    });
-});
-
 const extendTranslation = translation({
     [Language.Chinese]: {
         categories: {

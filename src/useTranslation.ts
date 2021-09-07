@@ -148,7 +148,6 @@ export const useTranslation = (translation?: Translation | TranslationMap) => {
     return {
         t: generateTranslationFunction(translationMap, settings.language, fallbackLanguage),
         language: settings?.language ?? fallbackLanguage,
-        dict: generateDictFunction(translationMap, settings.language, fallbackLanguage),
     };
 };
 
