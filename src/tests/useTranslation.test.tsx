@@ -1,7 +1,5 @@
-import "react";
 import {renderHook} from "@testing-library/react-hooks/native";
 import {FC} from "react";
-import React = require("react");
 import {Language, TranslationSettings} from "../context";
 import {TranslationProvider} from "../index";
 import {useTranslation} from "../useTranslation";
