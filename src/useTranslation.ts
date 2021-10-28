@@ -1,7 +1,7 @@
 import {useContext} from "react";
 import {path} from "ramda";
-import {Language, TemplateFunction, TranslationContext, TranslationMap} from "./context.js";
-import {Translation, extend} from "./translation.js";
+import {Language, TemplateFunction, TranslationContext, TranslationMap} from "./context";
+import {Translation, extend} from "./translation";
 
 const replaceAll = (string: string, token: string, newToken: string) => {
     if (token != newToken)

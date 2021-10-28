@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import {TranslationProperties} from "./useTranslation.js";
+import {TranslationProperties} from "./useTranslation";
 
 export enum Language {
     English = "en",
