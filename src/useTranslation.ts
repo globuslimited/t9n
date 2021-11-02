@@ -57,25 +57,10 @@ export const translate = (
     params: TranslationProperties = {},
     fallbackLanguage: Language,
 ): string => {
-    console.log("key!!!", key);
-    if (key === "brands.Caspani Tino") {
-        console.log(
-            "translation!!!",
-            getTranslation(translationMap, lang, key, params) ??
-            getTranslation(translationMap, fallbackLanguage, key, params),
-            "|",
-            getTranslation(translationMap, lang, key, params),
-            "|",
-            getTranslation(translationMap, fallbackLanguage, key, params),
-        );
-    }
     const translation =
         getTranslation(translationMap, lang, key, params) ??
         getTranslation(translationMap, fallbackLanguage, key, params);
 
-    if (translation === "Caspani Tino") {
-        console.log("想找的 key !!!", key);
-    }
     if (translation == null) {
         return key;
     }
