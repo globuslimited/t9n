@@ -63,7 +63,9 @@ export const translate = (
             "translation!!!",
             getTranslation(translationMap, lang, key, params) ??
             getTranslation(translationMap, fallbackLanguage, key, params),
+            "|",
             getTranslation(translationMap, lang, key, params),
+            "|",
             getTranslation(translationMap, fallbackLanguage, key, params),
         );
     }
