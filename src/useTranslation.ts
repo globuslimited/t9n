@@ -58,7 +58,7 @@ export const translate = (
     fallbackLanguage: Language,
 ): string => {
     console.log("key!!!", key);
-    if (key.endsWith("brands")) {
+    if (key === "brands.Caspani Tino") {
         console.log(
             "translation!!!",
             getTranslation(translationMap, lang, key, params) ??
