@@ -57,6 +57,16 @@ export const translate = (
     params: TranslationProperties = {},
     fallbackLanguage: Language,
 ): string => {
+    console.log("key!!!", key);
+    if (key.endsWith("brands")) {
+        console.log(
+            "translation!!!",
+            getTranslation(translationMap, lang, key, params) ??
+            getTranslation(translationMap, fallbackLanguage, key, params),
+            getTranslation(translationMap, lang, key, params),
+            getTranslation(translationMap, fallbackLanguage, key, params),
+        );
+    }
     const translation =
         getTranslation(translationMap, lang, key, params) ??
         getTranslation(translationMap, fallbackLanguage, key, params);
