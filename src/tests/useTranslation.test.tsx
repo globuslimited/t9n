@@ -444,3 +444,23 @@ describe("extend", () => {
         expect(t("foo", {count: 2})).toBe("2 foo");
     });
 });
+
+
+test("没有中文或俄文的时候，显示英文", () => {
+    const {result} = renderHook(() => useTranslation({
+        zh: {
+
+        },
+        ru: {
+
+        },
+        en: {
+            name: "name"
+        }
+    }), {wrapper: ContextMockWrapper});
+    const {t} = result.current;
+
+    expect(t("name", {}, Language.Chinese)).toBe("name");
+    expect(t("name", {}, Language.Russian)).toBe("name");
+    expect(t("name", {}, Language.English)).toBe("name");
+});
