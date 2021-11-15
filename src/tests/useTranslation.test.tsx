@@ -1,9 +1,9 @@
 import {renderHook} from "@testing-library/react-hooks/native";
 import {FC} from "react";
-import {Language, TranslationSettings} from "../context";
-import {TranslationProvider} from "../index";
-import {useTranslation} from "../useTranslation";
-import {translation} from "../translation";
+import {Language, TranslationSettings} from "../context.js";
+import {TranslationProvider} from "../index.js";
+import {useTranslation} from "../useTranslation.js";
+import {translation} from "../translation.js";
 
 const settings: TranslationSettings = {
     translations: {

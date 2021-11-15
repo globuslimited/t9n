@@ -1,4 +1,4 @@
-import {TranslationMap} from "./context";
+import {TranslationMap} from "./context.js";
 import {assoc, mergeDeepWith} from "ramda";
 
 export type Translation = {
