@@ -7,7 +7,9 @@
         "skipLibCheck": true,
         "module": "es2020",
         "target": "es2020",
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true
     },
     "include": [
         "src/**/*"
