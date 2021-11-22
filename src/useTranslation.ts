@@ -1,6 +1,13 @@
 import {useContext} from "react";
-import {path} from "ramda";
-import {Language, TemplateFunction, TranslationContext, TranslationMap} from "./context.js";
+import {mergeDeepRight, path} from "ramda";
+import {
+    defaultSettings,
+    Language,
+    TemplateFunction,
+    TranslationContext,
+    TranslationMap,
+    TranslationPlugin,
+} from "./context.js";
 import {Translation, extend} from "./translation.js";
 
 const replaceAll = (string: string, token: string, newToken: string) => {
@@ -20,12 +27,13 @@ const getTranslation = (
     lang: Language,
     key: string,
     params: TranslationProperties,
+    plugin?: TranslationPlugin,
 ): string | number | TemplateFunction | null => {
     if (key == null) {
         return null;
     }
     if (typeof params.count === "number") {
-        const suffix = getSuffix(lang, key, params);
+        const suffix = getSuffix(key, params, plugin);
         const candidate = path(
             `${key}${suffix}`.split(".").map(path => (/^\d+$/.test(path) ? +path : path)),
             translationMap[lang],
@@ -48,7 +56,7 @@ const applyTemplate = (str: string, params: TranslationProperties) => {
     return variables.reduce((ft: string, key: string) => {
         return replaceAll(ft, `{{${key}}}`, params[key].toString());
     }, str);
-}
+};
 
 export const translate = (
     translationMap: TranslationMap,
@@ -56,21 +64,22 @@ export const translate = (
     key: string,
     params: TranslationProperties = {},
     fallbackLanguage: Language,
+    plugins: Partial<Record<Language, TranslationPlugin>>,
 ): string => {
     const translation =
-        getTranslation(translationMap, lang, key, params) ??
-        getTranslation(translationMap, fallbackLanguage, key, params);
+        getTranslation(translationMap, lang, key, params, plugins[lang]) ??
+        getTranslation(translationMap, fallbackLanguage, key, params, plugins[fallbackLanguage]);
 
     if (translation == null) {
         return key;
     }
     if (typeof translation === "object") {
-        return translate(translationMap, lang, `${key}.default`, params, fallbackLanguage) ?? key;
+        return translate(translationMap, lang, `${key}.default`, params, fallbackLanguage, plugins) ?? key;
     }
     if (typeof translation === "function") {
         return translation(params);
     }
-    if (typeof translation === "number"){
+    if (typeof translation === "number") {
         return translation.toString();
     }
     if (typeof translation === "string") {
@@ -79,41 +88,22 @@ export const translate = (
     return key;
 };
 
-const lastDigit = (n: number) => parseInt(n.toString().slice(-1));
-const toLowestTheSame = (n: number) => {
-    if (n >= 2 && n <= 4) {
-        return 2;
-    } else if (n > 4) {
-        return 0;
+const getSuffix = (key: string, params: TranslationProperties, plugin?: TranslationPlugin) => {
+    if (typeof plugin !== "function") {
+        return "";
     }
-    return n;
-};
-const toRussianCasesRules = (n: number) => {
-    if (n > 20) {
-        return lastDigit(n);
-    } else if (n < 10) {
-        return n;
-    }
-    return 0;
-};
-const getSuffix = (language: Language, _key: string, params: TranslationProperties) => {
-    if (typeof params.count === "number") {
-        if (language === "en") {
-            return params.count === 1 ? "" : "_plural";
-        } else if (language === "ru") {
-            return `_${toLowestTheSame(toRussianCasesRules(params.count))}`;
-        }
-    }
-    return "";
+    return plugin(key, +params.count, params);
 };
 
 export const generateTranslationFunction = (
     translations: TranslationMap,
     language: Language,
     fallbackLanguage: Language,
+    plugins: Partial<Record<Language, TranslationPlugin>>,
 ) => {
     return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
-        return translate(translations, enforceLanguage ?? language ?? fallbackLanguage, key, params, fallbackLanguage);
+        const currentLanguage = enforceLanguage ?? language ?? fallbackLanguage;
+        return translate(translations, currentLanguage, key, params, fallbackLanguage, plugins);
     };
 };
 
@@ -141,14 +131,16 @@ export const generateDictFunction = (
 };
 
 export const useTranslation = (translation?: Translation | TranslationMap) => {
-    const settings = useContext(TranslationContext);
-    const {fallbackLanguage, translations} = settings;
+    const settingsPatch = useContext(TranslationContext);
+    const settings = mergeDeepRight(defaultSettings, settingsPatch);
+    const {fallbackLanguage, translations, plugins} = settings;
 
     const translationMap = translation == null ? translations : extend(translations, translation).translationMap;
 
     return {
-        t: generateTranslationFunction(translationMap, settings.language, fallbackLanguage),
+        t: generateTranslationFunction(translationMap, settings.language, fallbackLanguage, plugins),
         language: settings?.language ?? fallbackLanguage,
+        fallbackLanguage,
     };
 };
 
