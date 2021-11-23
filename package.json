@@ -1,7 +1,7 @@
 {
-    "name": "@globuslimited/translation",
+    "name": "react-t9n",
     "version": "2.0.3",
-    "description": "Hooks for handling translation",
+    "description": "React-style library for handling translation",
     "repository": "git@github.com:globuslimited/globus-translation.git",
     "author": "Andrei izotov <faradaytrs@gmail.com>",
     "license": "MIT",
@@ -42,8 +42,7 @@
             "requireBranch": "main"
         },
         "github": {
-            "release": true,
-            "proxy": "http://127.0.0.1:7890"
+            "release": true
         },
         "npm": {
             "publish": false
