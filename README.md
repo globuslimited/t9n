@@ -118,7 +118,7 @@ const localTranslation = translation({
                         deep: {
                             as: {
                                 you: {
-                                    can: "I'm here!"
+                                    want: "I'm here!"
                                 }
                             }
                         }
@@ -137,7 +137,7 @@ const MyComponent: VFC<{
     return (
         <div>
             {t("hello")} {name}
-            <div>{t("you.can.go.as.deep.as.you.can")}</div>
+            <div>{t("you.can.go.as.deep.as.you.want")}</div>
         </div>
     );
 };
