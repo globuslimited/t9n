@@ -105,10 +105,50 @@ Local translations with the same names override global ones.
 
 ## Nested translations
 
+To make it more structural, you can define nested translation blocks. 
+```tsx
+import {translation, useTranslation} from "react-t9n";
+
+const localTranslation = translation({
+    en: {
+        you: {
+            can: {
+                go: {
+                    as: {
+                        deep: {
+                            as: {
+                                you: {
+                                    can: "I'm here!"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+})
+
+
+const MyComponent: VFC<{
+    name: string;
+}> = ({name}) => {
+    const {t} = useTranslation(localTranslation);
+    return (
+        <div>
+            {t("hello")} {name}
+            <div>{t("you.can.go.as.deep.as.you.can")}</div>
+        </div>
+    );
+};
+
+```
 ## Extending local translations
 
 ## Get more flexible with parameters
 
+Your can define parameters with {{}} syntax in your in translation strings.
+Then your can inject them as the second parameter of the t() function.
 ```tsx
 import {translation, useTranslation} from "react-t9n";
 
@@ -122,7 +162,7 @@ const localTranslation = translation({
 });
 
 const MyComponent: VFC<{
-    name: string;
+    hours: number;
 }> = ({hours}) => {
     const {t} = useTranslation(localTranslation);
     return (
@@ -136,6 +176,43 @@ const MyComponent: VFC<{
 ```
 
 ## Handling numbers in different languages
+
+There are plugins for two languages out of box.
+
+### English
+
+For english, if property with `_plural` suffix is available and `count` parameter is specified, then for 0 and count > 1 plural form will be used.
+
+```tsx
+import {translation, useTranslation} from "react-t9n";
+
+const localTranslation = translation({
+    en: {
+        onlineTooltip: "There is {{count}} person online";
+        onlineTooltip_plural: "There are {{count}} people online";
+    }
+})
+
+const MyComponent: VFC<{
+    hours: number;
+}> = ({hours}) => {
+    const {t} = useTranslation(localTranslation);
+    const peopleAmount = useCountPeople();
+    return (
+        <div>
+            {t('onlineTooltip', {
+                count: peopleAmount
+            })}
+        </div>
+    );
+};
+```
+
+### Russian
+
+### Other languages
+
+If you need to handle special case in other languages, follow the writing plugins section below.
 
 ## Writing own plugins
 
