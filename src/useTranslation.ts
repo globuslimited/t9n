@@ -92,7 +92,7 @@ const getSuffix = (key: string, params: TranslationProperties, plugin?: Translat
     if (typeof plugin !== "function") {
         return "";
     }
-    return plugin(key, +params.count, params);
+    return plugin(key, params);
 };
 
 export const generateTranslationFunction = (

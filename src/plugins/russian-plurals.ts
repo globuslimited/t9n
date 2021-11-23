@@ -19,6 +19,6 @@ const toRussianCasesRules = (n: number) => {
     return 0;
 };
 
-export const russianPlurals: TranslationPlugin = (_key, count) => {
-    return `_${toLowestTheSame(toRussianCasesRules(+count))}`;
+export const russianPlurals: TranslationPlugin = (_key, params) => {
+    return `_${toLowestTheSame(toRussianCasesRules(+params.count))}`;
 };

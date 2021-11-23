@@ -19,7 +19,7 @@ export type TranslationMap = {
     [language in Language]?: Translation;
 };
 
-export type TranslationPlugin = (key: string | number, count: number | string, params: TranslationProperties) => string;
+export type TranslationPlugin = (key: string | number, params: TranslationProperties) => string;
 
 export type TranslationSettings = {
     translations: TranslationMap;

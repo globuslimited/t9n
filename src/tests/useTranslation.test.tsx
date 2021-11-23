@@ -2,7 +2,7 @@ import {renderHook} from "@testing-library/react-hooks/native";
 import {FC} from "react";
 import {Language} from "../context.js";
 import {TranslationProvider} from "../index.js";
-import {useTranslation} from "../useTranslation.js";
+import {TranslationProperties, useTranslation} from "../useTranslation.js";
 import {translation} from "../translation.js";
 
 const settings = {
@@ -59,9 +59,9 @@ const settings = {
     language: Language.Chinese,
     fallbackLanguage: Language.English,
     plugins: {
-        [Language.Chinese]: (_key: string | number, count: number | string) => {
-            if (typeof count === "number" || typeof count === "string") {
-                return `_${count}`;
+        [Language.Chinese]: (_key: string | number, params: TranslationProperties) => {
+            if (typeof params.count === "number" || typeof params.count === "string") {
+                return `_${params.count}`;
             }
             return "";
         },
