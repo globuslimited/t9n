@@ -147,8 +147,8 @@ const MyComponent: VFC<{
 
 ## Get more flexible with parameters
 
-Your can define parameters with {{}} syntax in your in translation strings.
-Then your can inject them as the second parameter of the t() function.
+Your can define parameters with `{{}}` syntax in your in translation strings.
+Then your can inject them as the second parameter of the `t()` function.
 ```tsx
 import {translation, useTranslation} from "react-t9n";
 
@@ -209,6 +209,8 @@ const MyComponent: VFC<{
 ```
 
 ### Russian
+
+
 
 ### Other languages
 
