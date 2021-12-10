@@ -1,5 +1,5 @@
 import {TranslationPlugin} from "..";
 
 export const englishPlurals: TranslationPlugin = (_key, params) => {
-    return +params.count === 1 ? "" : "_plural";
+    return Math.abs(+params.count) === 1 ? "" : "_plural";
 };
