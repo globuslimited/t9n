@@ -1,6 +1,6 @@
 # react-t9n
 
-[![npm module](https://badge.fury.io/js/react-t9n.svg)](https://www.npmjs.org/package/react-t9n)
+[![npm module](https://badge.fury.io/js/react-t9n.svg)](https://www.npmjs.org/package/react-t9n) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-t9n)
 
 React-style library for handling translation with focus on flexibility and easy refactoring.
 
