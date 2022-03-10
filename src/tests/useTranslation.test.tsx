@@ -1,4 +1,4 @@
-import {renderHook} from "@testing-library/react-hooks/native";
+import {renderHook} from "@testing-library/react-hooks";
 import {FC} from "react";
 import {Language} from "../context.js";
 import {TranslationProvider} from "../index.js";
