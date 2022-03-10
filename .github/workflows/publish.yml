@@ -13,12 +13,12 @@ jobs:
                   node-version: 'lts/*'
                   registry-url: 'https://registry.npmjs.org'
             - name: Install dependencies
-              run: yarn install
+              run: pnpm install
             - name: Build package
-              run: yarn build
+              run: pnpm build
             - name: Run tests
-              run: yarn test
+              run: pnpm test
             - name: Publish to npm registry
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-              run: yarn publish
+              run: pnpm publish
