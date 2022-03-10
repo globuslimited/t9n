@@ -130,11 +130,11 @@ export const generateDictFunction = (
     };
 };
 
-type UseTranslationOptions = {
-    prefix?: string;
-}
+// type UseTranslationOptions = {
+//     prefix?: string;
+// }
 
-export const useTranslation = (translation?: Translation | TranslationMap, options = defaultOptions) => {
+export const useTranslation = (translation?: Translation | TranslationMap) => {
     const settingsPatch = useContext(TranslationContext);
     const settings = mergeDeepRight(defaultSettings, settingsPatch);
     const {fallbackLanguage, translations, plugins} = settings;
