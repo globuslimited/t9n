@@ -1,5 +1,12 @@
 {
-  "extends": [
-    "config:base"
-  ]
+    "extends": ["config:base"],
+    "lockFileMaintenance": {"enabled": true},
+    "packageRules": [
+        {
+            "matchUpdateTypes": ["patch", "pin", "digest"],
+            "automerge": true
+        }
+    ],
+    "schedule": ["before 3am"],
+    "rangeStrategy": "replace"
 }
