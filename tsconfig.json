@@ -6,7 +6,7 @@
         "outDir": "./dist",
         "skipLibCheck": true,
         "module": "es2020",
-        "target": "es2020",
+        "target": "es2021",
         "moduleResolution": "node",
         "forceConsistentCasingInFileNames": true,
         "importHelpers": true

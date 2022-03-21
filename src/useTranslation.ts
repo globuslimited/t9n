@@ -10,13 +10,18 @@ import {
 } from "./context.js";
 import {Translation, extend} from "./translation.js";
 
-const replaceAll = (string: string, token: string, newToken: string) => {
-    if (token != newToken)
-        while (string.indexOf(token) > -1) {
-            string = string.replace(token, newToken);
-        }
-    return string;
-};
+const replaceAll =
+    typeof String.prototype.replaceAll === "function"
+        ? (string: string, token: string, newToken: string) => {
+              return string.replaceAll(token, newToken);
+          }
+        : (string: string, token: string, newToken: string) => {
+              if (token != newToken)
+                  while (string.indexOf(token) > -1) {
+                      string = string.replace(token, newToken);
+                  }
+              return string;
+          };
 
 export type TranslationProperties = {
     [key: string]: string | number;
