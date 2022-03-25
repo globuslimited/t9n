@@ -16,9 +16,10 @@
         "build": "tsc",
         "release": "set -a && source .env && set +a && release-it",
         "test": "vitest",
+        "coverage": "vitest run --coverage",
         "prepare": "install-peers"
     },
-    "peerDependencies": {
+     "peerDependencies": {
         "ramda": "^0.28",
         "react": "^17.0 || ^18.0"
     },
@@ -26,7 +27,10 @@
         "@testing-library/react-hooks": "^7.0.2",
         "@types/ramda": "^0.28.2",
         "@types/react": "^17.0.43",
+        "c8": "^7.11.0",
         "install-peers-cli": "^2.2.0",
+        "ramda": "^0.28.0",
+        "react": "^17.0.2",
         "react-test-renderer": "^17.0.2",
         "release-it": "^14.13.1",
         "typescript": "^4.6.3",
