@@ -24,10 +24,8 @@
     },
     "devDependencies": {
         "@testing-library/react-hooks": "^7.0.2",
-        "@types/jest": "^27.4.1",
         "@types/ramda": "^0.28.2",
         "@types/react": "^17.0.43",
-        "c8": "^7.11.0",
         "install-peers-cli": "^2.2.0",
         "react-test-renderer": "^17.0.2",
         "release-it": "^14.13.1",
