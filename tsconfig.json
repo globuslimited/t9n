@@ -9,6 +9,7 @@
         "target": "es2021",
         "moduleResolution": "node",
         "forceConsistentCasingInFileNames": true,
+        "allowSyntheticDefaultImports": true,
         "importHelpers": true
     },
     "include": [

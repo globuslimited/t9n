@@ -1,5 +1,6 @@
+import {test, describe, expect} from "vitest";
 import {renderHook} from "@testing-library/react-hooks";
-import {FC} from "react";
+import React, {FC} from "react";
 import {Language} from "../context.js";
 import {TranslationProvider} from "../index.js";
 import {TranslationProperties, useTranslation} from "../useTranslation.js";
@@ -118,7 +119,6 @@ test("should support templates", () => {
     expect(t("people", {people: 2})).toBe("2个人");
 });
 
-
 describe("plugins", () => {
     test("plugins should add suffix", () => {
         const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
@@ -211,7 +211,6 @@ const extendTranslation = translation({
             },
         },
     });
-
 
 describe("extend", () => {
     test("extendTranslation 的正确性", () => {
