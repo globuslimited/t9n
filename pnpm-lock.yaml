@@ -3,26 +3,26 @@ lockfileVersion: 5.3
 specifiers:
   '@testing-library/react-hooks': ^7.0.2
   '@types/jest': ^27.4.1
-  '@types/ramda': ^0.28.0
-  '@types/react': ^17.0.39
+  '@types/ramda': ^0.28.2
+  '@types/react': ^17.0.43
   install-peers-cli: ^2.2.0
   jest: ^27.5.1
   react-test-renderer: ^17.0.2
-  release-it: ^14.12.5
-  ts-jest: ^27.1.3
-  typescript: ^4.6.2
+  release-it: ^14.13.1
+  ts-jest: ^27.1.4
+  typescript: ^4.6.3
 
 devDependencies:
   '@testing-library/react-hooks': 7.0.2_react-test-renderer@17.0.2
   '@types/jest': 27.4.1
-  '@types/ramda': 0.28.1
-  '@types/react': 17.0.41
+  '@types/ramda': 0.28.2
+  '@types/react': 17.0.43
   install-peers-cli: 2.2.0
   jest: 27.5.1
   react-test-renderer: 17.0.2
   release-it: 14.13.1
-  ts-jest: 27.1.3_60149d457e34ffba7d4e845dde6a1263
-  typescript: 4.6.2
+  ts-jest: 27.1.4_9985e1834e803358b7be1e6ce5ca0eea
+  typescript: 4.6.3
 
 packages:
 
@@ -768,7 +768,7 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.17.8
-      '@types/react': 17.0.41
+      '@types/react': 17.0.43
       '@types/react-dom': 17.0.14
       '@types/react-test-renderer': 17.0.1
       react-error-boundary: 3.1.4
@@ -873,8 +873,8 @@ packages:
     resolution: {integrity: sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==}
     dev: true
 
-  /@types/ramda/0.28.1:
-    resolution: {integrity: sha512-8wnJK5aPaGL7AYhQSe7olwxjhIB9GO4GOCxd6JjYlVNe128DHJDOu7Kyve4kx4uazeKJdnOS3N5TVRv0z1bb1g==}
+  /@types/ramda/0.28.2:
+    resolution: {integrity: sha512-UO1AqAVfqstDdZFg6PIxiop6epdbueDyiNvNVro3Vz8j1RIBlG27atH7jvaqvOKMyVwm20SM7IqqzyBl9G3q4Q==}
     dependencies:
       ts-toolbelt: 6.15.5
     dev: true
@@ -882,17 +882,17 @@ packages:
   /@types/react-dom/17.0.14:
     resolution: {integrity: sha512-H03xwEP1oXmSfl3iobtmQ/2dHF5aBHr8aUMwyGZya6OW45G+xtdzmq6HkncefiBt5JU8DVyaWl/nWZbjZCnzAQ==}
     dependencies:
-      '@types/react': 17.0.41
+      '@types/react': 17.0.43
     dev: true
 
   /@types/react-test-renderer/17.0.1:
     resolution: {integrity: sha512-3Fi2O6Zzq/f3QR9dRnlnHso9bMl7weKCviFmfF6B4LS1Uat6Hkm15k0ZAQuDz+UBq6B3+g+NM6IT2nr5QgPzCw==}
     dependencies:
-      '@types/react': 17.0.41
+      '@types/react': 17.0.43
     dev: true
 
-  /@types/react/17.0.41:
-    resolution: {integrity: sha512-chYZ9ogWUodyC7VUTRBfblysKLjnohhFY9bGLwvnUFFy48+vB9DikmB3lW0qTFmBcKSzmdglcvkHK71IioOlDA==}
+  /@types/react/17.0.43:
+    resolution: {integrity: sha512-8Q+LNpdxf057brvPu1lMtC5Vn7J119xrP1aq4qiaefNioQUYANF/CYeK4NsKorSZyUGJ66g0IM+4bbjwx45o2A==}
     dependencies:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
@@ -1770,7 +1770,7 @@ packages:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
-      mime-types: 2.1.34
+      mime-types: 2.1.35
     dev: true
 
   /fs.realpath/1.0.0:
@@ -3865,15 +3865,15 @@ packages:
       punycode: 2.1.1
     dev: true
 
-  /ts-jest/27.1.3_60149d457e34ffba7d4e845dde6a1263:
-    resolution: {integrity: sha512-6Nlura7s6uM9BVUAoqLH7JHyMXjz8gluryjpPXxr3IxZdAXnU6FhjvVLHFtfd1vsE1p8zD1OJfskkc0jhTSnkA==}
+  /ts-jest/27.1.4_9985e1834e803358b7be1e6ce5ca0eea:
+    resolution: {integrity: sha512-qjkZlVPWVctAezwsOD1OPzbZ+k7zA5z3oxII4dGdZo5ggX/PL7kvwTM0pXTr10fAtbiVpJaL3bWd502zAhpgSQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
     peerDependencies:
       '@babel/core': '>=7.0.0-beta.0 <8'
       '@types/jest': ^27.0.0
       babel-jest: '>=27.0.0 <28'
-      esbuild: ~0.14.0
+      esbuild: '*'
       jest: ^27.0.0
       typescript: '>=3.8 <5.0'
     peerDependenciesMeta:
@@ -3895,7 +3895,7 @@ packages:
       lodash.memoize: 4.1.2
       make-error: 1.3.6
       semver: 7.3.5
-      typescript: 4.6.2
+      typescript: 4.6.3
       yargs-parser: 20.2.9
     dev: true
 
@@ -3940,8 +3940,8 @@ packages:
       is-typedarray: 1.0.0
     dev: true
 
-  /typescript/4.6.2:
-    resolution: {integrity: sha512-HM/hFigTBHZhLXshn9sN37H085+hQGeJHJ/X7LpBWLID/fbc2acUMfU+lGD98X81sKP+pFa9f0DZmCwB9GnbAg==}
+  /typescript/4.6.3:
+    resolution: {integrity: sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true

@@ -135,6 +135,8 @@ export const generateDictFunction = (
     };
 };
 
+export type DictFunction = ReturnType<typeof generateDictFunction>
+
 // type UseTranslationOptions = {
 //     prefix?: string;
 // }
