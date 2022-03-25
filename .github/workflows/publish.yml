@@ -10,6 +10,7 @@ jobs:
               with:
                   persist-credentials: false
                   fetch-depth: 0
+                  ref: 'main'
             - name: Setup PNPM
               uses: pnpm/action-setup@v2.2.1
               with:
