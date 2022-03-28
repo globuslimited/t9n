@@ -24,33 +24,39 @@ const replaceAll =
           };
 
 const applyPlugins = (keys: string[], params: TranslationProperties, packedPlugins: PackedPlugin[]) => {
-    let remainingKeys = keys;
+    let remainingKeys = keys.map(key => {
+        const modifiers = getModifiers(key);
+        return {
+            key,
+            modifiers,
+            remainingModifiers: modifiers,
+        };
+    });
     if (remainingKeys.length === 1) {
-        return remainingKeys[0];
+        return remainingKeys[0]["key"];
     }
     for (const {plugin, name} of packedPlugins) {
         const modifiers = plugin(params);
         for (const modifier of modifiers) {
-            const keysWithModifier = remainingKeys.filter(key => getModifiers(key).includes(modifier));
-            if (keysWithModifier.length === 0) {
+            const keysWithModifiers = remainingKeys.filter(({remainingModifiers}) =>
+                remainingModifiers.includes(modifier),
+            );
+            if (keysWithModifiers.length === 0) {
                 console.warn("modifier ignored", name);
                 continue;
-            } else if (keysWithModifier.length === 1) {
-                return keysWithModifier[0];
+            } else if (keysWithModifiers.length === 1) {
+                return keysWithModifiers[0]["key"];
             } else {
-                remainingKeys = keysWithModifier;
+                remainingKeys = keysWithModifiers.map(key => ({
+                    ...key,
+                    remainingModifiers: key.remainingModifiers.filter(m => m !== modifier),
+                }));
             }
         }
     }
-    const keyWithMinimumModifiers = remainingKeys.reduce((min, key) => {
-        if (getModifiers(key).length < getModifiers(min).length) {
-            return key;
-        } else {
-            return min;
-        }
-    });
-    console.warn("not exact match for", keyWithMinimumModifiers);
-    return keyWithMinimumModifiers;
+    const lastKey = remainingKeys[0]["key"];
+    console.warn("not exact match for", lastKey);
+    return lastKey;
 };
 
 const getTranslation = (
