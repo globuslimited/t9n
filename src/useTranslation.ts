@@ -154,10 +154,12 @@ export const generateTranslationFunction = (
     language: Language,
     fallbackLanguage: Language,
     plugins: PackedPlugin[],
+    options: UseTranslationOptions,
 ) => {
     return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
         const currentLanguage = enforceLanguage ?? language ?? fallbackLanguage;
-        return translate(translations, currentLanguage, key, params, fallbackLanguage, plugins);
+        const preparedKey = typeof options.prefix === "string" ? `${options.prefix}${key}` : key;
+        return translate(translations, currentLanguage, preparedKey, params, fallbackLanguage, plugins);
     };
 };
 
@@ -197,7 +199,13 @@ export const useTranslation = (translation?: Translation | TranslationMap, optio
     const translationMap = translation == null ? translations : extend(translations, translation).translationMap;
 
     return {
-        t: generateTranslationFunction(translationMap, settings.language, fallbackLanguage, plugins as PackedPlugin[]),
+        t: generateTranslationFunction(
+            translationMap,
+            settings.language,
+            fallbackLanguage,
+            plugins as PackedPlugin[],
+            options ?? {},
+        ),
         language: settings?.language ?? fallbackLanguage,
         fallbackLanguage,
     };
