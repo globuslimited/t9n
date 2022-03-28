@@ -54,7 +54,12 @@ const applyPlugins = (keys: string[], params: TranslationProperties, packedPlugi
             }
         }
     }
-    const lastKey = remainingKeys[0]["key"];
+    const lastKey = remainingKeys.reduce((min, key) => {
+        if (key.remainingModifiers.length < min.remainingModifiers.length) {
+            return key;
+        }
+        return min;
+    })["key"];
     console.warn("not exact match for", lastKey);
     return lastKey;
 };

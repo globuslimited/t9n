@@ -29,8 +29,8 @@ const settings = {
                 test_plural_female: "women",
 
                 test_male_plural: "men",
-                test_male_singular: "a man",
-                test_female_singular: "a woman",
+                test_male: "a man",
+                test_female: "a woman",
             },
         },
         [Language.Chinese]: {
