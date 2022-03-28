@@ -158,7 +158,7 @@ export const generateTranslationFunction = (
 ) => {
     return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
         const currentLanguage = enforceLanguage ?? language ?? fallbackLanguage;
-        const preparedKey = typeof options.prefix === "string" ? `${options.prefix}${key}` : key;
+        const preparedKey = typeof options.prefix === "string" ? `${options.prefix}.${key}` : key;
         return translate(translations, currentLanguage, preparedKey, params, fallbackLanguage, plugins);
     };
 };

@@ -29,8 +29,8 @@ const settings = {
                 test_plural_female: "women",
 
                 test_male_plural: "men",
-                test_male: "a man",
-                test_female: "a woman",
+                test_male_singular: "a man",
+                test_female_singular: "a woman",
             },
         },
         [Language.Chinese]: {
@@ -132,6 +132,14 @@ test("should support templates", () => {
     const {t, language} = result.current;
     expect(t("people", {people: 2})).toBe("2个人");
 });
+
+test("should support prefixes", () => {
+    const {result} = renderHook(() => useTranslation({}, {
+        prefix: "only"
+    }), {wrapper: ContextMockWrapper});
+    const {t} = result.current;
+    expect(t("english")).toBe("Hello");
+})
 
 describe("plugins", () => {
     test("plugins should add suffix", () => {
