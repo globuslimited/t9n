@@ -188,7 +188,7 @@ import {translation, useTranslation} from "react-t9n";
 
 const localTranslation = translation({
     en: {
-        onlineTooltip: "There is {{count}} person online";
+        onlineTooltip_singular: "There is {{count}} person online";
         onlineTooltip_plural: "There are {{count}} people online";
     }
 })

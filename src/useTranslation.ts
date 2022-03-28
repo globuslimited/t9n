@@ -1,14 +1,14 @@
 import {useContext} from "react";
-import {mergeDeepRight, path} from "ramda";
-import {
-    defaultSettings,
-    Language,
-    TemplateFunction,
-    TranslationContext,
-    TranslationMap,
-    TranslationPlugin,
-} from "./context.js";
-import {Translation, extend} from "./translation.js";
+import {mergeDeepRight, path, reverse} from "ramda";
+import {defaultSettings, TranslationContext} from "./context.js";
+import {extend, Translation} from "./translation.js";
+import type {PackedPlugin} from "./plugin.js";
+import {Language, TemplateFunction, TranslationMap, TranslationProperties} from "./basic.js";
+
+const getModifiers = (key: string) => {
+    const [, ...modifiers] = key.split("_");
+    return modifiers;
+};
 
 const replaceAll =
     typeof String.prototype.replaceAll === "function"
@@ -23,8 +23,34 @@ const replaceAll =
               return string;
           };
 
-export type TranslationProperties = {
-    [key: string]: string | number;
+const applyPlugins = (keys: string[], params: TranslationProperties, packedPlugins: PackedPlugin[]) => {
+    let remainingKeys = keys;
+    if (remainingKeys.length === 1) {
+        return remainingKeys[0];
+    }
+    for (const {plugin, name} of packedPlugins) {
+        const modifiers = plugin(params);
+        for (const modifier of modifiers) {
+            const keysWithModifier = remainingKeys.filter(key => getModifiers(key).includes(modifier));
+            if (keysWithModifier.length === 0) {
+                console.warn("modifier ignored", name);
+                continue;
+            } else if (keysWithModifier.length === 1) {
+                return keysWithModifier[0];
+            } else {
+                remainingKeys = keysWithModifier;
+            }
+        }
+    }
+    const keyWithMinimumModifiers = remainingKeys.reduce((min, key) => {
+        if (getModifiers(key).length < getModifiers(min).length) {
+            return key;
+        } else {
+            return min;
+        }
+    });
+    console.warn("not exact match for", keyWithMinimumModifiers);
+    return keyWithMinimumModifiers;
 };
 
 const getTranslation = (
@@ -32,25 +58,32 @@ const getTranslation = (
     lang: Language,
     key: string,
     params: TranslationProperties,
-    plugin?: TranslationPlugin,
+    plugins: PackedPlugin[],
 ): string | number | TemplateFunction | null => {
     if (key == null) {
         return null;
     }
-    if (typeof params.count === "number") {
-        const suffix = getSuffix(key, params, plugin);
-        const candidate = path(
-            `${key}${suffix}`.split(".").map(path => (/^\d+$/.test(path) ? +path : path)),
-            translationMap[lang],
-        ) as string | null;
-        if (candidate != null) {
-            return candidate;
-        }
+    const [translationKey, ...parent] = reverse(key.split("."));
+    const parentTranslation = path(reverse(parent), translationMap[lang]);
+    if (typeof parentTranslation != "object" || parentTranslation == null) {
+        return null;
     }
-    return path(
-        key.split(".").map(path => (/^\d+$/.test(path) ? +path : path)),
-        translationMap[lang],
-    ) as string | null;
+    const keys = Object.keys(parentTranslation);
+    if (keys.length === 0) {
+        return null;
+    }
+    const suitableKeys = keys.filter(k => k === translationKey || k.startsWith(translationKey + "_"));
+
+    if (suitableKeys.length == 0) {
+        return null;
+    }
+    // suitable keys are more than 1, then applyPlugins
+    if (Array.isArray(plugins) && plugins.length === 0) {
+        return parentTranslation[translationKey as keyof typeof parentTranslation];
+    }
+    const finalKey = applyPlugins(suitableKeys, params, plugins);
+
+    return parentTranslation[finalKey as keyof typeof parentTranslation];
 };
 
 const applyTemplate = (str: string, params: TranslationProperties) => {
@@ -69,11 +102,23 @@ export const translate = (
     key: string,
     params: TranslationProperties = {},
     fallbackLanguage: Language,
-    plugins: Partial<Record<Language, TranslationPlugin>>,
+    plugins: PackedPlugin[],
 ): string => {
     const translation =
-        getTranslation(translationMap, lang, key, params, plugins[lang]) ??
-        getTranslation(translationMap, fallbackLanguage, key, params, plugins[fallbackLanguage]);
+        getTranslation(
+            translationMap,
+            lang,
+            key,
+            params,
+            plugins.filter(plugin => plugin.supportedLanguages.includes(lang)),
+        ) ??
+        getTranslation(
+            translationMap,
+            fallbackLanguage,
+            key,
+            params,
+            plugins.filter(plugin => plugin.supportedLanguages.includes(fallbackLanguage)),
+        );
 
     if (translation == null) {
         return key;
@@ -93,18 +138,11 @@ export const translate = (
     return key;
 };
 
-const getSuffix = (key: string, params: TranslationProperties, plugin?: TranslationPlugin) => {
-    if (typeof plugin !== "function") {
-        return "";
-    }
-    return plugin(key, params);
-};
-
 export const generateTranslationFunction = (
     translations: TranslationMap,
     language: Language,
     fallbackLanguage: Language,
-    plugins: Partial<Record<Language, TranslationPlugin>>,
+    plugins: PackedPlugin[],
 ) => {
     return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
         const currentLanguage = enforceLanguage ?? language ?? fallbackLanguage;
@@ -135,21 +173,20 @@ export const generateDictFunction = (
     };
 };
 
-export type DictFunction = ReturnType<typeof generateDictFunction>
+export type DictFunction = ReturnType<typeof generateDictFunction>;
 
-// type UseTranslationOptions = {
-//     prefix?: string;
-// }
+type UseTranslationOptions = {
+    prefix?: string;
+};
 
-export const useTranslation = (translation?: Translation | TranslationMap) => {
+export const useTranslation = (translation?: Translation | TranslationMap, options?: UseTranslationOptions) => {
     const settingsPatch = useContext(TranslationContext);
     const settings = mergeDeepRight(defaultSettings, settingsPatch);
     const {fallbackLanguage, translations, plugins} = settings;
-
     const translationMap = translation == null ? translations : extend(translations, translation).translationMap;
 
     return {
-        t: generateTranslationFunction(translationMap, settings.language, fallbackLanguage, plugins),
+        t: generateTranslationFunction(translationMap, settings.language, fallbackLanguage, plugins as PackedPlugin[]),
         language: settings?.language ?? fallbackLanguage,
         fallbackLanguage,
     };

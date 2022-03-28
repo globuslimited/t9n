@@ -1,31 +1,15 @@
 import {createContext} from "react";
-import {englishPlurals} from "./plugins/english-plurals.js";
-import {russianPlurals} from "./plugins/russian-plurals.js";
-import {TranslationProperties} from "./useTranslation.js";
-
-export enum Language {
-    English = "en",
-    Russian = "ru",
-    Chinese = "zh",
-}
-
-export type TemplateFunction = (args: TranslationProperties) => string;
-
-export type Translation = {
-    [key: string]: Translation | string | number | TemplateFunction;
-};
-
-export type TranslationMap = {
-    [language in Language]?: Translation;
-};
-
-export type TranslationPlugin = (key: string | number, params: TranslationProperties) => string;
+import { Language, TranslationMap } from "./basic.js";
+import type {PackedPlugin} from "./plugin.js";
+import englishPlurals from "./plugins/english/plurals.js";
+import russianPlurals from "./plugins/russian/plurals.js";
+import sexPlugin from "./plugins/sex.js";
 
 export type TranslationSettings = {
     translations: TranslationMap;
     language: Language;
     fallbackLanguage: Language;
-    plugins: Partial<Record<Language, TranslationPlugin>>;
+    plugins: PackedPlugin[];
 };
 
 export const defaultSettings: TranslationSettings = {
@@ -34,10 +18,7 @@ export const defaultSettings: TranslationSettings = {
     translations: {
         en: {},
     },
-    plugins: {
-        [Language.Russian]: russianPlurals,
-        [Language.English]: englishPlurals,
-    },
+    plugins: [russianPlurals, englishPlurals, sexPlugin],
 };
 
 export const TranslationContext = createContext<Partial<TranslationSettings>>(defaultSettings);

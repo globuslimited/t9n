@@ -1,10 +1,12 @@
 import {test, describe, expect} from "vitest";
 import {renderHook} from "@testing-library/react-hooks";
 import React, {FC} from "react";
-import {Language} from "../context.js";
-import {TranslationProvider} from "../index.js";
-import {TranslationProperties, useTranslation} from "../useTranslation.js";
+import {useTranslation} from "../useTranslation.js";
 import {translation} from "../translation.js";
+import {plugin} from "../plugin.js";
+import {Language, TranslationProperties} from "../basic.js";
+import {TranslationProvider} from "../index.js";
+import {defaultSettings} from "../context.js";
 
 const settings = {
     translations: {
@@ -22,6 +24,13 @@ const settings = {
                 category2: "Category 2",
                 category3: "Category 3",
                 category4: "Category 4",
+            },
+            multiple: {
+                test_plural_female: "women",
+
+                test_male_plural: "men",
+                test_male_singular: "a man",
+                test_female_singular: "a woman",
             },
         },
         [Language.Chinese]: {
@@ -59,14 +68,19 @@ const settings = {
     },
     language: Language.Chinese,
     fallbackLanguage: Language.English,
-    plugins: {
-        [Language.Chinese]: (_key: string | number, params: TranslationProperties) => {
-            if (typeof params.count === "number" || typeof params.count === "string") {
-                return `_${params.count}`;
-            }
-            return "";
-        },
-    },
+    plugins: defaultSettings.plugins.concat(
+        plugin(
+            "test-plugin",
+            (params: TranslationProperties) => {
+                const count = +params.count;
+                if (Number.isInteger(count)) {
+                    return [params.count.toString()];
+                }
+                return [];
+            },
+            [Language.Chinese],
+        ),
+    ),
 };
 
 const ContextMockWrapper: FC = ({children}) => <TranslationProvider value={settings}>{children}</TranslationProvider>;
@@ -124,6 +138,14 @@ describe("plugins", () => {
         const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
         const {t} = result.current;
         expect(t("categories.plugins", {count: 5}, Language.Chinese)).toBe("Plugin works!");
+    });
+    test("should support multiple plugins at the same time", () => {
+        const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+        const {t} = result.current;
+        expect(t("multiple.test", {count: 1, sex: "male"})).toBe("a man");
+        expect(t("multiple.test", {count: 2, sex: "male"})).toBe("men");
+        expect(t("multiple.test", {count: 1, sex: "female"})).toBe("a woman");
+        expect(t("multiple.test", {count: 2, sex: "female"})).toBe("women");
     });
     test("should support _plural for english", () => {
         const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
