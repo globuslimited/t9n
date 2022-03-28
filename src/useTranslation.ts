@@ -42,7 +42,7 @@ const applyPlugins = (keys: string[], params: TranslationProperties, packedPlugi
                 remainingModifiers.includes(modifier),
             );
             if (keysWithModifiers.length === 0) {
-                console.warn("modifier ignored", name);
+                console.warn(`[${name}]`, "modifier", modifier, "ignored");
                 continue;
             } else if (keysWithModifiers.length === 1) {
                 return keysWithModifiers[0]["key"];
