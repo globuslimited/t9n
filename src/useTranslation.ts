@@ -54,14 +54,19 @@ const applyPlugins = (keys: string[], params: TranslationProperties, packedPlugi
             }
         }
     }
-    const lastKey = remainingKeys.reduce((min, key) => {
-        if (key.remainingModifiers.length < min.remainingModifiers.length) {
-            return key;
+    let minKey = remainingKeys[0];
+    for (const key of remainingKeys) {
+        const currentKeyLength = key.remainingModifiers.length
+        if (currentKeyLength === 0) {
+            console.warn("fallback for key with no modifiers", key.key);
+            return key.key;
         }
-        return min;
-    })["key"];
-    console.warn("not exact match for", lastKey);
-    return lastKey;
+        if (currentKeyLength < minKey.remainingModifiers.length) {
+            minKey = key;
+        }
+    }
+    console.warn("not exact match for", minKey.key);
+    return minKey.key;
 };
 
 const getTranslation = (
