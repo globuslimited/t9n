@@ -1,16 +1,17 @@
 {
     "compilerOptions": {
-        "jsx": "react-jsx",
-        "strict": true,
-        "declaration": true,
-        "outDir": "./dist",
-        "skipLibCheck": true,
         "module": "es2020",
         "target": "es2021",
+        "strict": true,
+        "jsx": "react-jsx",
+        "declaration": true,
+        "outDir": "./dist",
         "moduleResolution": "node",
-        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
-        "importHelpers": true
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true,
+        "emitDeclarationOnly": true,
     },
     "include": [
         "src/**/*"

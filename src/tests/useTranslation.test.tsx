@@ -1,6 +1,6 @@
 import {test, describe, expect} from "vitest";
 import {renderHook} from "@testing-library/react-hooks";
-import React, {FC, ReactNode} from "react";
+import React, {ReactNode, FC} from "react";
 import {useTranslation} from "../useTranslation.js";
 import {translation} from "../translation.js";
 import {plugin} from "../plugin.js";
