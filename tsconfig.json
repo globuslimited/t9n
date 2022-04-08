@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "baseUrl": "src",
         "module": "es2020",
         "target": "es2021",
         "strict": true,

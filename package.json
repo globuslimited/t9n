@@ -13,7 +13,7 @@
         "/dist"
     ],
     "scripts": {
-        "build": "tsc && esbuild ./src/index.ts --sourcemap=external --outdir=dist --analyze=verbose",
+        "build": "tsc && esbuild `find './src' \\( -name '*.ts' \\)` --sourcemap=external --outdir=dist",
         "release": "set -a && source .env && set +a && release-it",
         "test": "vitest",
         "coverage": "vitest run --coverage"
