@@ -1,6 +1,6 @@
 import {test, describe, expect} from "vitest";
 import {renderHook} from "@testing-library/react-hooks";
-import React, {FC} from "react";
+import React, {FC, ReactNode} from "react";
 import {useTranslation} from "../useTranslation.js";
 import {translation} from "../translation.js";
 import {plugin} from "../plugin.js";
@@ -82,8 +82,8 @@ const settings = {
         ),
     ),
 };
-
-const ContextMockWrapper: FC = ({children}) => <TranslationProvider value={settings}>{children}</TranslationProvider>;
+type FCWC<P = {}> = FC<P & {children?: ReactNode | undefined}>;
+const ContextMockWrapper: FCWC = ({children}) => <TranslationProvider value={settings}>{children}</TranslationProvider>;
 
 test("should return key if translation not found", () => {
     const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
@@ -134,12 +134,19 @@ test("should support templates", () => {
 });
 
 test("should support prefixes", () => {
-    const {result} = renderHook(() => useTranslation({}, {
-        prefix: "only"
-    }), {wrapper: ContextMockWrapper});
+    const {result} = renderHook(
+        () =>
+            useTranslation(
+                {},
+                {
+                    prefix: "only",
+                },
+            ),
+        {wrapper: ContextMockWrapper},
+    );
     const {t} = result.current;
     expect(t("english")).toBe("Hello");
-})
+});
 
 describe("plugins", () => {
     test("plugins should add suffix", () => {
