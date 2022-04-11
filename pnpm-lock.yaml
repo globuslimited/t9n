@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@testing-library/react-hooks': ^7.0.2
+  '@testing-library/react-hooks': ^8.0.0
   '@types/ramda': ^0.28.7
   '@types/react': ^18.0.0
   c8: ^7.11.0
@@ -14,7 +14,7 @@ specifiers:
   vitest: ^0.9.2
 
 devDependencies:
-  '@testing-library/react-hooks': 7.0.2_3d3603ccd3a261ff56545f11c384811d
+  '@testing-library/react-hooks': 8.0.0_4aec4d522775b7dbc216fe7fe09f9478
   '@types/ramda': 0.28.8
   '@types/react': 18.0.1
   c8: 7.11.0
@@ -221,14 +221,17 @@ packages:
       defer-to-connect: 2.0.1
     dev: true
 
-  /@testing-library/react-hooks/7.0.2_3d3603ccd3a261ff56545f11c384811d:
-    resolution: {integrity: sha512-dYxpz8u9m4q1TuzfcUApqi8iFfR6R0FaMbr2hjZJy1uC8z+bO/K4v8Gs9eogGKYQop7QsrBTFkv/BCF7MzD2Cg==}
+  /@testing-library/react-hooks/8.0.0_4aec4d522775b7dbc216fe7fe09f9478:
+    resolution: {integrity: sha512-uZqcgtcUUtw7Z9N32W13qQhVAD+Xki2hxbTR461MKax8T6Jr8nsUvZB+vcBTkzY2nFvsUet434CsgF0ncW2yFw==}
     engines: {node: '>=12'}
     peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-      react-test-renderer: '>=16.9.0'
+      '@types/react': ^16.9.0 || ^17.0.0
+      react: ^16.9.0 || ^17.0.0
+      react-dom: ^16.9.0 || ^17.0.0
+      react-test-renderer: ^16.9.0 || ^17.0.0
     peerDependenciesMeta:
+      '@types/react':
+        optional: true
       react-dom:
         optional: true
       react-test-renderer:
@@ -236,8 +239,6 @@ packages:
     dependencies:
       '@babel/runtime': 7.17.9
       '@types/react': 18.0.1
-      '@types/react-dom': 18.0.0
-      '@types/react-test-renderer': 17.0.1
       react: 18.0.0
       react-error-boundary: 3.1.4_react@18.0.0
       react-test-renderer: 18.0.0_react@18.0.0
@@ -296,18 +297,6 @@ packages:
     resolution: {integrity: sha512-ppkK4e2oV9aVoMJzw//4VrMUE9kjBC/LVS50oheq3JnVpesM/Np2mAGb+5zoe2MUjv8ps+5zf09Xy3FQTWzVEg==}
     dependencies:
       ts-toolbelt: 6.15.5
-    dev: true
-
-  /@types/react-dom/18.0.0:
-    resolution: {integrity: sha512-49897Y0UiCGmxZqpC8Blrf6meL8QUla6eb+BBhn69dTXlmuOlzkfr7HHY/O8J25e1lTUMs+YYxSlVDAaGHCOLg==}
-    dependencies:
-      '@types/react': 18.0.1
-    dev: true
-
-  /@types/react-test-renderer/17.0.1:
-    resolution: {integrity: sha512-3Fi2O6Zzq/f3QR9dRnlnHso9bMl7weKCviFmfF6B4LS1Uat6Hkm15k0ZAQuDz+UBq6B3+g+NM6IT2nr5QgPzCw==}
-    dependencies:
-      '@types/react': 18.0.1
     dev: true
 
   /@types/react/18.0.1:
