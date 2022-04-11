@@ -13,7 +13,7 @@ export type TranslationSettings = {
 };
 
 export const defaultSettings: TranslationSettings = {
-    fallbackLanguages: [Language.English, Language.Russian, Language.Chinese],
+    fallbackLanguages: [Language.English],
     language: Language.English,
     translations: {
         en: {},
