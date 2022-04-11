@@ -67,7 +67,7 @@ const settings = {
         },
     },
     language: Language.Chinese,
-    fallbackLanguage: Language.English,
+    fallbackLanguages: [Language.English, Language.Russian, Language.Chinese],
     plugins: defaultSettings.plugins.concat(
         plugin(
             "test-plugin",
@@ -498,21 +498,125 @@ describe("extend", () => {
     });
 });
 
-test("没有中文或俄文的时候，显示英文", () => {
-    const {result} = renderHook(
-        () =>
-            useTranslation({
-                zh: {},
-                ru: {},
-                en: {
-                    name: "name",
-                },
-            }),
-        {wrapper: ContextMockWrapper},
-    );
-    const {t} = result.current;
 
-    expect(t("name", {}, Language.Chinese)).toBe("name");
-    expect(t("name", {}, Language.Russian)).toBe("name");
-    expect(t("name", {}, Language.English)).toBe("name");
+describe("测试 fallbackLanguages 功能", () => {
+    test("没有中文或俄文的时候，显示英文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {},
+                    ru: {},
+                    en: {
+                        name: "name",
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {}, Language.Chinese)).toBe("name");
+        expect(t("name", {}, Language.Russian)).toBe("name");
+        expect(t("name", {}, Language.English)).toBe("name");
+    });
+
+    test("没有中文或英文的时候，显示俄文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {},
+                    en: {},
+                    ru: {
+                        name: "название",
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {}, Language.Chinese)).toBe("название");
+        expect(t("name", {}, Language.Russian)).toBe("название");
+        expect(t("name", {}, Language.English)).toBe("название");
+    });
+
+    test("没有俄文或英文的时候，显示中文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {
+                        name: "名字"
+                    },
+                    en: {},
+                    ru: {},
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {}, Language.Chinese)).toBe("名字");
+        expect(t("name", {}, Language.Russian)).toBe("名字");
+        expect(t("name", {}, Language.English)).toBe("名字");
+    });
+
+    test("没有中文的时候，优先显示英文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {},
+                    en: {
+                        name: "name",
+                    },
+                    ru: {
+                        name: "название",
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {}, Language.Chinese)).toBe("name");
+        expect(t("name", {}, Language.Russian)).toBe("название");
+        expect(t("name", {}, Language.English)).toBe("name");
+    });
+
+    test("没有俄文的时候，优先显示英文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {
+                        name: "名字"
+                    },
+                    en: {
+                        name: "name",
+                    },
+                    ru: {},
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {}, Language.Chinese)).toBe("名字");
+        expect(t("name", {}, Language.Russian)).toBe("name");
+        expect(t("name", {}, Language.English)).toBe("name");
+    });
+
+    test("没有英文的时候，优先显示俄文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {
+                        name: "名字"
+                    },
+                    en: {},
+                    ru: {
+                        name: "название",
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {}, Language.Chinese)).toBe("名字");
+        expect(t("name", {}, Language.Russian)).toBe("название");
+        expect(t("name", {}, Language.English)).toBe("название");
+    });
 });
