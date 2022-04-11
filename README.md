@@ -47,7 +47,7 @@ const translationSettings = {
         ru,
         en,
     },
-    fallbackLanguage: "en",
+    fallbackLanguage: ["en"],
 };
 
 const language = "ru";

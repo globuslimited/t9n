@@ -8,12 +8,12 @@ import sexPlugin from "./plugins/sex.js";
 export type TranslationSettings = {
     translations: TranslationMap;
     language: Language;
-    fallbackLanguage: Language;
+    fallbackLanguages: Language[];
     plugins: PackedPlugin[];
 };
 
 export const defaultSettings: TranslationSettings = {
-    fallbackLanguage: Language.English,
+    fallbackLanguages: [Language.English, Language.Russian, Language.Chinese],
     language: Language.English,
     translations: {
         en: {},

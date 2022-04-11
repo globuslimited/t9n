@@ -56,7 +56,7 @@ const applyPlugins = (keys: string[], params: TranslationProperties, packedPlugi
     }
     let minKey = remainingKeys[0];
     for (const key of remainingKeys) {
-        const currentKeyLength = key.remainingModifiers.length
+        const currentKeyLength = key.remainingModifiers.length;
         if (currentKeyLength === 0) {
             console.warn("fallback for key with no modifiers", key.key);
             return key.key;
@@ -117,7 +117,7 @@ export const translate = (
     lang: Language,
     key: string,
     params: TranslationProperties = {},
-    fallbackLanguage: Language,
+    fallbackLanguages: Language[],
     plugins: PackedPlugin[],
 ): string => {
     const translation =
@@ -128,19 +128,23 @@ export const translate = (
             params,
             plugins.filter(plugin => plugin.supportedLanguages.includes(lang)),
         ) ??
-        getTranslation(
-            translationMap,
-            fallbackLanguage,
-            key,
-            params,
-            plugins.filter(plugin => plugin.supportedLanguages.includes(fallbackLanguage)),
-        );
+        fallbackLanguages.reduce((fallback, fallbackLanguage) => {
+            if (fallback != null) return fallback;
+
+            return getTranslation(
+                translationMap,
+                fallbackLanguage,
+                key,
+                params,
+                plugins.filter(plugin => plugin.supportedLanguages.includes(fallbackLanguage)),
+            );
+        }, null as string | number | TemplateFunction | null);
 
     if (translation == null) {
         return key;
     }
     if (typeof translation === "object") {
-        return translate(translationMap, lang, `${key}.default`, params, fallbackLanguage, plugins) ?? key;
+        return translate(translationMap, lang, `${key}.default`, params, fallbackLanguages, plugins) ?? key;
     }
     if (typeof translation === "function") {
         return translation(params);
@@ -157,14 +161,14 @@ export const translate = (
 export const generateTranslationFunction = (
     translations: TranslationMap,
     language: Language,
-    fallbackLanguage: Language,
+    fallbackLanguages: Language[],
     plugins: PackedPlugin[],
     options: UseTranslationOptions,
 ) => {
     return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
-        const currentLanguage = enforceLanguage ?? language ?? fallbackLanguage;
+        const currentLanguage = enforceLanguage ?? language ?? fallbackLanguages[0];
         const preparedKey = typeof options.prefix === "string" ? `${options.prefix}.${key}` : key;
-        return translate(translations, currentLanguage, preparedKey, params, fallbackLanguage, plugins);
+        return translate(translations, currentLanguage, preparedKey, params, fallbackLanguages, plugins);
     };
 };
 
@@ -200,19 +204,19 @@ type UseTranslationOptions = {
 export const useTranslation = (translation?: Translation | TranslationMap, options?: UseTranslationOptions) => {
     const settingsPatch = useContext(TranslationContext);
     const settings = mergeDeepRight(defaultSettings, settingsPatch);
-    const {fallbackLanguage, translations, plugins} = settings;
+    const {fallbackLanguages, translations, plugins} = settings;
     const translationMap = translation == null ? translations : extend(translations, translation).translationMap;
 
     return {
         t: generateTranslationFunction(
             translationMap,
             settings.language,
-            fallbackLanguage,
+            fallbackLanguages as Language[],
             plugins as PackedPlugin[],
             options ?? {},
         ),
-        language: settings?.language ?? fallbackLanguage,
-        fallbackLanguage,
+        language: settings?.language ?? fallbackLanguages[0],
+        fallbackLanguages,
     };
 };
 
