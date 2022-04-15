@@ -1,13 +1,4 @@
 {
     "extends": ["config:base"],
-    "lockFileMaintenance": {"enabled": true},
-    "automerge": true,
-    "packageRules": [
-        {
-            "matchUpdateTypes": ["major", "minor"],
-            "automerge": false
-        }
-    ],
-    "schedule": ["before 3am"],
-    "rangeStrategy": "replace"
+    "schedule": ["before 3am"]
 }
