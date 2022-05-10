@@ -1,4 +1,10 @@
 {
     "extends": ["config:base"],
-    "schedule": ["before 3am"]
+    "schedule": ["before 3am"],
+    "packageRules": [
+        {
+            "matchUpdateTypes": ["patch", "pin", "digest"],
+            "automerge": true
+        }
+    ]
 }
