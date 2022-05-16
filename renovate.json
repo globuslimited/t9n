@@ -1,6 +1,5 @@
 {
     "extends": ["config:base"],
-    "schedule": ["before 3am"],
     "packageRules": [
         {
             "matchUpdateTypes": ["patch", "pin", "digest"],
