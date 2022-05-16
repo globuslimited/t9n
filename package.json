@@ -26,7 +26,7 @@
         "@testing-library/react-hooks": "8.0.0",
         "@types/ramda": "0.28.12",
         "@types/react": "18.0.9",
-        "c8": "7.11.2",
+        "c8": "7.11.3",
         "esbuild": "0.14.39",
         "ramda": "0.28.0",
         "react": "18.1.0",
