@@ -1,9 +1,15 @@
 import {useContext} from "react";
-import {mergeDeepRight, path, reverse} from "ramda";
+import {dissoc, mergeDeepRight, path, reverse} from "ramda";
 import {defaultSettings, TranslationContext} from "./context.js";
 import {extend, Translation} from "./translation.js";
 import type {PackedPlugin} from "./plugin.js";
-import {Language, TemplateFunction, TranslationMap, TranslationProperties, Translation as TranslationOfTranslationMap} from "./basic.js";
+import {
+    Language,
+    TemplateFunction,
+    TranslationMap,
+    TranslationProperties,
+    Translation as TranslationOfTranslationMap,
+} from "./basic.js";
 
 const getModifiers = (key: string) => {
     const [, ...modifiers] = key.split("_");
@@ -180,7 +186,8 @@ export const generateDictFunction = (
     const ramdaPath = path;
     return <T>(
         path: string | null,
-        mapper: (key: string, path: string, children: TranslationOfTranslationMap["key"]) => T = key => key as unknown as T,
+        mapper: (key: string, path: string, children: TranslationOfTranslationMap["key"]) => T = key =>
+            key as unknown as T,
         enforceLanguage?: Language,
     ): T[] => {
         const finalLanguage = enforceLanguage ?? language ?? fallbackLanguage;
@@ -192,7 +199,13 @@ export const generateDictFunction = (
 
         return Object.keys(finalSubMap)
             .filter(key => key !== "default")
-            .map(key => mapper(key, path == null ? key : `${path}.${key}`, finalSubMap[key]));
+            .map(key => {
+                const children =
+                    Object.prototype.toString.call(finalSubMap[key]) === "[object Object]"
+                        ? dissoc("default", finalSubMap[key] as TranslationOfTranslationMap)
+                        : finalSubMap[key];
+                return mapper(key, path == null ? key : `${path}.${key}`, children);
+            });
     };
 };
 
