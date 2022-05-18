@@ -204,7 +204,7 @@ export const generateDictFunction = (
             .filter(key => key !== "default")
             .map(key => {
                 const children = isPlainObject<TranslationOfTranslationMap>(subMap[key])
-                    ? Object.keys(subMap[key])
+                    ? Object.keys(subMap[key]).filter(key => key !== "default")
                     : [];
                 return mapper(key, path == null ? key : `${path}.${key}`, children);
             });
