@@ -1,12 +1,6 @@
 import {useContext} from "react";
 import {path} from "ramda";
-import {
-    Language,
-    TemplateFunction,
-    TranslationContext,
-    TranslationMap,
-    Translation as TranslationOfTranslationMap,
-} from "./context.js";
+import {Language, TemplateFunction, TranslationContext, TranslationMap} from "./context.js";
 import {Translation, extend} from "./translation.js";
 
 const replaceAll = (string: string, token: string, newToken: string) => {
@@ -54,7 +48,7 @@ const applyTemplate = (str: string, params: TranslationProperties) => {
     return variables.reduce((ft: string, key: string) => {
         return replaceAll(ft, `{{${key}}}`, params[key].toString());
     }, str);
-};
+}
 
 export const translate = (
     translationMap: TranslationMap,
@@ -76,7 +70,7 @@ export const translate = (
     if (typeof translation === "function") {
         return translation(params);
     }
-    if (typeof translation === "number") {
+    if (typeof translation === "number"){
         return translation.toString();
     }
     if (typeof translation === "string") {
@@ -131,19 +125,18 @@ export const generateDictFunction = (
     const ramdaPath = path;
     return <T>(
         path: string | null,
-        mapper: (key: string, path: string, children: TranslationOfTranslationMap["key"]) => T = key => key as unknown as T,
+        mapper: (key: string, path: string) => T = key => key as unknown as T,
         enforceLanguage?: Language,
     ): T[] => {
         const finalLanguage = enforceLanguage ?? language ?? fallbackLanguage;
         const finalPath = path == null ? [finalLanguage as string] : [finalLanguage as string].concat(path.split("."));
 
-        const subMap = ramdaPath(finalPath, translationMap);
+        const subMap = ramdaPath(finalPath, translationMap) as TranslationProperties;
         if (Object.prototype.toString.call(subMap) !== "[object Object]") return [];
 
-        const finalSubMap = subMap as TranslationOfTranslationMap;
-        return Object.keys(finalSubMap)
+        return Object.keys(subMap)
             .filter(key => key !== "default")
-            .map(key => mapper(key, path == null ? key : `${path}.${key}`, finalSubMap[key]));
+            .map(key => mapper(key, path == null ? key : `${path}.${key}`));
     };
 };
 
