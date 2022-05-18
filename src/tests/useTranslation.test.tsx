@@ -1,11 +1,14 @@
-import {renderHook} from "@testing-library/react-hooks/native";
-import {FC} from "react";
-import {Language, TranslationSettings} from "../context.js";
-import {TranslationProvider} from "../index.js";
+import {test, describe, expect} from "vitest";
+import {renderHook} from "@testing-library/react-hooks";
+import React, {ReactNode, FC} from "react";
 import {useTranslation} from "../useTranslation.js";
 import {translation} from "../translation.js";
+import {plugin} from "../plugin.js";
+import {Language, TranslationProperties} from "../basic.js";
+import {TranslationProvider} from "../index.js";
+import {defaultSettings} from "../context.js";
 
-const settings: TranslationSettings = {
+const settings = {
     translations: {
         [Language.English]: {
             people: "Human",
@@ -21,6 +24,13 @@ const settings: TranslationSettings = {
                 category2: "Category 2",
                 category3: "Category 3",
                 category4: "Category 4",
+            },
+            multiple: {
+                test_plural_female: "women",
+
+                test_male_plural: "men",
+                test_male_singular: "a man",
+                test_female_singular: "a woman",
             },
         },
         [Language.Chinese]: {
@@ -38,6 +48,7 @@ const settings: TranslationSettings = {
                 category2: "分类 2",
                 category3: "分类 3",
                 category4: "分类 4",
+                plugins_5: "Plugin works!",
             },
         },
         [Language.Russian]: {
@@ -56,10 +67,23 @@ const settings: TranslationSettings = {
         },
     },
     language: Language.Chinese,
-    fallbackLanguage: Language.English,
+    fallbackLanguages: [Language.English, Language.Russian, Language.Chinese],
+    plugins: defaultSettings.plugins.concat(
+        plugin(
+            "test-plugin",
+            (params: TranslationProperties) => {
+                const count = +params.count;
+                if (Number.isInteger(count)) {
+                    return [params.count.toString()];
+                }
+                return [];
+            },
+            [Language.Chinese],
+        ),
+    ),
 };
-
-const ContextMockWrapper: FC = ({children}) => <TranslationProvider value={settings}>{children}</TranslationProvider>;
+type FCWC<P = {}> = FC<P & {children?: ReactNode | undefined}>;
+const ContextMockWrapper: FCWC = ({children}) => <TranslationProvider value={settings}>{children}</TranslationProvider>;
 
 test("should return key if translation not found", () => {
     const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
@@ -103,22 +127,51 @@ test("should support enforcing specific language", () => {
     expect(t("cool", {}, Language.Russian)).toBe("Крутой");
 });
 
-test("should support russian casing for numbers using count()", () => {
-    const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
-    const {t, language} = result.current;
-    expect(t("people", {count: 1}, Language.Russian)).toBe("Человек");
-});
-
-test("should support _plural for english", () => {
-    const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
-    const {t, language} = result.current;
-    expect(t("people", {count: 2}, Language.English)).toBe("People");
-});
-
 test("should support templates", () => {
     const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
     const {t, language} = result.current;
     expect(t("people", {people: 2})).toBe("2个人");
+});
+
+test("should support prefixes", () => {
+    const {result} = renderHook(
+        () =>
+            useTranslation(
+                {},
+                {
+                    prefix: "only",
+                },
+            ),
+        {wrapper: ContextMockWrapper},
+    );
+    const {t} = result.current;
+    expect(t("english")).toBe("Hello");
+});
+
+describe("plugins", () => {
+    test("plugins should add suffix", () => {
+        const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+        const {t} = result.current;
+        expect(t("categories.plugins", {count: 5}, Language.Chinese)).toBe("Plugin works!");
+    });
+    test("should support multiple plugins at the same time", () => {
+        const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+        const {t} = result.current;
+        expect(t("multiple.test", {count: 1, sex: "male"})).toBe("a man");
+        expect(t("multiple.test", {count: 2, sex: "male"})).toBe("men");
+        expect(t("multiple.test", {count: 1, sex: "female"})).toBe("a woman");
+        expect(t("multiple.test", {count: 2, sex: "female"})).toBe("women");
+    });
+    test("should support _plural for english", () => {
+        const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+        const {t, language} = result.current;
+        expect(t("people", {count: 2}, Language.English)).toBe("People");
+    });
+    test("should support russian casing for numbers using count()", () => {
+        const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+        const {t, language} = result.current;
+        expect(t("people", {count: 1}, Language.Russian)).toBe("Человек");
+    });
 });
 
 const extendTranslation = translation({
@@ -446,21 +499,124 @@ describe("extend", () => {
 });
 
 
-test("没有中文或俄文的时候，显示英文", () => {
-    const {result} = renderHook(() => useTranslation({
-        zh: {
+describe("测试 fallbackLanguages 功能", () => {
+    test("没有中文或俄文的时候，显示英文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {},
+                    ru: {},
+                    en: {
+                        name: "name",
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
 
-        },
-        ru: {
+        expect(t("name", {}, Language.Chinese)).toBe("name");
+        expect(t("name", {}, Language.Russian)).toBe("name");
+        expect(t("name", {}, Language.English)).toBe("name");
+    });
 
-        },
-        en: {
-            name: "name"
-        }
-    }), {wrapper: ContextMockWrapper});
-    const {t} = result.current;
+    test("没有中文或英文的时候，显示俄文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {},
+                    en: {},
+                    ru: {
+                        name: "название",
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
 
-    expect(t("name", {}, Language.Chinese)).toBe("name");
-    expect(t("name", {}, Language.Russian)).toBe("name");
-    expect(t("name", {}, Language.English)).toBe("name");
+        expect(t("name", {}, Language.Chinese)).toBe("название");
+        expect(t("name", {}, Language.Russian)).toBe("название");
+        expect(t("name", {}, Language.English)).toBe("название");
+    });
+
+    test("没有俄文或英文的时候，显示中文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {
+                        name: "名字"
+                    },
+                    en: {},
+                    ru: {},
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {}, Language.Chinese)).toBe("名字");
+        expect(t("name", {}, Language.Russian)).toBe("名字");
+        expect(t("name", {}, Language.English)).toBe("名字");
+    });
+
+    test("没有中文的时候，优先显示英文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {},
+                    en: {
+                        name: "name",
+                    },
+                    ru: {
+                        name: "название",
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {}, Language.Chinese)).toBe("name");
+        expect(t("name", {}, Language.Russian)).toBe("название");
+        expect(t("name", {}, Language.English)).toBe("name");
+    });
+
+    test("没有俄文的时候，优先显示英文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {
+                        name: "名字"
+                    },
+                    en: {
+                        name: "name",
+                    },
+                    ru: {},
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {}, Language.Chinese)).toBe("名字");
+        expect(t("name", {}, Language.Russian)).toBe("name");
+        expect(t("name", {}, Language.English)).toBe("name");
+    });
+
+    test("没有英文的时候，优先显示俄文", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {
+                        name: "名字"
+                    },
+                    en: {},
+                    ru: {
+                        name: "название",
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {}, Language.Chinese)).toBe("名字");
+        expect(t("name", {}, Language.Russian)).toBe("название");
+        expect(t("name", {}, Language.English)).toBe("название");
+    });
 });

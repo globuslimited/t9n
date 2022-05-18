@@ -6,24 +6,28 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
+            - uses: actions/checkout@v3
+              with:
+                  persist-credentials: false
+                  fetch-depth: 0
+                  ref: 'main'
+            - name: Setup PNPM
+              uses: pnpm/action-setup@v2.2.1
+              with:
+                  version: "latest"
             - name: Use Node.js
-              uses: actions/setup-node@v2
+              uses: actions/setup-node@v3
               with:
-                  node-version: 'lts/*'
+                  node-version: "16"
+                  registry-url: "https://registry.npmjs.org"
+                  cache: "pnpm"
             - name: Install dependencies
-              uses: borales/actions-yarn@v2.3.0
-              with:
-                  cmd: install
+              run: pnpm install
             - name: Run tests
-              uses: borales/actions-yarn@v2.3.0
-              with:
-                  cmd: test
+              run: pnpm test
             - name: Build package
-              uses: borales/actions-yarn@v2.3.0
-              with:
-                  cmd: build
-            - name: Publish to NPM registry
-              uses: JS-DevTools/npm-publish@v1
-              with:
-                  token: ${{ secrets.NPM_TOKEN }}
+              run: pnpm build
+            - name: Publish to npm registry
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+              run: pnpm publish

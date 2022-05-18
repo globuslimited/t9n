@@ -1,5 +1,5 @@
-import {TranslationMap} from "./context.js";
 import {assoc, mergeDeepWith} from "ramda";
+import {TranslationMap} from "./basic.js";
 
 export type Translation = {
     __isTranslation: true;
