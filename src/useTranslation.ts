@@ -178,32 +178,34 @@ export const generateTranslationFunction = (
     };
 };
 
+const isPlainObject = <TIsType extends Object = Object>(o: unknown): o is TIsType => {
+    return Object.prototype.toString.call(o) === "[object Object]";
+};
+type DictMapper<T> = (key: string, path: string, children: string[]) => T;
+
 export const generateDictFunction = (
     translationMap: TranslationMap,
     language: Language,
     fallbackLanguage: Language,
 ) => {
     const ramdaPath = path;
-    return <T>(
+    return <T = string>(
         path: string | null,
-        mapper: (key: string, path: string, children: TranslationOfTranslationMap["key"]) => T = key =>
-            key as unknown as T,
+        mapper: DictMapper<T> = key => key as unknown as T,
         enforceLanguage?: Language,
     ): T[] => {
         const finalLanguage = enforceLanguage ?? language ?? fallbackLanguage;
         const finalPath = path == null ? [finalLanguage as string] : [finalLanguage as string].concat(path.split("."));
 
         const subMap = ramdaPath(finalPath, translationMap);
-        if (Object.prototype.toString.call(subMap) !== "[object Object]") return [];
-        const finalSubMap = subMap as TranslationOfTranslationMap;
+        if (!isPlainObject<TranslationOfTranslationMap>(subMap)) return [];
 
-        return Object.keys(finalSubMap)
+        return Object.keys(subMap)
             .filter(key => key !== "default")
             .map(key => {
-                const children =
-                    Object.prototype.toString.call(finalSubMap[key]) === "[object Object]"
-                        ? dissoc("default", finalSubMap[key] as TranslationOfTranslationMap)
-                        : finalSubMap[key];
+                const children = isPlainObject<TranslationOfTranslationMap>(subMap[key])
+                    ? Object.keys(subMap[key])
+                    : [];
                 return mapper(key, path == null ? key : `${path}.${key}`, children);
             });
     };
