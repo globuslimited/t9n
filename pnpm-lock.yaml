@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@testing-library/react-hooks': 8.0.0
-  '@types/ramda': 0.28.13
+  '@types/ramda': 0.28.14
   '@types/react': 18.0.10
   c8: 7.11.3
   esbuild: 0.14.42
@@ -15,7 +15,7 @@ specifiers:
 
 devDependencies:
   '@testing-library/react-hooks': 8.0.0_00f8e08574d48cca2dc33cc41cea3e7c
-  '@types/ramda': 0.28.13
+  '@types/ramda': 0.28.14
   '@types/react': 18.0.10
   c8: 7.11.3
   esbuild: 0.14.42
@@ -314,8 +314,8 @@ packages:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
     dev: true
 
-  /@types/ramda/0.28.13:
-    resolution: {integrity: sha512-ugnamgmaRzB6yontWxKh9kVstbO5gbdNGcbmcZI0U4d9S0fmN/VYCbxVm4crMAkRvMyfO4u+VIjH/G2Fyk04aA==}
+  /@types/ramda/0.28.14:
+    resolution: {integrity: sha512-hLgAeKxS5MpIEROaIRHscFqWf+V04CB+A0Kq+OjnTs1fEGHXEs4aeOhXIRovAPe6PfWYKHEwEkVIYWf98OjxnA==}
     dependencies:
       ts-toolbelt: 6.15.5
     dev: true
