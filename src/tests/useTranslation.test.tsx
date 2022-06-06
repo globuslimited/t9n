@@ -498,7 +498,6 @@ describe("extend", () => {
     });
 });
 
-
 describe("测试 fallbackLanguages 功能", () => {
     test("没有中文或俄文的时候，显示英文", () => {
         const {result} = renderHook(
@@ -543,7 +542,7 @@ describe("测试 fallbackLanguages 功能", () => {
             () =>
                 useTranslation({
                     zh: {
-                        name: "名字"
+                        name: "名字",
                     },
                     en: {},
                     ru: {},
@@ -583,7 +582,7 @@ describe("测试 fallbackLanguages 功能", () => {
             () =>
                 useTranslation({
                     zh: {
-                        name: "名字"
+                        name: "名字",
                     },
                     en: {
                         name: "name",
@@ -604,7 +603,7 @@ describe("测试 fallbackLanguages 功能", () => {
             () =>
                 useTranslation({
                     zh: {
-                        name: "名字"
+                        name: "名字",
                     },
                     en: {},
                     ru: {
@@ -618,5 +617,96 @@ describe("测试 fallbackLanguages 功能", () => {
         expect(t("name", {}, Language.Chinese)).toBe("名字");
         expect(t("name", {}, Language.Russian)).toBe("название");
         expect(t("name", {}, Language.English)).toBe("название");
+    });
+});
+
+describe("using function in template settings", () => {
+    test("using simple template syntax with components", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {},
+                    ru: {},
+                    en: {
+                        name: "My name is {{name|Chuck}}", // Provide instant value
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {name: "Jimmy"}, Language.Chinese)).toBe("My name is Jimmy"); // Completely replace if new value is provided
+    });
+    test("Should use default value if no template is used", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {},
+                    ru: {},
+                    en: {
+                        name: "My name is {{name|Chuck}}",
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(t("name", {}, Language.Chinese)).toBe("My name is Chuck");
+    });
+    test("Make new value based on the old one", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {},
+                    ru: {},
+                    en: {
+                        name: "{{names|Jimmy}}",
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(
+            t(
+                "name",
+                {
+                    names: initialValue => {
+                        return `${initialValue} and Chuck`;
+                    },
+                },
+                Language.Chinese,
+            ),
+        ).toBe("Jimmy and Chuck");
+    });
+    test("Support injecting jsx", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {},
+                    ru: {},
+                    en: {
+                        name: "{{names|Jimmy}}",
+                    },
+                }),
+            {wrapper: ContextMockWrapper},
+        );
+        const {t} = result.current;
+
+        expect(
+            t(
+                "name",
+                {
+                    names: initialValue => {
+                        return (
+                            <span>
+                                <span style={{color: "blue"}}>{initialValue}</span> and Chuck
+                            </span>
+                        );
+                    },
+                },
+                Language.Chinese,
+            ),
+        ).toBe("Jimmy and Chuck");
     });
 });
