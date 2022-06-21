@@ -2,6 +2,7 @@
     "extends": ["config:base"],
     "rebaseStalePrs": true,
     "automerge": true,
+    "automergeType": "branch",
     "ignoreTests": true,
     "packageRules": [
         {
