@@ -1,9 +1,13 @@
 {
     "extends": ["config:base"],
+    "rebaseStalePrs": true,
+    "automergeType": "branch-push",
+    "automerge": true,
     "packageRules": [
         {
-            "matchUpdateTypes": ["patch", "pin", "digest"],
-            "automerge": true
+            "depTypeList": ["dependencies"],
+            "updateTypes": ["major"],
+            "automerge": false
         }
     ]
 }
