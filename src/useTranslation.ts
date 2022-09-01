@@ -16,19 +16,6 @@ const getModifiers = (key: string) => {
     return modifiers;
 };
 
-const replaceAll =
-    typeof String.prototype.replaceAll === "function"
-        ? (string: string, token: string, newToken: string) => {
-              return string.replaceAll(token, newToken);
-          }
-        : (string: string, token: string, newToken: string) => {
-              if (token != newToken)
-                  while (string.indexOf(token) > -1) {
-                      string = string.replace(token, newToken);
-                  }
-              return string;
-          };
-
 const applyPlugins = (keys: string[], params: TranslationProperties, packedPlugins: PackedPlugin[]) => {
     let remainingKeys = keys.map(key => {
         const modifiers = getModifiers(key);
@@ -108,14 +95,23 @@ const getTranslation = (
     return parentTranslation[finalKey as keyof typeof parentTranslation];
 };
 
+const variablesRegex = /{{(?<key>\w+)(\|(?<defaultValue>[^}]+))?}}/gm;
 const applyTemplate = (str: string, params: TranslationProperties) => {
-    const variables = Object.keys(params);
-    if (variables.length === 0) {
-        return str;
+    const result = str.matchAll(variablesRegex);
+    let translationString = str;
+    for (const tp of result) {
+        const {groups} = tp;
+        const {key, defaultValue} = groups as {
+            key: string;
+            defaultValue: string | undefined;
+        };
+        const value = params[key] ?? defaultValue;
+        if (value != null) {
+            const template = defaultValue == null ? `{{${key}}}` : `{{${key}|${defaultValue}}}`;
+            translationString = translationString.replace(template, value.toString());
+        }
     }
-    return variables.reduce((ft: string, key: string) => {
-        return replaceAll(ft, `{{${key}}}`, params[key].toString());
-    }, str);
+    return translationString;
 };
 
 export const translate = (

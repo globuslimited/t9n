@@ -653,60 +653,86 @@ describe("using function in template settings", () => {
 
         expect(t("name", {}, Language.Chinese)).toBe("My name is Chuck");
     });
-    test("Make new value based on the old one", () => {
+
+    test("Should not break when template is repeated many times with different values", () => {
         const {result} = renderHook(
             () =>
                 useTranslation({
                     zh: {},
                     ru: {},
                     en: {
-                        name: "{{names|Jimmy}}",
+                        name: "{{name}}, {{name}} and {{name|Chuck}} and {{name|Jimmy}}",
                     },
                 }),
             {wrapper: ContextMockWrapper},
         );
         const {t} = result.current;
 
+        expect(t("name", {}, Language.Chinese)).toBe("{{name}}, {{name}} and Chuck and Jimmy");
         expect(
             t(
                 "name",
                 {
-                    names: initialValue => {
-                        return `${initialValue} and Chuck`;
-                    },
+                    name: "Jack",
                 },
                 Language.Chinese,
             ),
-        ).toBe("Jimmy and Chuck");
+        ).toBe("Jack, Jack and Jack and Jack");
     });
-    test("Support injecting jsx", () => {
-        const {result} = renderHook(
-            () =>
-                useTranslation({
-                    zh: {},
-                    ru: {},
-                    en: {
-                        name: "{{names|Jimmy}}",
-                    },
-                }),
-            {wrapper: ContextMockWrapper},
-        );
-        const {t} = result.current;
+    // test("Make new value based on the old one", () => {
+    //     const {result} = renderHook(
+    //         () =>
+    //             useTranslation({
+    //                 zh: {},
+    //                 ru: {},
+    //                 en: {
+    //                     name: "{{names|Jimmy}}",
+    //                 },
+    //             }),
+    //         {wrapper: ContextMockWrapper},
+    //     );
+    //     const {t} = result.current;
 
-        expect(
-            t(
-                "name",
-                {
-                    names: initialValue => {
-                        return (
-                            <span>
-                                <span style={{color: "blue"}}>{initialValue}</span> and Chuck
-                            </span>
-                        );
-                    },
-                },
-                Language.Chinese,
-            ),
-        ).toBe("Jimmy and Chuck");
-    });
+    //     expect(
+    //         t(
+    //             "name",
+    //             {
+    //                 names: initialValue => {
+    //                     return `${initialValue} and Chuck`;
+    //                 },
+    //             },
+    //             Language.Chinese,
+    //         ),
+    //     ).toBe("Jimmy and Chuck");
+    // });
+    // test("Support injecting jsx", () => {
+    //     const {result} = renderHook(
+    //         () =>
+    //             useTranslation({
+    //                 zh: {},
+    //                 ru: {},
+    //                 en: {
+    //                     name: "{{names|Jimmy}}",
+    //                 },
+    //             }),
+    //         {wrapper: ContextMockWrapper},
+    //     );
+    //     const {t} = result.current;
+
+    //     expect(
+    //         t(
+    //             "name",
+    //             {
+    //                 names: initialValue => {
+    //                     return (
+    //                         <span>
+    //                             <span style={{color: "blue"}}>{initialValue}</span> and Chuck
+    //                         </span>
+    //                     );
+    //                 },
+    //             },
+    //             Language.Chinese,
+    //         ),
+    //     ).toBe("Jimmy and Chuck");
+    // });
 });
