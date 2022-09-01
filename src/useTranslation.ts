@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import {dissoc, mergeDeepRight, path, reverse} from "ramda";
+import {mergeDeepRight, path, reverse} from "ramda";
 import {defaultSettings, TranslationContext} from "./context.js";
 import {extend, Translation} from "./translation.js";
 import type {PackedPlugin} from "./plugin.js";
