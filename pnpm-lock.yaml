@@ -11,7 +11,7 @@ specifiers:
   react-test-renderer: 18.2.0
   release-it: 15.5.0
   typescript: 4.8.4
-  vitest: 0.24.2
+  vitest: 0.24.3
 
 devDependencies:
   '@testing-library/react-hooks': 8.0.1_u7pnzrdgkmekyimabgdescsmme
@@ -24,7 +24,7 @@ devDependencies:
   react-test-renderer: 18.2.0_react@18.2.0
   release-it: 15.5.0
   typescript: 4.8.4
-  vitest: 0.24.2
+  vitest: 0.24.3
 
 packages:
 
@@ -3020,8 +3020,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.24.2:
-    resolution: {integrity: sha512-ZKZaODrv/FzfOmcrnTt7SGwQODT/yXWi8tLa7+dV8fWlmG+Z0VaY4qHnpy2sMJXP6N2IRUXmsWGtDaIhUgk+XQ==}
+  /vitest/0.24.3:
+    resolution: {integrity: sha512-aM0auuPPgMSstWvr851hB74g/LKaKBzSxcG3da7ejfZbx08Y21JpZmbmDYrMTCGhVZKqTGwzcnLMwyfz2WzkhQ==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
