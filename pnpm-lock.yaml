@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@testing-library/react-hooks': 8.0.1
   '@types/ramda': 0.28.18
-  '@types/react': 18.0.24
+  '@types/react': 18.0.25
   c8: 7.12.0
   esbuild: 0.15.13
   ramda: 0.28.0
@@ -14,9 +14,9 @@ specifiers:
   vitest: 0.24.5
 
 devDependencies:
-  '@testing-library/react-hooks': 8.0.1_4hjpb74jofwrlgphqrt4zrheru
+  '@testing-library/react-hooks': 8.0.1_3u3s2jubu7pqtkhi6djmee5ani
   '@types/ramda': 0.28.18
-  '@types/react': 18.0.24
+  '@types/react': 18.0.25
   c8: 7.12.0
   esbuild: 0.15.13
   ramda: 0.28.0
@@ -267,7 +267,7 @@ packages:
       defer-to-connect: 2.0.1
     dev: true
 
-  /@testing-library/react-hooks/8.0.1_4hjpb74jofwrlgphqrt4zrheru:
+  /@testing-library/react-hooks/8.0.1_3u3s2jubu7pqtkhi6djmee5ani:
     resolution: {integrity: sha512-Aqhl2IVmLt8IovEVarNDFuJDVWVvhnr9/GCU6UUnrYXwgDFF9h2L2o2P9KBni1AST5sT6riAyoukFLyjQUgD/g==}
     engines: {node: '>=12'}
     peerDependencies:
@@ -284,7 +284,7 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.17.9
-      '@types/react': 18.0.24
+      '@types/react': 18.0.25
       react: 18.2.0
       react-error-boundary: 3.1.4_react@18.2.0
       react-test-renderer: 18.2.0_react@18.2.0
@@ -331,8 +331,8 @@ packages:
       ts-toolbelt: 6.15.5
     dev: true
 
-  /@types/react/18.0.24:
-    resolution: {integrity: sha512-wRJWT6ouziGUy+9uX0aW4YOJxAY0bG6/AOk5AW5QSvZqI7dk6VBIbXvcVgIw/W5Jrl24f77df98GEKTJGOLx7Q==}
+  /@types/react/18.0.25:
+    resolution: {integrity: sha512-xD6c0KDT4m7n9uD4ZHi02lzskaiqcBxf4zi+tXZY98a04wvc0hi/TcCPC2FOESZi51Nd7tlUeOJY8RofL799/g==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
