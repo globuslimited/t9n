@@ -1,3 +1,4 @@
+"use client";
 import {createContext} from "react";
 import { Language, TranslationMap } from "./basic.js";
 import type {PackedPlugin} from "./plugin.js";
@@ -22,3 +23,4 @@ export const defaultSettings: TranslationSettings = {
 };
 
 export const TranslationContext = createContext<Partial<TranslationSettings>>(defaultSettings);
+export const TranslationProvider = TranslationContext.Provider;

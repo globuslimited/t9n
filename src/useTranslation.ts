@@ -1,3 +1,4 @@
+"use client";
 import {useContext} from "react";
 import {mergeDeepRight, path, reverse} from "ramda";
 import {defaultSettings, TranslationContext} from "./context.js";
