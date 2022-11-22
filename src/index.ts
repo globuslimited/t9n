@@ -1,3 +1,4 @@
+"use client";
 export type {PackedPlugin} from "./plugin.js";
 export type {UseTranslationResponse, DictFunction} from "./useTranslation.js";
 export type {TranslationSettings} from "./context.js";
