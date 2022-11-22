@@ -22,5 +22,6 @@ export const defaultSettings: TranslationSettings = {
     plugins: [russianPlurals, englishPlurals, sexPlugin],
 };
 
-export const TranslationContext = createContext<Partial<TranslationSettings>>(defaultSettings);
+const TranslationContext2 = createContext<Partial<TranslationSettings>>(defaultSettings);
+export const TranslationContext = TranslationContext2;
 export const TranslationProvider = TranslationContext.Provider;
