@@ -1,4 +1,5 @@
-import { Language, TranslationMap } from "./basic.js";
+import {mergeRight} from "ramda";
+import {Language, TranslationMap} from "./basic.js";
 import type {PackedPlugin} from "./plugin.js";
 import englishPlurals from "./plugins/english/plurals.js";
 import russianPlurals from "./plugins/russian/plurals.js";
@@ -22,3 +23,11 @@ export const defaultSettings: TranslationSettings = {
     },
     plugins: [russianPlurals, englishPlurals, sexPlugin],
 };
+
+export const mergeSettings = <
+    TParent extends Partial<TranslationSettings>,
+    TChildren extends Partial<TranslationSettings>,
+>(
+    parent: TParent,
+    children: TChildren,
+) => mergeRight(parent, children);

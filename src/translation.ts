@@ -1,15 +1,18 @@
 import {assoc, mergeDeepWith} from "ramda";
-import { TranslationSettings } from "./settings.js";
+import {defaultSettings, mergeSettings, TranslationSettings} from "./settings.js";
 import {Language, TranslationMap} from "./basic.js";
-import { TranslationFunction } from "./translationFunction.js";
+import {TranslationFunction} from "./translationFunction.js";
+import {generateTranslationFunction} from "./translationFunction.js";
 
+export type TranslationConfiguration = Partial<Omit<TranslationSettings, "translations">> & {
+    language: TranslationSettings["language"];
+};
 
-export type TranslationConfiguration = Partial<Omit<TranslationSettings, "translations">>;
 export type Translation = {
     __isTranslation: true;
     translationMap: TranslationMap;
     extend: (translation: Translation | TranslationMap, settings?: TranslationConfiguration) => Translation;
-    t: TranslationFunction
+    t: TranslationFunction;
 };
 
 const mergeTranslationMaps = (...translateMaps: TranslationMap[]): TranslationMap => {
@@ -51,7 +54,9 @@ const getTranslationMap = (translation: Translation | TranslationMap): Translati
 export const extend = (
     parent: Translation | TranslationMap | null,
     children: Translation | TranslationMap,
+    settings: TranslationConfiguration,
 ): Translation => {
+    const parentSettings = settings;
     const translationMap =
         parent == null
             ? getTranslationMap(children)
@@ -60,21 +65,19 @@ export const extend = (
     return {
         __isTranslation: true,
         translationMap,
-        extend: (translation: Translation | TranslationMap, settings) => extend(translation, translationMap, settings),
-        
+        extend: (translation: Translation | TranslationMap, settings?: TranslationConfiguration) =>
+            extend(translation, translationMap, mergeSettings(parentSettings, settings ?? {})),
+        t: generateTranslationFunction(
+            translationMap,
+            settings.language,
+            settings.fallbackLanguages ?? [],
+            settings.plugins ?? [],
+            {},
+        ),
     };
 };
 
-export const translation = (translationMap: Translation | TranslationMap, settings: ): Translation => extend(null, translationMap);
-
-const {t} = translation({
-    ru: {
-        name:  "Hello"
-    }
-}, {
-    language: Language.English // 不清楚的定义这个它应该从环境变量获取。但我那个也可以从环境变量获取啊
-})
-
-const A = () => {
-    return t("name")
-}
+export const translation = (
+    translationMap: Translation | TranslationMap,
+    settings: TranslationConfiguration = defaultSettings,
+): Translation => extend(null, translationMap, mergeSettings(defaultSettings, settings));
