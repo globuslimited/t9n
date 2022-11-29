@@ -204,6 +204,7 @@ export const generateDictFunction = (
 };
 
 export type DictFunction = ReturnType<typeof generateDictFunction>;
+export type TranslationFunction = ReturnType<typeof generateTranslationFunction>
 
 export type UseTranslationOptions = {
     prefix?: string;

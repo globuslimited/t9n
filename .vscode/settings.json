@@ -1,3 +1,4 @@
 {
-    "npm.packageManager": "pnpm"
+    "npm.packageManager": "pnpm",
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

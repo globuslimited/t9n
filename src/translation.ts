@@ -1,10 +1,15 @@
 import {assoc, mergeDeepWith} from "ramda";
-import {TranslationMap} from "./basic.js";
+import { TranslationSettings } from "./settings.js";
+import {Language, TranslationMap} from "./basic.js";
+import { TranslationFunction } from "./translationFunction.js";
 
+
+export type TranslationConfiguration = Partial<Omit<TranslationSettings, "translations">>;
 export type Translation = {
     __isTranslation: true;
     translationMap: TranslationMap;
-    extend: (translation: Translation | TranslationMap) => Translation;
+    extend: (translation: Translation | TranslationMap, settings?: TranslationConfiguration) => Translation;
+    t: TranslationFunction
 };
 
 const mergeTranslationMaps = (...translateMaps: TranslationMap[]): TranslationMap => {
@@ -55,8 +60,21 @@ export const extend = (
     return {
         __isTranslation: true,
         translationMap,
-        extend: (translation: Translation | TranslationMap) => extend(translation, translationMap),
+        extend: (translation: Translation | TranslationMap, settings) => extend(translation, translationMap, settings),
+        
     };
 };
 
-export const translation = (translationMap: Translation | TranslationMap): Translation => extend(null, translationMap);
+export const translation = (translationMap: Translation | TranslationMap, settings: ): Translation => extend(null, translationMap);
+
+const {t} = translation({
+    ru: {
+        name:  "Hello"
+    }
+}, {
+    language: Language.English // 不清楚的定义这个它应该从环境变量获取。但我那个也可以从环境变量获取啊
+})
+
+const A = () => {
+    return t("name")
+}
