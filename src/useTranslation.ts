@@ -216,7 +216,6 @@ type UseTranslationOptions = {
 
 export const useTranslation = (translation?: Translation | TranslationMap, options?: UseTranslationOptions) => {
     const settingsPatch = useContext(TranslationContext);
-    console.log(settingsPatch);
     const settings = mergeDeepRight(defaultSettings, settingsPatch);
     const {fallbackLanguages, translations, plugins} = settings;
     const translationMap = translation == null ? translations : extend(translations, translation).translationMap;
