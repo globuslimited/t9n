@@ -6,7 +6,7 @@ import {translation} from "../translation.js";
 import {plugin} from "../plugin.js";
 import {Language, TranslationProperties} from "../basic.js";
 import {TranslationProvider} from "../index.js";
-import {defaultSettings} from "../context.js";
+import {defaultSettings} from "../settings.js";
 
 const settings = {
     translations: {
