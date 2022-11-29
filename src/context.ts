@@ -7,6 +7,9 @@ import russianPlurals from "./plugins/russian/plurals.js";
 import sexPlugin from "./plugins/sex.js";
 
 export type TranslationSettings = {
+    /**
+     * @deprecated Don't use global translations, they will be remove in the next major release.
+     */
     translations: TranslationMap;
     language: Language;
     fallbackLanguages: Language[];
