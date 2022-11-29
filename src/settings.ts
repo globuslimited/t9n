@@ -15,14 +15,14 @@ export type TranslationSettings = {
     plugins: PackedPlugin[];
 };
 
-export const defaultSettings: TranslationSettings = {
+export const defaultSettings = {
     fallbackLanguages: [Language.English],
-    language: Language.English,
+    language: (process.env.NEXT_PUBLIC_LANGUAGE ?? process.env.LANGUAGE) as Language | undefined,
     translations: {
         en: {},
     },
     plugins: [russianPlurals, englishPlurals, sexPlugin],
-};
+} satisfies Partial<TranslationSettings>;
 
 export const mergeSettings = <
     TParent extends Partial<TranslationSettings>,

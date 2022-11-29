@@ -11,12 +11,7 @@ export const useTranslation = (translation?: Translation | TranslationMap, optio
     const settingsPatch = useContext(TranslationContext);
     const settings = mergeSettings(defaultSettings, settingsPatch);
     const {fallbackLanguages, translations, plugins, language} = settings;
-    const translationMap =
-        translation == null
-            ? translations
-            : extend(translations, translation, {
-                  language,
-              }).translationMap;
+    const translationMap = translation == null ? translations : extend(translations, translation).translationMap;
 
     return {
         t: generateTranslationFunction(

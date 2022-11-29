@@ -4,9 +4,7 @@ import {Language, TranslationMap} from "./basic.js";
 import {TranslationFunction} from "./translationFunction.js";
 import {generateTranslationFunction} from "./translationFunction.js";
 
-export type TranslationConfiguration = Partial<Omit<TranslationSettings, "translations">> & {
-    language: TranslationSettings["language"];
-};
+export type TranslationConfiguration = Partial<Omit<TranslationSettings, "translations">>;
 
 export type Translation = {
     __isTranslation: true;
@@ -54,13 +52,17 @@ const getTranslationMap = (translation: Translation | TranslationMap): Translati
 export const extend = (
     parent: Translation | TranslationMap | null,
     children: Translation | TranslationMap,
-    settings: TranslationConfiguration,
+    settings?: TranslationConfiguration,
 ): Translation => {
     const parentSettings = settings;
     const translationMap =
         parent == null
             ? getTranslationMap(children)
             : mergeTranslationMaps(getTranslationMap(parent), getTranslationMap(children));
+
+    if (parentSettings?.language == null) {
+        throw new Error("Please set the current language!");
+    }
 
     return {
         __isTranslation: true,
@@ -69,9 +71,9 @@ export const extend = (
             extend(translation, translationMap, mergeSettings(parentSettings, settings ?? {})),
         t: generateTranslationFunction(
             translationMap,
-            settings.language,
-            settings.fallbackLanguages ?? [],
-            settings.plugins ?? [],
+            parentSettings.language,
+            parentSettings.fallbackLanguages ?? [],
+            parentSettings.plugins ?? [],
             {},
         ),
     };
