@@ -6,7 +6,7 @@ import {translation} from "../translation.js";
 import {plugin} from "../plugin.js";
 import {Language, TranslationProperties} from "../basic.js";
 import {TranslationProvider} from "../index.js";
-import {defaultSettings} from "../context.js";
+import {defaultSettings} from "../settings.js";
 
 const settings = {
     translations: {
@@ -619,6 +619,42 @@ describe("测试 fallbackLanguages 功能", () => {
         expect(t("name", {}, Language.English)).toBe("название");
     });
 });
+
+describe("useTranslation hook should be context independent", () => {
+    test("Should work fine without context", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {
+                        name: "名字",
+                    },
+                    en: {},
+                    ru: {
+                        name: "название",
+                    },
+                }),
+        );
+        expect(result.current.t("name", {}, Language.Russian)).toBe("название")
+    })
+    test("Plugins should work without context", () => {
+        const {result} = renderHook(
+            () =>
+                useTranslation({
+                    zh: {
+                        name: "名字",
+                    },
+                    en: {
+                        name_singular: "Name",
+                        name_plural: "Names"
+                    },
+                    ru: {
+                        name: "название",
+                    },
+                }),
+        );
+        expect(result.current.t("name", {count: 0}, Language.English)).toBe("Names")
+    })
+})
 
 describe("using function in template settings", () => {
     test("using simple template syntax with components", () => {
