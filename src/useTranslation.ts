@@ -16,7 +16,8 @@ export const useTranslation = (translation?: Translation | TranslationMap, optio
         throw new Error("Please set the current language!");
     }
 
-    const translationMap = translation == null ? translations : extend(translations, translation).translationMap;
+    const translationMap =
+        translation == null ? translations : extend(translations, translation, {language}).translationMap;
 
     return {
         t: generateTranslationFunction(

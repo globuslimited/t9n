@@ -52,9 +52,9 @@ const getTranslationMap = (translation: Translation | TranslationMap): Translati
 export const extend = (
     parent: Translation | TranslationMap | null,
     children: Translation | TranslationMap,
-    settings: TranslationConfiguration = defaultSettings,
+    settings: TranslationConfiguration = {},
 ): Translation => {
-    const parentSettings = settings;
+    const parentSettings = mergeSettings(defaultSettings, settings);
     const translationMap =
         parent == null
             ? getTranslationMap(children)
@@ -67,8 +67,8 @@ export const extend = (
     return {
         __isTranslation: true,
         translationMap,
-        extend: (translation: Translation | TranslationMap, settings?: TranslationConfiguration) =>
-            extend(translation, translationMap, mergeSettings(parentSettings, settings ?? {})),
+        extend: (translation: Translation | TranslationMap, settings: TranslationConfiguration = {}) =>
+            extend(translation, translationMap, mergeSettings(parentSettings, settings)),
         t: generateTranslationFunction(
             translationMap,
             parentSettings.language,
@@ -81,5 +81,5 @@ export const extend = (
 
 export const translation = (
     translationMap: Translation | TranslationMap,
-    settings?: TranslationConfiguration,
-): Translation => extend(null, translationMap, mergeSettings(defaultSettings, settings ?? {}));
+    settings: TranslationConfiguration = {},
+): Translation => extend(null, translationMap, mergeSettings(defaultSettings, settings));
