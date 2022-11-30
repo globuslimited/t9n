@@ -82,4 +82,4 @@ export const extend = (
 export const translation = (
     translationMap: Translation | TranslationMap,
     settings: TranslationConfiguration = defaultSettings,
-): Translation => extend(null, translationMap, mergeSettings(defaultSettings, settings));
+): Translation => extend(null, translationMap, mergeSettings(settings, settings));
