@@ -60,5 +60,11 @@
         "arrowParens": "avoid",
         "semi": true,
         "quoteProps": "as-needed"
+    },
+    "exports": {
+        ".": {
+            "react-server": "./dist/shared.js",
+            "default": "./dist/index.js"
+        }
     }
 }
