@@ -9,3 +9,4 @@ export {useTranslation} from "./useTranslation.js";
 export {Language} from "./basic.js";
 export {plugin} from "./plugin.js";
 export {translation} from "./translation.js";
+export {generateDictFunction} from "./translationFunction.js";
