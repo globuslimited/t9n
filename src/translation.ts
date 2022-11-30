@@ -60,10 +60,6 @@ export const extend = (
             ? getTranslationMap(children)
             : mergeTranslationMaps(getTranslationMap(parent), getTranslationMap(children));
 
-    if (parentSettings?.language == null) {
-        throw new Error("Please set the current language!");
-    }
-
     return {
         __isTranslation: true,
         translationMap,

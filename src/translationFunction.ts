@@ -1,10 +1,7 @@
-import { Language, TemplateFunction, TranslationMap, TranslationProperties } from "basic.js";
-import { PackedPlugin } from "plugin.js";
-import { path, reverse } from "ramda";
-import {
-    Translation as TranslationOfTranslationMap,
-} from "./basic.js";
-
+import {Language, TemplateFunction, TranslationMap, TranslationProperties} from "basic.js";
+import {PackedPlugin} from "plugin.js";
+import {path, reverse} from "ramda";
+import {Translation as TranslationOfTranslationMap} from "./basic.js";
 
 const getModifiers = (key: string) => {
     const [, ...modifiers] = key.split("_");
@@ -157,18 +154,22 @@ export const translate = (
 
 export const generateTranslationFunction = (
     translations: TranslationMap,
-    language: Language,
+    language: Language | undefined,
     fallbackLanguages: Language[],
     plugins: PackedPlugin[],
     options: UseTranslationOptions,
 ) => {
     return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
         const currentLanguage = enforceLanguage ?? language ?? fallbackLanguages[0];
+
+        if (currentLanguage == null) {
+            throw new Error("Please set the current language!");
+        }
+
         const preparedKey = typeof options.prefix === "string" ? `${options.prefix}.${key}` : key;
         return translate(translations, currentLanguage, preparedKey, params, fallbackLanguages, plugins);
     };
 };
-
 
 const isPlainObject = <TIsType extends Object = Object>(o: unknown): o is TIsType => {
     return Object.prototype.toString.call(o) === "[object Object]";
@@ -204,7 +205,7 @@ export const generateDictFunction = (
 };
 
 export type DictFunction = ReturnType<typeof generateDictFunction>;
-export type TranslationFunction = ReturnType<typeof generateTranslationFunction>
+export type TranslationFunction = ReturnType<typeof generateTranslationFunction>;
 
 export type UseTranslationOptions = {
     prefix?: string;

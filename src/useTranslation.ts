@@ -12,10 +12,6 @@ export const useTranslation = (translation?: Translation | TranslationMap, optio
     const settings = mergeSettings(defaultSettings, settingsPatch);
     const {fallbackLanguages, translations, plugins, language} = settings;
 
-    if (language == null) {
-        throw new Error("Please set the current language!");
-    }
-
     const translationMap =
         translation == null ? translations : extend(translations, translation, {language}).translationMap;
 
