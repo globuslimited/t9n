@@ -52,7 +52,7 @@ const getTranslationMap = (translation: Translation | TranslationMap): Translati
 export const extend = (
     parent: Translation | TranslationMap | null,
     children: Translation | TranslationMap,
-    settings?: TranslationConfiguration,
+    settings: TranslationConfiguration = defaultSettings,
 ): Translation => {
     const parentSettings = settings;
     const translationMap =
