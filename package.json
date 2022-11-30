@@ -64,7 +64,7 @@
     },
     "exports": {
         ".": {
-            "react-server": "./dist/shared.js",
+            "react-server": "./dist/shared/index.js",
             "default": "./dist/index.js"
         }
     }
