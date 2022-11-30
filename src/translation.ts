@@ -1,6 +1,6 @@
 import {assoc, mergeDeepWith} from "ramda";
 import {defaultSettings, mergeSettings, TranslationSettings} from "./settings.js";
-import {Language, TranslationMap} from "./basic.js";
+import {TranslationMap} from "./basic.js";
 import {TranslationFunction} from "./translationFunction.js";
 import {generateTranslationFunction} from "./translationFunction.js";
 
