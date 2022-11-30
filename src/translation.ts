@@ -81,5 +81,5 @@ export const extend = (
 
 export const translation = (
     translationMap: Translation | TranslationMap,
-    settings: TranslationConfiguration = defaultSettings,
-): Translation => extend(null, translationMap, mergeSettings(settings, settings));
+    settings?: TranslationConfiguration,
+): Translation => extend(null, translationMap, mergeSettings(defaultSettings, settings ?? {}));
