@@ -1,11 +1,11 @@
 "use client";
 import {useContext} from "react";
 import {TranslationContext} from "./context.js";
-import {defaultSettings, mergeSettings} from "./settings.js";
-import {extend, Translation} from "./translation.js";
-import type {PackedPlugin} from "./plugin.js";
-import {Language, TranslationMap} from "./basic.js";
-import {generateTranslationFunction, UseTranslationOptions} from "./translationFunction.js";
+import {defaultSettings, mergeSettings} from "./shared/settings.js";
+import {extend, Translation} from "./shared/translation.js";
+import type {PackedPlugin} from "./shared/plugin.js";
+import {Language, TranslationMap} from "./shared/basic.js";
+import {generateTranslationFunction, UseTranslationOptions} from "./shared/translationFunction.js";
 
 export const useTranslation = (translation?: Translation | TranslationMap, options?: UseTranslationOptions) => {
     const settingsPatch = useContext(TranslationContext);

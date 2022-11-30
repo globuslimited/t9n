@@ -1,5 +1,5 @@
-import { Language, TemplateFunction, TranslationMap, TranslationProperties } from "basic.js";
-import { PackedPlugin } from "plugin.js";
+import { Language, TemplateFunction, TranslationMap, TranslationProperties } from "shared/basic.js";
+import { PackedPlugin } from "shared/plugin.js";
 import { path, reverse } from "ramda";
 import {
     Translation as TranslationOfTranslationMap,

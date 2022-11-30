@@ -1,5 +1,5 @@
-import {Language} from "../../basic.js";
-import {plugin, TranslationPlugin} from "../../plugin.js";
+import {Language} from "../../shared/basic.js";
+import {plugin, TranslationPlugin} from "../../shared/plugin.js";
 
 const lastDigit = (n: number) => parseInt(n.toString().slice(-1));
 
