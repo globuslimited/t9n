@@ -13,7 +13,7 @@ export const useTranslation = (translation?: Translation | TranslationMap, optio
     const {fallbackLanguages, translations, plugins, language} = settings;
 
     const translationMap =
-        translation == null ? translations : extend(translations, translation, {language}).translationMap;
+        translation == null ? translations : extend(translations, translation).translationMap;
 
     return {
         t: generateTranslationFunction(

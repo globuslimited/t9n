@@ -17,7 +17,7 @@ export type TranslationSettings = {
 
 export const defaultSettings = {
     fallbackLanguages: [Language.English],
-    language: (process.env.NEXT_PUBLIC_LANGUAGE ?? process.env.LANGUAGE) as Language | undefined,
+    language: (process.env.NEXT_PUBLIC_LANGUAGE ?? process.env.LANGUAGE ?? Language.English) as Language,
     translations: {
         en: {},
     },
