@@ -2,11 +2,11 @@ import {test, describe, expect} from "vitest";
 import {renderHook} from "@testing-library/react-hooks";
 import React, {ReactNode, FC} from "react";
 import {useTranslation} from "../useTranslation.js";
-import {translation} from "../translation.js";
-import {plugin} from "../plugin.js";
-import {Language, TranslationProperties} from "../basic.js";
+import {translation} from "../shared/translation.js";
+import {plugin} from "../shared/plugin.js";
+import {Language, TranslationProperties} from "../shared/basic.js";
 import {TranslationProvider} from "../index.js";
-import {defaultSettings} from "../settings.js";
+import {defaultSettings} from "../shared/settings.js";
 
 const settings = {
     translations: {

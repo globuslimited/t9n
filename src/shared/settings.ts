@@ -1,9 +1,9 @@
 import {mergeRight} from "ramda";
 import {Language, TranslationMap} from "./basic.js";
 import type {PackedPlugin} from "./plugin.js";
-import englishPlurals from "./plugins/english/plurals.js";
-import russianPlurals from "./plugins/russian/plurals.js";
-import sexPlugin from "./plugins/sex.js";
+import englishPlurals from "../plugins/english/plurals.js";
+import russianPlurals from "../plugins/russian/plurals.js";
+import sexPlugin from "../plugins/sex.js";
 
 export type TranslationSettings = {
     /**

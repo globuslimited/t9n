@@ -6,6 +6,7 @@ specifiers:
   '@types/react': 18.0.25
   c8: 7.12.0
   esbuild: 0.15.16
+  prettier: ^2.8.0
   ramda: 0.28.0
   react: 18.2.0
   react-test-renderer: 18.2.0
@@ -19,6 +20,7 @@ devDependencies:
   '@types/react': 18.0.25
   c8: 7.12.0
   esbuild: 0.15.16
+  prettier: 2.8.0
   ramda: 0.28.0
   react: 18.2.0
   react-test-renderer: 18.2.0_react@18.2.0
@@ -2331,6 +2333,12 @@ packages:
   /prelude-ls/1.1.2:
     resolution: {integrity: sha512-ESF23V4SKG6lVSGZgYNpbsiaAkdab6ZgOxe52p7+Kid3W3u3bxR4Vfd/o21dmN7jSt0IwgZ4v5MUd26FEtXE9w==}
     engines: {node: '>= 0.8.0'}
+    dev: true
+
+  /prettier/2.8.0:
+    resolution: {integrity: sha512-9Lmg8hTFZKG0Asr/kW9Bp8tJjRVluO8EJQVfY2T7FMw9T5jy4I/Uvx0Rca/XWf50QQ1/SS48+6IJWnrb+2yemA==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   /promise.allsettled/1.0.5:

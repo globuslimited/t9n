@@ -1,5 +1,5 @@
-import {Language, TranslationProperties} from "../basic.js";
-import {plugin, TranslationPlugin} from "../plugin.js";
+import {Language, TranslationProperties} from "../shared/basic.js";
+import {plugin, TranslationPlugin} from "../shared/plugin.js";
 
 const sexPlugin: TranslationPlugin = (params: TranslationProperties) => {
     if (params.sex === "male") {
