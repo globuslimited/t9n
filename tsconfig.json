@@ -11,10 +11,7 @@
         "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
-        "importHelpers": true,
-        "emitDeclarationOnly": true,
+        "importHelpers": true
     },
-    "include": [
-        "src/**/*"
-    ]
+    "include": ["src/**/*"]
 }
