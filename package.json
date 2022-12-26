@@ -20,7 +20,7 @@
     },
     "peerDependencies": {
         "ramda": "^0.28",
-        "react": "^17.0 || ^18.0"
+        "react": "^18.0"
     },
     "devDependencies": {
         "@testing-library/react-hooks": "8.0.1",
