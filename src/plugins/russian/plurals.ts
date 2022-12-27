@@ -1,4 +1,3 @@
-import {Language} from "../../shared/basic.js";
 import {plugin, TranslationPlugin} from "../../shared/plugin.js";
 
 const lastDigit = (n: number) => parseInt(n.toString().slice(-1));
@@ -28,4 +27,4 @@ const russianPlurals: TranslationPlugin = params => {
     return [];
 };
 
-export default plugin("russian-plurals", russianPlurals, [Language.Russian]);
+export default plugin("russian-plurals", russianPlurals, ["ru"]);

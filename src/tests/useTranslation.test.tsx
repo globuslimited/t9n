@@ -4,13 +4,13 @@ import React, {ReactNode, FC} from "react";
 import {useTranslation} from "../useTranslation.js";
 import {translation} from "../shared/translation.js";
 import {plugin} from "../shared/plugin.js";
-import {Language, TranslationProperties} from "../shared/basic.js";
+import {TranslationProperties} from "../shared/basic.js";
 import {TranslationProvider} from "../index.js";
 import {defaultSettings} from "../shared/settings.js";
 
 const settings = {
     translations: {
-        [Language.English]: {
+        en: {
             people: "Human",
             people_plural: "People",
             cool: "Cool",
@@ -33,7 +33,7 @@ const settings = {
                 test_female_singular: "a woman",
             },
         },
-        [Language.Chinese]: {
+        zh: {
             people: "{{people}}个人",
             default: {
                 default: "默认",
@@ -51,7 +51,7 @@ const settings = {
                 plugins_5: "Plugin works!",
             },
         },
-        [Language.Russian]: {
+        ru: {
             cool: "Крутой",
             people_0: "Людей",
             people_1: "Человек",
@@ -66,8 +66,8 @@ const settings = {
             },
         },
     },
-    language: Language.Chinese,
-    fallbackLanguages: [Language.English, Language.Russian, Language.Chinese],
+    language: "zh",
+    fallbackLanguages: ["en", "ru", "zh"],
     plugins: defaultSettings.plugins.concat(
         plugin(
             "test-plugin",
@@ -78,7 +78,7 @@ const settings = {
                 }
                 return [];
             },
-            [Language.Chinese],
+            ["zh"],
         ),
     ),
 };
@@ -94,7 +94,7 @@ test("should return key if translation not found", () => {
 test("language should be currently set language", () => {
     const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
     const {t, language} = result.current;
-    expect(language).toBe(Language.Chinese);
+    expect(language).toBe("zh");
 });
 
 test("should use fallback language property when target property is not available", () => {
@@ -124,7 +124,7 @@ test("should fallback to default property when target property is an object", ()
 test("should support enforcing specific language", () => {
     const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
     const {t, language} = result.current;
-    expect(t("cool", {}, Language.Russian)).toBe("Крутой");
+    expect(t("cool", {}, "ru")).toBe("Крутой");
 });
 
 test("should support templates", () => {
@@ -152,7 +152,7 @@ describe("plugins", () => {
     test("plugins should add suffix", () => {
         const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
         const {t} = result.current;
-        expect(t("categories.plugins", {count: 5}, Language.Chinese)).toBe("Plugin works!");
+        expect(t("categories.plugins", {count: 5}, "zh")).toBe("Plugin works!");
     });
     test("should support multiple plugins at the same time", () => {
         const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
@@ -165,17 +165,17 @@ describe("plugins", () => {
     test("should support _plural for english", () => {
         const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
         const {t, language} = result.current;
-        expect(t("people", {count: 2}, Language.English)).toBe("People");
+        expect(t("people", {count: 2}, "en")).toBe("People");
     });
     test("should support russian casing for numbers using count()", () => {
         const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
         const {t, language} = result.current;
-        expect(t("people", {count: 1}, Language.Russian)).toBe("Человек");
+        expect(t("people", {count: 1}, "ru")).toBe("Человек");
     });
 });
 
 const extendTranslation = translation({
-    [Language.Chinese]: {
+    zh: {
         categories: {
             default: "种类",
             category3: "分类 3",
@@ -184,7 +184,7 @@ const extendTranslation = translation({
         },
     },
 
-    [Language.English]: {
+    en: {
         categories: {
             default: "Category",
             category3: "Category 3",
@@ -195,7 +195,7 @@ const extendTranslation = translation({
 })
     .extend(
         translation({
-            [Language.Chinese]: {
+            ["zh"]: {
                 categories: {
                     default: "分类",
                     category1: "分类 1",
@@ -204,7 +204,7 @@ const extendTranslation = translation({
                 },
             },
 
-            [Language.English]: {
+            ["en"]: {
                 categories: {
                     default: "Category",
                     category1: "Category 1",
@@ -215,7 +215,7 @@ const extendTranslation = translation({
         }),
     )
     .extend({
-        [Language.Chinese]: {
+        ["zh"]: {
             categories: {
                 default: "分类!",
                 category1: "分类 1!",
@@ -226,7 +226,7 @@ const extendTranslation = translation({
             },
         },
 
-        [Language.English]: {
+        ["en"]: {
             categories: {
                 default: "Category!",
                 category1: "Category 1!",
@@ -237,7 +237,7 @@ const extendTranslation = translation({
             },
         },
 
-        [Language.Russian]: {
+        ["ru"]: {
             categories: {
                 default: "Категория!",
                 category1: "Категория 1!",
@@ -252,7 +252,7 @@ const extendTranslation = translation({
 describe("extend", () => {
     test("extendTranslation 的正确性", () => {
         expect(extendTranslation.translationMap).toEqual({
-            [Language.Chinese]: {
+            ["zh"]: {
                 categories: {
                     default: "种类",
                     category1: "分类 1",
@@ -265,7 +265,7 @@ describe("extend", () => {
                 },
             },
 
-            [Language.English]: {
+            ["en"]: {
                 categories: {
                     default: "Category",
                     category1: "Category 1",
@@ -278,7 +278,7 @@ describe("extend", () => {
                 },
             },
 
-            [Language.Russian]: {
+            ["ru"]: {
                 categories: {
                     default: "Категория!",
                     category1: "Категория 1!",
@@ -296,27 +296,27 @@ describe("extend", () => {
         const {t, language} = result.current;
 
         expect(t("cool")).toBe("厉害");
-        expect(t("categories.category1", undefined, Language.Russian)).toBe("Категория 1!");
+        expect(t("categories.category1", undefined, "ru")).toBe("Категория 1!");
         expect(t("categories.category7")).toBe("分类 7");
     });
 
     test("关于 default 与 extend", () => {
         const translation1 = translation({
-            [Language.Chinese]: {
+            ["zh"]: {
                 category: "分类",
             },
 
-            [Language.English]: {
+            ["en"]: {
                 category: "Category",
             },
 
-            [Language.Russian]: {
+            ["ru"]: {
                 category: "Категория",
             },
         });
 
         const translation2 = translation({
-            [Language.Chinese]: {
+            ["zh"]: {
                 category: {
                     category1: "分类 1",
                     category2: "分类 2",
@@ -324,7 +324,7 @@ describe("extend", () => {
                 },
             },
 
-            [Language.English]: {
+            ["en"]: {
                 category: {
                     default: "default Category",
                     category1: "Category 1",
@@ -333,7 +333,7 @@ describe("extend", () => {
                 },
             },
 
-            [Language.Russian]: {
+            ["ru"]: {
                 category: {
                     category1: "Категория 1",
                     category2: "Категория 2",
@@ -343,7 +343,7 @@ describe("extend", () => {
         });
 
         expect(translation1.extend(translation2).translationMap).toEqual({
-            [Language.Chinese]: {
+            ["zh"]: {
                 category: {
                     default: "分类",
                     category1: "分类 1",
@@ -352,7 +352,7 @@ describe("extend", () => {
                 },
             },
 
-            [Language.English]: {
+            ["en"]: {
                 category: {
                     default: "Category",
                     category1: "Category 1",
@@ -361,7 +361,7 @@ describe("extend", () => {
                 },
             },
 
-            [Language.Russian]: {
+            ["ru"]: {
                 category: {
                     default: "Категория",
                     category1: "Категория 1",
@@ -371,7 +371,7 @@ describe("extend", () => {
             },
         });
         expect(translation2.extend(translation1).translationMap).toEqual({
-            [Language.Chinese]: {
+            ["zh"]: {
                 category: {
                     default: "分类",
                     category1: "分类 1",
@@ -380,7 +380,7 @@ describe("extend", () => {
                 },
             },
 
-            [Language.English]: {
+            ["en"]: {
                 category: {
                     default: "default Category",
                     category1: "Category 1",
@@ -389,7 +389,7 @@ describe("extend", () => {
                 },
             },
 
-            [Language.Russian]: {
+            ["ru"]: {
                 category: {
                     default: "Категория",
                     category1: "Категория 1",
@@ -513,9 +513,9 @@ describe("测试 fallbackLanguages 功能", () => {
         );
         const {t} = result.current;
 
-        expect(t("name", {}, Language.Chinese)).toBe("name");
-        expect(t("name", {}, Language.Russian)).toBe("name");
-        expect(t("name", {}, Language.English)).toBe("name");
+        expect(t("name", {}, "zh")).toBe("name");
+        expect(t("name", {}, "ru")).toBe("name");
+        expect(t("name", {}, "en")).toBe("name");
     });
 
     test("没有中文或英文的时候，显示俄文", () => {
@@ -532,9 +532,9 @@ describe("测试 fallbackLanguages 功能", () => {
         );
         const {t} = result.current;
 
-        expect(t("name", {}, Language.Chinese)).toBe("название");
-        expect(t("name", {}, Language.Russian)).toBe("название");
-        expect(t("name", {}, Language.English)).toBe("название");
+        expect(t("name", {}, "zh")).toBe("название");
+        expect(t("name", {}, "ru")).toBe("название");
+        expect(t("name", {}, "en")).toBe("название");
     });
 
     test("没有俄文或英文的时候，显示中文", () => {
@@ -551,9 +551,9 @@ describe("测试 fallbackLanguages 功能", () => {
         );
         const {t} = result.current;
 
-        expect(t("name", {}, Language.Chinese)).toBe("名字");
-        expect(t("name", {}, Language.Russian)).toBe("名字");
-        expect(t("name", {}, Language.English)).toBe("名字");
+        expect(t("name", {}, "zh")).toBe("名字");
+        expect(t("name", {}, "ru")).toBe("名字");
+        expect(t("name", {}, "en")).toBe("名字");
     });
 
     test("没有中文的时候，优先显示英文", () => {
@@ -572,9 +572,9 @@ describe("测试 fallbackLanguages 功能", () => {
         );
         const {t} = result.current;
 
-        expect(t("name", {}, Language.Chinese)).toBe("name");
-        expect(t("name", {}, Language.Russian)).toBe("название");
-        expect(t("name", {}, Language.English)).toBe("name");
+        expect(t("name", {}, "zh")).toBe("name");
+        expect(t("name", {}, "ru")).toBe("название");
+        expect(t("name", {}, "en")).toBe("name");
     });
 
     test("没有俄文的时候，优先显示英文", () => {
@@ -593,9 +593,9 @@ describe("测试 fallbackLanguages 功能", () => {
         );
         const {t} = result.current;
 
-        expect(t("name", {}, Language.Chinese)).toBe("名字");
-        expect(t("name", {}, Language.Russian)).toBe("name");
-        expect(t("name", {}, Language.English)).toBe("name");
+        expect(t("name", {}, "zh")).toBe("名字");
+        expect(t("name", {}, "ru")).toBe("name");
+        expect(t("name", {}, "en")).toBe("name");
     });
 
     test("没有英文的时候，优先显示俄文", () => {
@@ -614,47 +614,45 @@ describe("测试 fallbackLanguages 功能", () => {
         );
         const {t} = result.current;
 
-        expect(t("name", {}, Language.Chinese)).toBe("名字");
-        expect(t("name", {}, Language.Russian)).toBe("название");
-        expect(t("name", {}, Language.English)).toBe("название");
+        expect(t("name", {}, "zh")).toBe("名字");
+        expect(t("name", {}, "ru")).toBe("название");
+        expect(t("name", {}, "en")).toBe("название");
     });
 });
 
 describe("useTranslation hook should be context independent", () => {
     test("Should work fine without context", () => {
-        const {result} = renderHook(
-            () =>
-                useTranslation({
-                    zh: {
-                        name: "名字",
-                    },
-                    en: {},
-                    ru: {
-                        name: "название",
-                    },
-                }),
+        const {result} = renderHook(() =>
+            useTranslation({
+                zh: {
+                    name: "名字",
+                },
+                en: {},
+                ru: {
+                    name: "название",
+                },
+            }),
         );
-        expect(result.current.t("name", {}, Language.Russian)).toBe("название")
-    })
+        expect(result.current.t("name", {}, "ru")).toBe("название");
+    });
     test("Plugins should work without context", () => {
-        const {result} = renderHook(
-            () =>
-                useTranslation({
-                    zh: {
-                        name: "名字",
-                    },
-                    en: {
-                        name_singular: "Name",
-                        name_plural: "Names"
-                    },
-                    ru: {
-                        name: "название",
-                    },
-                }),
+        const {result} = renderHook(() =>
+            useTranslation({
+                zh: {
+                    name: "名字",
+                },
+                en: {
+                    name_singular: "Name",
+                    name_plural: "Names",
+                },
+                ru: {
+                    name: "название",
+                },
+            }),
         );
-        expect(result.current.t("name", {count: 0}, Language.English)).toBe("Names")
-    })
-})
+        expect(result.current.t("name", {count: 0}, "en")).toBe("Names");
+    });
+});
 
 describe("using function in template settings", () => {
     test("using simple template syntax with components", () => {
@@ -671,7 +669,7 @@ describe("using function in template settings", () => {
         );
         const {t} = result.current;
 
-        expect(t("name", {name: "Jimmy"}, Language.Chinese)).toBe("My name is Jimmy"); // Completely replace if new value is provided
+        expect(t("name", {name: "Jimmy"}, "zh")).toBe("My name is Jimmy"); // Completely replace if new value is provided
     });
     test("Should use default value if no template is used", () => {
         const {result} = renderHook(
@@ -687,7 +685,7 @@ describe("using function in template settings", () => {
         );
         const {t} = result.current;
 
-        expect(t("name", {}, Language.Chinese)).toBe("My name is Chuck");
+        expect(t("name", {}, "zh")).toBe("My name is Chuck");
     });
 
     test("Should not break when template is repeated many times with different values", () => {
@@ -704,14 +702,14 @@ describe("using function in template settings", () => {
         );
         const {t} = result.current;
 
-        expect(t("name", {}, Language.Chinese)).toBe("{{name}}, {{name}} and Chuck and Jimmy");
+        expect(t("name", {}, "zh")).toBe("{{name}}, {{name}} and Chuck and Jimmy");
         expect(
             t(
                 "name",
                 {
                     name: "Jack",
                 },
-                Language.Chinese,
+                "zh",
             ),
         ).toBe("Jack, Jack and Jack and Jack");
     });
@@ -737,7 +735,7 @@ describe("using function in template settings", () => {
     //                     return `${initialValue} and Chuck`;
     //                 },
     //             },
-    //             Language.Chinese,
+    //             "zh",
     //         ),
     //     ).toBe("Jimmy and Chuck");
     // });
@@ -767,7 +765,7 @@ describe("using function in template settings", () => {
     //                     );
     //                 },
     //             },
-    //             Language.Chinese,
+    //             "zh",
     //         ),
     //     ).toBe("Jimmy and Chuck");
     // });

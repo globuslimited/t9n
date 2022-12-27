@@ -1,4 +1,4 @@
-import {Language, TranslationProperties} from "../shared/basic.js";
+import {TranslationProperties} from "../shared/basic.js";
 import {plugin, TranslationPlugin} from "../shared/plugin.js";
 
 const sexPlugin: TranslationPlugin = (params: TranslationProperties) => {
@@ -11,4 +11,4 @@ const sexPlugin: TranslationPlugin = (params: TranslationProperties) => {
     return [];
 };
 
-export default plugin("sex-plugin", sexPlugin, [Language.Russian, Language.English, Language.Chinese]);
+export default plugin("sex-plugin", sexPlugin, ["ru", "en", "zh"]);

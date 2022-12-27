@@ -1,4 +1,4 @@
-import {Language, TranslationProperties} from "../../shared/basic.js";
+import {TranslationProperties} from "../../shared/basic.js";
 import {plugin, TranslationPlugin} from "../../shared/plugin.js";
 
 const englishPlurals: TranslationPlugin = (params: TranslationProperties) => {
@@ -13,4 +13,4 @@ const englishPlurals: TranslationPlugin = (params: TranslationProperties) => {
     return [];
 };
 
-export default plugin("english-plurals", englishPlurals, [Language.English, Language.Chinese]);
+export default plugin("english-plurals", englishPlurals, ["en", "zh"]);

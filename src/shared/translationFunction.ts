@@ -1,10 +1,7 @@
-import { Language, TemplateFunction, TranslationMap, TranslationProperties } from "shared/basic.js";
-import { PackedPlugin } from "shared/plugin.js";
-import { path, reverse } from "ramda";
-import {
-    Translation as TranslationOfTranslationMap,
-} from "./basic.js";
-
+import {TemplateFunction, TranslationMap, TranslationProperties} from "shared/basic.js";
+import {PackedPlugin} from "shared/plugin.js";
+import {path, reverse} from "ramda";
+import {Translation as TranslationOfTranslationMap} from "./basic.js";
 
 const getModifiers = (key: string) => {
     const [, ...modifiers] = key.split("_");
@@ -59,7 +56,7 @@ const applyPlugins = (keys: string[], params: TranslationProperties, packedPlugi
 
 const getTranslation = (
     translationMap: TranslationMap,
-    lang: Language,
+    lang: string,
     key: string,
     params: TranslationProperties,
     plugins: PackedPlugin[],
@@ -111,10 +108,10 @@ const applyTemplate = (str: string, params: TranslationProperties) => {
 
 export const translate = (
     translationMap: TranslationMap,
-    lang: Language,
+    lang: string,
     key: string,
     params: TranslationProperties = {},
-    fallbackLanguages: Language[],
+    fallbackLanguages: string[],
     plugins: PackedPlugin[],
 ): string => {
     const translation =
@@ -157,12 +154,12 @@ export const translate = (
 
 export const generateTranslationFunction = (
     translations: TranslationMap,
-    language: Language | undefined,
-    fallbackLanguages: Language[],
+    language: string | undefined,
+    fallbackLanguages: string[],
     plugins: PackedPlugin[],
     options: UseTranslationOptions,
 ) => {
-    return (key: string, params?: TranslationProperties, enforceLanguage?: Language) => {
+    return (key: string, params?: TranslationProperties, enforceLanguage?: string) => {
         const currentLanguage = enforceLanguage ?? language ?? fallbackLanguages[0];
 
         if (currentLanguage == null) {
@@ -179,16 +176,12 @@ const isPlainObject = <TIsType extends Object = Object>(o: unknown): o is TIsTyp
 };
 type DictMapper<T> = (key: string, path: string, children: string[]) => T;
 
-export const generateDictFunction = (
-    translationMap: TranslationMap,
-    language: Language,
-    fallbackLanguage: Language,
-) => {
+export const generateDictFunction = (translationMap: TranslationMap, language: string, fallbackLanguage: string) => {
     const ramdaPath = path;
     return <T = string>(
         path: string | null,
         mapper: DictMapper<T> = key => key as unknown as T,
-        enforceLanguage?: Language,
+        enforceLanguage?: string,
     ): T[] => {
         const finalLanguage = enforceLanguage ?? language ?? fallbackLanguage;
         const finalPath = path == null ? [finalLanguage as string] : [finalLanguage as string].concat(path.split("."));
