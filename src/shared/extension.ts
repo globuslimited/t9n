@@ -1,6 +1,6 @@
 type Handler<Options> = (options: Options, language: string) => string;
 
-export type Extension<Arguments extends {}, BasicOptions extends {} = {}> = <CustomOptions extends {} = {}>(
+export type Extension<Arguments extends {}, BasicOptions extends {}> = <CustomOptions extends {}>(
     translation: Arguments,
 ) => {
     __isExtension: true;
@@ -15,7 +15,7 @@ const createExtension = <Arguments extends {}, BasicOptions extends {} = {}>(
         return {
             __isExtension: true,
             supportedLanguages: ["ru"],
-            handler: (options, language) => translate<BasicOptions & CustomOptions>(translation, options, language),
+            handler: (options: BasicOptions & CustomOptions, language) => translate(translation, options, language),
         };
     };
 };
@@ -30,8 +30,9 @@ const russian = createExtension<
     {
         count: number;
     }
->((translation, options, _language: string) => {
-    return translation[options.count];
+>((translation, options, _language) => {
+    console.log(options);
+    return "1";
 });
 
 russian<{hello: 1}>({
