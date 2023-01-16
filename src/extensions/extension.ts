@@ -8,38 +8,15 @@ export type Extension<Arguments extends {}, BasicOptions extends {}> = <CustomOp
     handler: Handler<BasicOptions & CustomOptions>;
 };
 
-const createExtension = <Arguments extends {}, BasicOptions extends {} = {}>(
+export const createExtension = <Arguments extends {}, BasicOptions extends {} = {}>(
     translate: <Options>(translation: Arguments, options: Options, language: string) => string,
+    supportedLanguages: string[]
 ): Extension<Arguments, BasicOptions> => {
     return <CustomOptions extends {} = {}>(translation: Arguments) => {
         return {
             __isExtension: true,
-            supportedLanguages: ["ru"],
+            supportedLanguages,
             handler: (options: BasicOptions & CustomOptions, language) => translate(translation, options, language),
         };
     };
 };
-
-const russian = createExtension<
-    {
-        0: string;
-        1: string;
-        2: string;
-        3: string;
-    },
-    {
-        count: number;
-    }
->((translation, options, _language) => {
-    console.log(options);
-    return "1";
-});
-
-russian<{hello: 1}>({
-    0: "hello 0",
-    1: "hello 1",
-    2: "hello 2",
-    3: "hello 3",
-});
-
-type Check = ReturnType<typeof russian> extends {__isExtension: true} ? true : false;
