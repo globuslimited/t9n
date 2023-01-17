@@ -2,6 +2,7 @@ import {TemplateFunction, TranslationMap, TranslationProperties} from "shared/ba
 import {PackedPlugin} from "shared/plugin.js";
 import {path, reverse} from "ramda";
 import {Translation as TranslationOfTranslationMap} from "./basic.js";
+import { applyTemplate } from "./helper.js";
 
 const getModifiers = (key: string) => {
     const [, ...modifiers] = key.split("_");
@@ -85,25 +86,6 @@ const getTranslation = (
     const finalKey = applyPlugins(suitableKeys, params, plugins);
 
     return parentTranslation[finalKey as keyof typeof parentTranslation];
-};
-
-const variablesRegex = /{{(?<key>\w+)(\|(?<defaultValue>[^}]+))?}}/gm;
-const applyTemplate = (str: string, params: TranslationProperties) => {
-    const result = str.matchAll(variablesRegex);
-    let translationString = str;
-    for (const tp of result) {
-        const {groups} = tp;
-        const {key, defaultValue} = groups as {
-            key: string;
-            defaultValue: string | undefined;
-        };
-        const value = params[key] ?? defaultValue;
-        if (value != null) {
-            const template = defaultValue == null ? `{{${key}}}` : `{{${key}|${defaultValue}}}`;
-            translationString = translationString.replace(template, value.toString());
-        }
-    }
-    return translationString;
 };
 
 export const translate = (

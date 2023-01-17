@@ -3,6 +3,7 @@ import {Extension} from "./extension.js";
 import {russianPlurals} from "./russian/plurals.js";
 export {sex} from "./others/sex.js";
 export {template} from "./others/template.js";
+export {createExtension} from "./extension.js"
 
 export const russian = {
     plurals: russianPlurals,
