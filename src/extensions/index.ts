@@ -39,6 +39,7 @@ type HandlerProperties = Parameters<Handler1>[0];
 
 type Text = Test1["text"];
 type IsExtension<T> = T extends {__isExtension: true} ? true : false;
+
 type IsTextExtension = IsExtension<Text>;
 type IsHelloExtension = IsExtension<Hello>;
 type TranslationHandler<T> = T extends ReturnType<Extension<any, any>>
@@ -47,6 +48,7 @@ type TranslationHandler<T> = T extends ReturnType<Extension<any, any>>
 type TextTranslationHandler = TranslationHandler<Text>;
 type HelloTranslationHandler = TranslationHandler<Hello>;
 
+const testF = (params => "hello") satisfies HelloTranslationHandler;
 const testProperties = {
     count: 3,
     additionalArgument: 3,
