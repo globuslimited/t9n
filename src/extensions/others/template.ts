@@ -1,7 +1,7 @@
 import { createExtension } from "../extension.js";
 
 export const template = createExtension<string, {}>(
-    (translation, options, language) => {
-        return translation;
+    (settings, options, language) => {
+        return settings;
     },
 );

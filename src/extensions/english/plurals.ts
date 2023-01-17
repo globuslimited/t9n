@@ -1,23 +1,23 @@
 import {createExtension} from "../extension.js";
 
-type Arguments = {
+type Settings = {
     singular: string;
     plurals: string;
 };
 
 export const englishPlurals = createExtension<
-    Arguments,
+    Settings,
     {
         count: number;
     }
 >(
-    (translation, options, language) => {
+    (settings, options, language) => {
         const count = +options.count;
         if (Number.isInteger(count)) {
             if (Math.abs(count) === 1) {
-                return translation.singular;
+                return settings.singular;
             } else {
-                return translation.plurals;
+                return settings.plurals;
             }
         }
         throw new Error("argument count was not provided");

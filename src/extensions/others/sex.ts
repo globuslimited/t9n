@@ -1,6 +1,6 @@
 import {createExtension} from "../extension.js";
 
-type Arguments = {
+type Settings = {
     male: string;
     female: string;
 };
@@ -9,6 +9,6 @@ type BasicOptions = {
     sex: "male" | "female";
 };
 
-export const sex = createExtension<Arguments, BasicOptions>((translation, options, language) => {
-    return translation[options.sex];
+export const sex = createExtension<Settings, BasicOptions>((settings, options, language) => {
+    return settings[options.sex];
 });

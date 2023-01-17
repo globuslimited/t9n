@@ -13,11 +13,12 @@ export const english = {
     plurals: englishPlurals,
 } satisfies Record<string, Extension<any, any>>;
 
-russian.plurals<{additionalArgument: number}>({
+const test = russian.plurals<{additionalArgument: number}>({
     0: "1",
     1: "2",
     2: "3",
 });
+type Test = typeof test extends {__isExtension: true} ? true: false
 
 english.plurals<{additionalArgument: number}>({
     singular: "hello",

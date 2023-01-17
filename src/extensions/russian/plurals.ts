@@ -2,13 +2,13 @@ import {createExtension} from "../extension.js";
 
 const lastDigit = (n: number) => parseInt(n.toString().slice(-1));
 
-type Arguments = {
+type Settings = {
     0: string;
     1: string;
     2: string;
 };
 
-const toLowestTheSame = (n: number): keyof Arguments => {
+const toLowestTheSame = (n: number): keyof Settings => {
     if (n >= 2 && n <= 4) {
         return 2;
     } else if (n > 4) {
@@ -27,13 +27,13 @@ const toRussianCasesRules = (n: number) => {
 };
 
 export const russianPlurals = createExtension<
-    Arguments,
+    Settings,
     {
         count: number;
     }
 >(
-    (translation, options, language) => {
-        return translation[toLowestTheSame(toRussianCasesRules(options.count))];
+    (settings, options, language) => {
+        return settings[toLowestTheSame(toRussianCasesRules(options.count))];
     },
     ["ru"],
 );
