@@ -1,6 +1,6 @@
 type Handler<Options> = (options: Options, language: string) => string;
 
-export type Extension<Arguments extends {}, BasicOptions extends {}> = <CustomOptions extends {}>(
+export type Extension<Arguments, BasicOptions extends {}> = <CustomOptions extends {}>(
     translation: Arguments,
 ) => {
     __isExtension: true;
@@ -8,7 +8,7 @@ export type Extension<Arguments extends {}, BasicOptions extends {}> = <CustomOp
     handler: Handler<BasicOptions & CustomOptions>;
 };
 
-export const createExtension = <Arguments extends {}, BasicOptions extends {} = {}>(
+export const createExtension = <Arguments, BasicOptions extends {} = {}>(
     translate: <Options>(translation: Arguments, options: Options, language: string) => string,
     supportedLanguages: string[]
 ): Extension<Arguments, BasicOptions> => {
