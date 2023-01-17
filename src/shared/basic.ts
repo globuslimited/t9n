@@ -4,8 +4,10 @@ export type TranslationProperties = {
 
 export type TemplateFunction = (args: TranslationProperties) => string;
 
+export type BasicTranslationUnit = string | number | TemplateFunction;
+
 export type Translation = {
-    [key: string]: Translation | string | number | TemplateFunction;
+    [key: string]: Translation | BasicTranslationUnit;
 };
 
 export type TranslationMap<T extends string = string> = {
