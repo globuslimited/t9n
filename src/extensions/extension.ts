@@ -11,14 +11,16 @@ export type Extension<Arguments, BasicOptions extends {}> = <TemplateOptions ext
 };
 
 export const createExtension = <Arguments, BasicOptions extends {} = {}>(
-    translate: <Options>(translation: Arguments, options: Options, language: string) => string,
+    // actually second argument is not BasicOptions but if i use generics it doesn't inherit basic type so let plugins think it's just basic options
+    translate: (translation: Arguments, options: BasicOptions, language: string) => string,
     supportedLanguages?: string[],
 ): Extension<Arguments, BasicOptions> => {
     return <TemplateOptions extends {} = {}>(translation: Arguments) => {
         return {
             __isExtension: true,
             supportedLanguages,
-            handler: (options: BasicOptions & TemplateOptions, language) => applyTemplate(translate(translation, options, language), options),
+            handler: (options: BasicOptions & TemplateOptions, language) =>
+                applyTemplate(translate(translation, options, language), options),
         };
     };
 };
