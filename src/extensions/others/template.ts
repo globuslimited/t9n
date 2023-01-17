@@ -8,5 +8,4 @@ export const template = createExtension<string, {}>(
         });
         return str;
     },
-    ["ru", "en", "zh"],
 );

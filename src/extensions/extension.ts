@@ -4,13 +4,13 @@ export type Extension<Arguments, BasicOptions extends {}> = <CustomOptions exten
     translation: Arguments,
 ) => {
     __isExtension: true;
-    supportedLanguages: string[];
+    supportedLanguages?: string[];
     handler: Handler<BasicOptions & CustomOptions>;
 };
 
 export const createExtension = <Arguments, BasicOptions extends {} = {}>(
     translate: <Options>(translation: Arguments, options: Options, language: string) => string,
-    supportedLanguages: string[]
+    supportedLanguages?: string[],
 ): Extension<Arguments, BasicOptions> => {
     return <CustomOptions extends {} = {}>(translation: Arguments) => {
         return {
