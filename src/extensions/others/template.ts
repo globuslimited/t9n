@@ -1,4 +1,4 @@
-import { createExtension } from "./extension.js";
+import { createExtension } from "../extension.js";
 
 export const template = createExtension<string, {}>(
     (translation, options, language) => {
@@ -8,5 +8,5 @@ export const template = createExtension<string, {}>(
         });
         return str;
     },
-    ["ru", "en"],
+    ["ru", "en", "zh"],
 );

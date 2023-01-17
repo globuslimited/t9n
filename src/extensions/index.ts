@@ -1,6 +1,8 @@
 import {englishPlurals} from "./english/plurals.js";
 import {Extension} from "./extension.js";
 import {russianPlurals} from "./russian/plurals.js";
+export {sex} from "./others/sex.js";
+export {template} from "./others/template.js";
 
 export const russian = {
     plurals: russianPlurals,
@@ -18,5 +20,5 @@ russian.plurals<{additionalArgument: number}>({
 
 english.plurals<{additionalArgument: number}>({
     singular: "hello",
-    plurals: "hello everyone"
+    plurals: "hello everyone",
 });
