@@ -10,7 +10,7 @@ specifiers:
   ramda: 0.28.0
   react: 18.2.0
   react-test-renderer: 18.2.0
-  release-it: 15.6.1
+  release-it: 15.7.0
   typescript: 4.9.5
   vitest: 0.29.2
 
@@ -24,7 +24,7 @@ devDependencies:
   ramda: 0.28.0
   react: 18.2.0
   react-test-renderer: 18.2.0_react@18.2.0
-  release-it: 15.6.1
+  release-it: 15.7.0
   typescript: 4.9.5
   vitest: 0.29.2
 
@@ -2657,8 +2657,8 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-it/15.6.1:
-    resolution: {integrity: sha512-oPJKP2yxMcA/TaGFnS5uB0spDSPiDXXd1yGKSSMQ2xutyiSs8X+1UahlJCF/xHnp01QwUqRv0fpsV9MFr2GKmQ==}
+  /release-it/15.7.0:
+    resolution: {integrity: sha512-/ajllmzQNuxXCrPySwx+MiR/nBHp8H+lTn42QFw9YlFPJQpLFwgMjCOFTB4hhuavi9jMbDpWcTPFy31QJgzNcw==}
     engines: {node: '>=14.9'}
     hasBin: true
     dependencies:
