@@ -1,0 +1,23 @@
+{
+    "name": "core-t9n",
+    "version": "5.0.0-2",
+    "description": "React-style library for handling translation",
+    "repository": "git@github.com:globuslimited/react-t9n",
+    "author": "Andrei izotov <faradaytrs@gmail.com>",
+    "license": "MIT",
+    "private": false,
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "files": [
+        "/dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "release": "",
+        "test": "vitest",
+        "coverage": "vitest run --coverage"
+    },
+    "peerDependencies": {},
+    "devDependencies": {}
+}
