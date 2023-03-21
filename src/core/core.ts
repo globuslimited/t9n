@@ -1,4 +1,4 @@
-type Primitive = string | number
+type Primitive = string | number;
 
 interface Scheme {
     [key: PropertyKey]: Primitive | Scheme;
@@ -9,17 +9,21 @@ type Dictionary<Languages extends string, T extends Scheme> = {
 };
 
 interface DictionaryProperties<Language extends string = string> {
-    language?: Language
+    language?: Language;
 }
 
 const dictionary = <Language extends string, T extends Scheme>(
     dictionary: Dictionary<Language, T>,
-    {language}: DictionaryProperties<Language> = {}
+    {language}: DictionaryProperties<Language> = {},
 ) => {
-    const selectedLanguage = language ?? process.env.LANGUAGE as Language
+    const selectedLanguage = language ?? (process.env.LANGUAGE as Language);
+    const bind = (language: Language = selectedLanguage) => {
+        return dictionary[language];
+    };
     return {
         __scheme: dictionary,
-        typed: dictionary[selectedLanguage],
+        __bind: bind,
+        typed: bind(),
     };
 };
 
@@ -27,16 +31,16 @@ const {typed} = dictionary({
     ru: {
         hello: "world",
         deep: {
-            deep: "property"
-        }
+            deep: "property",
+        },
     },
     en: {
         hello: "world english",
         deep: {
-            deep: "property english"
-        }
-    }
+            deep: "property english",
+        },
+    },
 });
 
-typed.hello
-typed.deep.deep
+typed.hello;
+typed.deep.deep;
