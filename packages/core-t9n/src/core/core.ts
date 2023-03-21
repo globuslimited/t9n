@@ -1,6 +1,6 @@
 type Primitive = string | number;
 
-interface Scheme {
+export interface Scheme {
     [key: PropertyKey]: Primitive | Scheme;
 }
 

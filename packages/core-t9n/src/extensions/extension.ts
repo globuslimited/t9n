@@ -1,4 +1,4 @@
-import { applyTemplate } from "shared/helper.js";
+import { applyTemplate } from "../core/applyTemplate.js";
 
 type Handler<Options> = (options: Options, language: string) => string;
 

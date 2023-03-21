@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "baseUrl": "src",
+        "module": "es2020",
+        "target": "es2021",
+        "strict": true,
+        "jsx": "react-jsx",
+        "declaration": true,
+        "outDir": "./dist",
+        "moduleResolution": "Node16",
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true
+    },
+    "include": ["src/**/*"]
+}
