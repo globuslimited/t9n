@@ -4,9 +4,9 @@ specifiers:
   '@testing-library/react-hooks': 8.0.1
   '@types/ramda': 0.28.23
   '@types/react': 18.0.28
-  '@vitest/coverage-c8': ^0.29.0
+  '@vitest/coverage-c8': 0.29.0
   c8: 7.13.0
-  prettier: ^2.8.0
+  prettier: 2.8.0
   ramda: 0.28.0
   react: 18.2.0
   react-test-renderer: 18.2.0
@@ -18,7 +18,7 @@ devDependencies:
   '@testing-library/react-hooks': 8.0.1_jxcfcxboev47gd34uumzpegmmq
   '@types/ramda': 0.28.23
   '@types/react': 18.0.28
-  '@vitest/coverage-c8': 0.29.1_vitest@0.29.7
+  '@vitest/coverage-c8': 0.29.0_vitest@0.29.7
   c8: 7.13.0
   prettier: 2.8.0
   ramda: 0.28.0
@@ -361,8 +361,8 @@ packages:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
     dev: true
 
-  /@vitest/coverage-c8/0.29.1_vitest@0.29.7:
-    resolution: {integrity: sha512-YQZp1xGNxOcZD/zQBvD4bNpUDMJW7+FhBAEBlgvJp+DQ+aNK+dKcoWOTfsod27KQhXSr6UUYI8EYXWCOQqY6Eg==}
+  /@vitest/coverage-c8/0.29.0_vitest@0.29.7:
+    resolution: {integrity: sha512-jW63cK+5XpYrVf51N3Q6A443Ib7d5Fq403gnTm8tQ+oGmyPFVhj2OWmuceH3TasT3WFiZNEqce+khh1JbTkcUQ==}
     peerDependencies:
       vitest: '>=0.29.0 <1'
     dependencies:
