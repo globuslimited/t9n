@@ -5,7 +5,7 @@ importers:
   .:
     devDependencies:
       '@changesets/cli':
-        specifier: ^2.26.1
+        specifier: 2.26.1
         version: 2.26.1
       '@vitest/coverage-c8':
         specifier: 0.30.1
@@ -30,7 +30,7 @@ importers:
 
   packages/react-t9n:
     dependencies:
-      core-t9n:
+      '@t9n/core':
         specifier: workspace:*
         version: link:../core-t9n
     devDependencies:
