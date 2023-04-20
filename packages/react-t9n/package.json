@@ -1,5 +1,5 @@
 {
-    "name": "react-t9n",
+    "name": "@t9n/react",
     "version": "5.0.0-2",
     "description": "React-style library for handling translation",
     "repository": "git@github.com:globuslimited/react-t9n",
@@ -17,6 +17,9 @@
         "release": "",
         "test": "vitest",
         "coverage": "vitest run --coverage"
+    },
+    "dependencies": {
+        "@t9n/core": "workspace:*"
     },
     "peerDependencies": {
         "ramda": "^0.29",

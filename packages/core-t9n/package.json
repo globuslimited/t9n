@@ -1,5 +1,5 @@
 {
-    "name": "core-t9n",
+    "name": "@t9n/core",
     "version": "5.0.0-2",
     "description": "React-style library for handling translation",
     "repository": "git@github.com:globuslimited/react-t9n",
