@@ -34,7 +34,7 @@
         "react-test-renderer": "18.2.0",
         "release-it": "15.11.0",
         "typescript": "5.1.3",
-        "vitest": "0.32.0"
+        "vitest": "0.32.1"
     },
     "release-it": {
         "git": {
