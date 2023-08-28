@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 devDependencies:
   '@testing-library/react-hooks':
     specifier: 8.0.1
@@ -15,14 +11,14 @@ devDependencies:
     specifier: 18.2.21
     version: 18.2.21
   '@vitest/coverage-c8':
-    specifier: ^0.33.0
+    specifier: 0.33.0
     version: 0.33.0(vitest@0.34.3)
   c8:
     specifier: 8.0.1
     version: 8.0.1
   prettier:
-    specifier: ^3.0.0
-    version: 3.0.0
+    specifier: ^3.0.2
+    version: 3.0.2
   ramda:
     specifier: 0.29.0
     version: 0.29.0
@@ -409,6 +405,7 @@ packages:
 
   /@vitest/coverage-c8@0.33.0(vitest@0.34.3):
     resolution: {integrity: sha512-DaF1zJz4dcOZS4k/neiQJokmOWqsGXwhthfmUdPGorXIQHjdPvV6JQSYhQDI41MyI8c+IieQUdIDs5XAMHtDDw==}
+    deprecated: v8 coverage is moved to @vitest/coverage-v8 package
     peerDependencies:
       vitest: '>=0.30.0 <1'
     dependencies:
@@ -661,8 +658,8 @@ packages:
       find-up: 5.0.0
       foreground-child: 2.0.0
       istanbul-lib-coverage: 3.2.0
-      istanbul-lib-report: 3.0.0
-      istanbul-reports: 3.1.4
+      istanbul-lib-report: 3.0.1
+      istanbul-reports: 3.1.6
       rimraf: 3.0.2
       test-exclude: 6.0.0
       v8-to-istanbul: 9.0.0
@@ -2070,15 +2067,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /istanbul-lib-report@3.0.0:
-    resolution: {integrity: sha512-wcdi+uAKzfiGT2abPpKZ0hSU1rGQjUQnLvtY5MpQ7QCTahD3VODhcu4wcfY1YtkGaDD5yuydOLINXsfbus9ROw==}
-    engines: {node: '>=8'}
-    dependencies:
-      istanbul-lib-coverage: 3.2.0
-      make-dir: 3.1.0
-      supports-color: 7.2.0
-    dev: true
-
   /istanbul-lib-report@3.0.1:
     resolution: {integrity: sha512-GCfE1mtsHGOELCU8e/Z7YWzpmybrx/+dSTfLrvY8qRmaY6zXTKWn6WQIjaAFw069icm6GVMNkgu0NzI4iPZUNw==}
     engines: {node: '>=10'}
@@ -2086,14 +2074,6 @@ packages:
       istanbul-lib-coverage: 3.2.0
       make-dir: 4.0.0
       supports-color: 7.2.0
-    dev: true
-
-  /istanbul-reports@3.1.4:
-    resolution: {integrity: sha512-r1/DshN4KSE7xWEknZLLLLDn5CJybV3nw01VTkp6D5jzLuELlcbudfj/eSQFvrKsJuTVCGnePO7ho82Nw9zzfw==}
-    engines: {node: '>=8'}
-    dependencies:
-      html-escaper: 2.0.2
-      istanbul-lib-report: 3.0.0
     dev: true
 
   /istanbul-reports@3.1.6:
@@ -2253,13 +2233,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
-    dev: true
-
-  /make-dir@3.1.0:
-    resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
-    engines: {node: '>=8'}
-    dependencies:
-      semver: 6.3.0
     dev: true
 
   /make-dir@4.0.0:
@@ -2659,8 +2632,8 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /prettier@3.0.0:
-    resolution: {integrity: sha512-zBf5eHpwHOGPC47h0zrPyNn+eAEIdEzfywMoYn2XPi0P44Zp0tSq64rq0xAREh4auw2cJZHo9QUob+NqCQky4g==}
+  /prettier@3.0.2:
+    resolution: {integrity: sha512-o2YR9qtniXvwEZlOKbveKfDQVyqxbEIWn48Z8m3ZJjBjcCmUy3xZGIv+7AkaeuaTr6yPXJjwv07ZWlsWbEy1rQ==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
@@ -2992,11 +2965,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       semver: 7.5.4
-    dev: true
-
-  /semver@6.3.0:
-    resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
-    hasBin: true
     dev: true
 
   /semver@7.5.4:
@@ -3643,3 +3611,7 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

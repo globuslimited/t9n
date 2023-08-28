@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "baseUrl": "src",
         "module": "Node16",
         "target": "es2022",
         "strict": true,
@@ -11,7 +10,12 @@
         "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
-        "importHelpers": true
+        "importHelpers": true,
+        "rootDir": "./src",
+        "paths": {
+            "~/*": ["./src/*"]
+        },
     },
-    "include": ["src/**/*"]
+    "include": ["src/**/*"],
+    
 }

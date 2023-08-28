@@ -1,4 +1,3 @@
-import {mergeRight} from "ramda";
 import {TranslationMap} from "./basic.js";
 import type {PackedPlugin} from "./plugin.js";
 import englishPlurals from "../plugins/english/plurals.js";
@@ -32,4 +31,4 @@ export const mergeSettings = <
 >(
     parent: TParent,
     children: TChildren,
-) => mergeRight(parent, children);
+) =>({...parent, ...children});
