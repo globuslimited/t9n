@@ -1,7 +1,7 @@
 import {assoc, mergeDeepWith} from "ramda";
 import {defaultSettings, mergeSettings, TranslationSettings} from "./settings.js";
 import {TranslationMap} from "./basic.js";
-import {TranslationFunction} from "./translationFunction.js";
+import {TranslationFunction, generateDictFunction} from "./translationFunction.js";
 import {generateTranslationFunction} from "./translationFunction.js";
 
 export type TranslationConfiguration = Partial<Omit<TranslationSettings, "translations">>;
@@ -11,6 +11,7 @@ export type Translation = {
     translationMap: TranslationMap;
     extend: (translation: Translation | TranslationMap, settings?: TranslationConfiguration) => Translation;
     t: TranslationFunction;
+    dict: ReturnType<typeof generateDictFunction>;
 };
 
 const mergeTranslationMaps = (...translateMaps: TranslationMap[]): TranslationMap => {
@@ -72,6 +73,7 @@ export const extend = (
             parentSettings.plugins ?? [],
             {},
         ),
+        dict: generateDictFunction(translationMap, parentSettings.language, parentSettings.fallbackLanguages[0]),
     };
 };
 

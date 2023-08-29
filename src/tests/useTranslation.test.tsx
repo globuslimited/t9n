@@ -770,3 +770,101 @@ describe("using function in template settings", () => {
     //     ).toBe("Jimmy and Chuck");
     // });
 });
+
+test("测试 dict 功能", () => {
+    const {dict} = translation({
+        zh: {
+            products: {
+                product1: "产品1",
+                product2: "产品2",
+                product3: "产品3",
+                product4: "产品4",
+                product5: "产品5",
+                product6: {
+                    product61: "产品61",
+                },
+            },
+        },
+
+        en: {
+            products: {
+                product1: "product1",
+                product2: "product2",
+                product3: {
+                    product31: "product31",
+                },
+            },
+        },
+    });
+
+    expect(
+        dict(
+            "products",
+            (key, path, children) => ({
+                key,
+                path,
+                children,
+            }),
+            "zh",
+        ),
+    ).toEqual([
+        {
+            key: "product1",
+            path: "products.product1",
+            children: [],
+        },
+        {
+            key: "product2",
+            path: "products.product2",
+            children: [],
+        },
+        {
+            key: "product3",
+            path: "products.product3",
+            children: [],
+        },
+        {
+            key: "product4",
+            path: "products.product4",
+            children: [],
+        },
+        {
+            key: "product5",
+            path: "products.product5",
+            children: [],
+        },
+        {
+            key: "product6",
+            path: "products.product6",
+            children: ["product61"],
+        },
+    ]);
+
+    expect(
+        dict(
+            "products",
+            (key, path, children) => ({
+                key,
+                path,
+                children,
+            }),
+            "en",
+        ),
+    ).toEqual([
+        {
+            key: "product1",
+            path: "products.product1",
+            children: [],
+        },
+        {
+            key: "product2",
+            path: "products.product2",
+            children: [],
+        },
+        {
+            key: "product3",
+            path: "products.product3",
+            children: ["product31"],
+        },
+    ]);
+});
