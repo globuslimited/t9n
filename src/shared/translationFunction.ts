@@ -135,6 +135,7 @@ export const translate = (
         }, null as string | number | TemplateFunction | null);
 
     if (translation == null) {
+        console.error("react-t9n: translation not found. Key: ", key)
         return key;
     }
     if (typeof translation === "object") {
@@ -149,6 +150,8 @@ export const translate = (
     if (typeof translation === "string") {
         return applyTemplate(translation, params);
     }
+    
+    console.error("react-t9n: translation not supported. Key: ", key)
     return key;
 };
 
