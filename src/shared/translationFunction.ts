@@ -113,6 +113,7 @@ export const translate = (
     params: TranslationProperties = {},
     fallbackLanguages: string[],
     plugins: PackedPlugin[],
+    errorOnNotFound: boolean = true,
 ): string => {
     const translation =
         getTranslation(
@@ -135,12 +136,14 @@ export const translate = (
         }, null as string | number | TemplateFunction | null);
 
     if (translation == null) {
-        const error = `[react-t9n] translation not found: ${key}`;
+        if (errorOnNotFound) {
+            const error = `[react-t9n] translation not found: ${key}`;
 
-        if (process.env.REACT_T9N_DEBUG) {
-            throw new Error(error);
-        } else {
-            console.error(error);
+            if (process.env.REACT_T9N_DEBUG) {
+                throw new Error(error);
+            } else {
+                console.error(error);
+            }
         }
         return key;
     }
@@ -173,7 +176,7 @@ export const generateTranslationFunction = (
     plugins: PackedPlugin[],
     options: UseTranslationOptions,
 ) => {
-    return (key: string, params?: TranslationProperties, enforceLanguage?: string) => {
+    return (key: string, params?: TranslationProperties, enforceLanguage?: string, errorOnNotFound: boolean = true) => {
         const currentLanguage = enforceLanguage ?? language ?? fallbackLanguages[0];
 
         if (currentLanguage == null) {
@@ -181,7 +184,7 @@ export const generateTranslationFunction = (
         }
 
         const preparedKey = typeof options.prefix === "string" ? `${options.prefix}.${key}` : key;
-        return translate(translations, currentLanguage, preparedKey, params, fallbackLanguages, plugins);
+        return translate(translations, currentLanguage, preparedKey, params, fallbackLanguages, plugins, errorOnNotFound);
     };
 };
 
