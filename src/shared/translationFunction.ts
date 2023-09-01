@@ -135,7 +135,13 @@ export const translate = (
         }, null as string | number | TemplateFunction | null);
 
     if (translation == null) {
-        console.error("[react-t9n] translation not found: ", key)
+        const error = `[react-t9n] translation not found: ${key}`;
+
+        if (process.env.REACT_T9N_DEBUG) {
+            throw new Error(error);
+        } else {
+            console.error(error);
+        }
         return key;
     }
     if (typeof translation === "object") {
@@ -151,7 +157,12 @@ export const translate = (
         return applyTemplate(translation, params);
     }
     
-    console.error("[react-t9n] translation not supported: ", key)
+    const error = `[react-t9n] translation not supported: ${key}`;
+    if (process.env.REACT_T9N_DEBUG) {
+        throw new Error(error);
+    } else {
+        console.error(error);
+    }
     return key;
 };
 
