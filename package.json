@@ -1,6 +1,6 @@
 {
     "name": "react-t9n",
-    "version": "5.0.0-5",
+    "version": "5.0.0-6",
     "description": "React-style library for handling translation",
     "repository": "git@github.com:globuslimited/react-t9n",
     "author": "Andrei izotov <faradaytrs@gmail.com>",
