@@ -24,7 +24,7 @@
     },
     "devDependencies": {
         "@testing-library/react-hooks": "8.0.1",
-        "@types/ramda": "0.29.3",
+        "@types/ramda": "0.29.4",
         "@types/react": "18.2.21",
         "@vitest/coverage-c8": "0.33.0",
         "c8": "8.0.1",
