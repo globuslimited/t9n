@@ -22,7 +22,7 @@ devDependencies:
     version: 9.1.0
   prettier:
     specifier: ^3.0.3
-    version: 3.0.3
+    version: 3.2.5
   ramda:
     specifier: 0.29.1
     version: 0.29.1
@@ -2817,8 +2817,8 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /prettier@3.0.3:
-    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
+  /prettier@3.2.5:
+    resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
