@@ -16,9 +16,11 @@ export type TranslationSettings = {
     plugins: PackedPlugin[];
 };
 
+// @ts-ignore
+const defaultLanguage = process?.env?.NEXT_PUBLIC_LANGUAGE ?? process?.env?.LANGUAGE ?? "en"
 export const defaultSettings = {
     fallbackLanguages: ["en"],
-    language: process.env.NEXT_PUBLIC_LANGUAGE ?? process.env.LANGUAGE ?? "en",
+    language: defaultLanguage ,
     translations: {
         en: {},
     },
