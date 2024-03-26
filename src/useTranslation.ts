@@ -2,18 +2,16 @@
 import {useContext} from "react";
 import {TranslationContext} from "./context.js";
 import {defaultSettings, mergeSettings} from "./shared/settings.js";
-import {extend, Translation} from "./shared/translation.js";
+import {Translation} from "./shared/translation.js";
 import type {PackedPlugin} from "./shared/plugin.js";
 import {TranslationMap} from "./shared/basic.js";
 import {generateTranslationFunction, UseTranslationOptions} from "./shared/translationFunction.js";
 
-export const useTranslation = (translation?: Translation | TranslationMap, options?: UseTranslationOptions) => {
+export const useTranslation = (translation: Translation | TranslationMap, options?: UseTranslationOptions) => {
     const settingsPatch = useContext(TranslationContext);
     const settings = mergeSettings(defaultSettings, settingsPatch);
-    const {fallbackLanguages, translations, plugins, language} = settings;
-
-    const translationMap = translation == null ? translations : extend(translations, translation).translationMap;
-
+    const {fallbackLanguages, plugins, language} = settings;
+    const translationMap = translation.__isTranslation ? (translation as Translation).translationMap : translation as TranslationMap;
     return {
         t: generateTranslationFunction(
             translationMap,

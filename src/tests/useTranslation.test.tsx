@@ -8,8 +8,7 @@ import {TranslationProperties} from "../shared/basic.js";
 import {TranslationProvider} from "../index.js";
 import {defaultSettings} from "../shared/settings.js";
 
-const settings = {
-    translations: {
+const dict = {
         en: {
             people: "Human",
             people_plural: "People",
@@ -65,7 +64,9 @@ const settings = {
                 category4: "Категория 4",
             },
         },
-    },
+    }
+
+const settings = {
     language: "zh",
     fallbackLanguages: ["en", "ru", "zh"],
     plugins: defaultSettings.plugins.concat(
@@ -86,49 +87,49 @@ type FCWC<P = {}> = FC<P & {children?: ReactNode | undefined}>;
 const ContextMockWrapper: FCWC = ({children}) => <TranslationProvider value={settings}>{children}</TranslationProvider>;
 
 test("should return key if translation not found", () => {
-    const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+    const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
     const {t, language} = result.current;
     expect(t("unknown.property")).toBe("unknown.property");
 });
 
 test("language should be currently set language", () => {
-    const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+    const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
     const {t, language} = result.current;
     expect(language).toBe("zh");
 });
 
 test("should use fallback language property when target property is not available", () => {
-    const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+    const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
     const {t, language} = result.current;
     expect(t("only.english")).toBe("Hello");
 });
 
 test("should return translation when key is correct", () => {
-    const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+    const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
     const {t, language} = result.current;
     expect(t("cool")).toBe("厉害");
 });
 
 test("should return correct translation when property is nested", () => {
-    const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+    const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
     const {t, language} = result.current;
     expect(t("nested.property")).toBe("I am nested");
 });
 
 test("should fallback to default property when target property is an object", () => {
-    const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+    const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
     const {t, language} = result.current;
     expect(t("default")).toBe("默认");
 });
 
 test("should support enforcing specific language", () => {
-    const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+    const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
     const {t, language} = result.current;
     expect(t("cool", {}, "ru")).toBe("Крутой");
 });
 
 test("should support templates", () => {
-    const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+    const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
     const {t, language} = result.current;
     expect(t("people", {people: 2})).toBe("2个人");
 });
@@ -150,12 +151,12 @@ test("should support prefixes", () => {
 
 describe("plugins", () => {
     test("plugins should add suffix", () => {
-        const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+        const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
         const {t} = result.current;
         expect(t("categories.plugins", {count: 5}, "zh")).toBe("Plugin works!");
     });
     test("should support multiple plugins at the same time", () => {
-        const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+        const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
         const {t} = result.current;
         expect(t("multiple.test", {count: 1, sex: "male"})).toBe("a man");
         expect(t("multiple.test", {count: 2, sex: "male"})).toBe("men");
@@ -163,12 +164,12 @@ describe("plugins", () => {
         expect(t("multiple.test", {count: 2, sex: "female"})).toBe("women");
     });
     test("should support _plural for english", () => {
-        const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+        const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
         const {t, language} = result.current;
         expect(t("people", {count: 2}, "en")).toBe("People");
     });
     test("should support russian casing for numbers using count()", () => {
-        const {result} = renderHook(() => useTranslation(), {wrapper: ContextMockWrapper});
+        const {result} = renderHook(() => useTranslation(dict), {wrapper: ContextMockWrapper});
         const {t, language} = result.current;
         expect(t("people", {count: 1}, "ru")).toBe("Человек");
     });
