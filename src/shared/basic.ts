@@ -8,6 +8,6 @@ export type Translation = {
     [key: string]: Translation | string | number | TemplateFunction;
 };
 
-export type TranslationMap<T extends string = string> = {
-    [language in T]?: Translation;
+export type TranslationMap<T extends Translation = Translation, L extends string = string> = {
+    [language in L]?: T;
 };
