@@ -11,23 +11,21 @@ jobs:
                   persist-credentials: false
                   fetch-depth: 0
                   ref: 'main'
-            - name: Setup PNPM
-              uses: pnpm/action-setup@v3.0.0
-              with:
-                  version: "latest"
+            - name: Enable corepack
+              run: corepack enable
             - name: Use Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: "16"
+                  node-version: "lts/*"
                   registry-url: "https://registry.npmjs.org"
                   cache: "pnpm"
             - name: Install dependencies
-              run: pnpm install
+              run: corepack pnpm install --frozen-lockfile
             - name: Run tests
-              run: pnpm test
+              run: corepack pnpm test
             - name: Build package
-              run: pnpm build
+              run: corepack pnpm build
             - name: Publish to npm registry
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-              run: pnpm publish
+              run: corepack pnpm publish
