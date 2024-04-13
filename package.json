@@ -69,5 +69,5 @@
             "types": "./dist/index.d.ts"
         }
     },
-    "packageManager": "pnpm@8.15.6"
+    "packageManager": "pnpm@8.15.7"
 }
