@@ -30,8 +30,8 @@
         "c8": "9.1.0",
         "prettier": "3.2.5",
         "ramda": "0.29.1",
-        "react": "18.2.0",
-        "react-test-renderer": "18.2.0",
+        "react": "18.3.0",
+        "react-test-renderer": "18.3.0",
         "release-it": "17.2.0",
         "typescript": "5.4.5",
         "vitest": "1.5.2"
