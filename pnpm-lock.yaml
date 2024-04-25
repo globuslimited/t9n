@@ -10,13 +10,13 @@ importers:
     devDependencies:
       '@testing-library/react-hooks':
         specifier: 8.0.1
-        version: 8.0.1(@types/react@18.2.79)(react-test-renderer@18.3.0(react@18.3.0))(react@18.3.0)
+        version: 8.0.1(@types/react@18.3.0)(react-test-renderer@18.3.0(react@18.3.0))(react@18.3.0)
       '@types/ramda':
         specifier: 0.29.12
         version: 0.29.12
       '@types/react':
-        specifier: 18.2.79
-        version: 18.2.79
+        specifier: 18.3.0
+        version: 18.3.0
       '@vitest/coverage-v8':
         specifier: 1.5.2
         version: 1.5.2(vitest@1.5.2)
@@ -448,8 +448,8 @@ packages:
   '@types/ramda@0.29.12':
     resolution: {integrity: sha512-sgIEjpJhdQPB52gDF4aphs9nl0xe54CR22DPdWqT8gQHjZYmVApgA0R3/CpMbl0Y8az2TEZrPNL2zy0EvjbkLA==}
 
-  '@types/react@18.2.79':
-    resolution: {integrity: sha512-RwGAGXPl9kSXwdNTafkOEuFrTBD5SA2B3iEB96xi8+xu5ddUa/cpvyVCSNn+asgLCTHkb5ZxN8gbuibYJi4s1w==}
+  '@types/react@18.3.0':
+    resolution: {integrity: sha512-DiUcKjzE6soLyln8NNZmyhcQjVv+WsUIFSqetMN0p8927OztKT4VTfFTqsbAi5oAGIcgOmOajlfBqyptDDjZRw==}
 
   '@vitest/coverage-v8@1.5.2':
     resolution: {integrity: sha512-QJqxRnbCwNtbbegK9E93rBmhN3dbfG1bC/o52Bqr0zGCYhQzwgwvrJBG7Q8vw3zilX6Ryy6oa/mkZku2lLJx1Q==}
@@ -2462,13 +2462,13 @@ snapshots:
     dependencies:
       defer-to-connect: 2.0.1
 
-  '@testing-library/react-hooks@8.0.1(@types/react@18.2.79)(react-test-renderer@18.3.0(react@18.3.0))(react@18.3.0)':
+  '@testing-library/react-hooks@8.0.1(@types/react@18.3.0)(react-test-renderer@18.3.0(react@18.3.0))(react@18.3.0)':
     dependencies:
       '@babel/runtime': 7.17.9
       react: 18.3.0
       react-error-boundary: 3.1.4(react@18.3.0)
     optionalDependencies:
-      '@types/react': 18.2.79
+      '@types/react': 18.3.0
       react-test-renderer: 18.3.0(react@18.3.0)
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
@@ -2485,7 +2485,7 @@ snapshots:
     dependencies:
       types-ramda: 0.29.10
 
-  '@types/react@18.2.79':
+  '@types/react@18.3.0':
     dependencies:
       '@types/prop-types': 15.7.5
       csstype: 3.0.11
