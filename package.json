@@ -26,7 +26,7 @@
         "@testing-library/react-hooks": "8.0.1",
         "@types/ramda": "0.29.12",
         "@types/react": "18.2.79",
-        "@vitest/coverage-v8": "1.5.1",
+        "@vitest/coverage-v8": "1.5.2",
         "c8": "9.1.0",
         "prettier": "3.2.5",
         "ramda": "0.29.1",
@@ -34,7 +34,7 @@
         "react-test-renderer": "18.2.0",
         "release-it": "17.2.0",
         "typescript": "5.4.5",
-        "vitest": "1.5.1"
+        "vitest": "1.5.2"
     },
     "release-it": {
         "git": {
