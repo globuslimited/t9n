@@ -12,8 +12,8 @@ importers:
         specifier: 8.0.1
         version: 8.0.1(@types/react@18.3.1)(react-test-renderer@18.3.1(react@18.3.1))(react@18.3.1)
       '@types/ramda':
-        specifier: 0.29.12
-        version: 0.29.12
+        specifier: 0.30.0
+        version: 0.30.0
       '@types/react':
         specifier: 18.3.1
         version: 18.3.1
@@ -443,8 +443,8 @@ packages:
   '@types/prop-types@15.7.5':
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
 
-  '@types/ramda@0.29.12':
-    resolution: {integrity: sha512-sgIEjpJhdQPB52gDF4aphs9nl0xe54CR22DPdWqT8gQHjZYmVApgA0R3/CpMbl0Y8az2TEZrPNL2zy0EvjbkLA==}
+  '@types/ramda@0.30.0':
+    resolution: {integrity: sha512-DQtfqUbSB18iM9NHbQ++kVUDuBWHMr6T2FpW1XTiksYRGjq4WnNPZLt712OEHEBJs7aMyJ68Mf2kGMOP1srVVw==}
 
   '@types/react@18.3.1':
     resolution: {integrity: sha512-V0kuGBX3+prX+DQ/7r2qsv1NsdfnCLnTgnRJ1pYnxykBhGMz+qj+box5lq7XsO5mtZsBqpjwwTu/7wszPfMBcw==}
@@ -1989,8 +1989,8 @@ packages:
   typedarray-to-buffer@3.1.5:
     resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
 
-  types-ramda@0.29.10:
-    resolution: {integrity: sha512-5PJiW/eiTPyXXBYGZOYGezMl6qj7keBiZheRwfjJZY26QPHsNrjfJnz0mru6oeqqoTHOni893Jfd6zyUXfQRWg==}
+  types-ramda@0.30.0:
+    resolution: {integrity: sha512-oVPw/KHB5M0Du0txTEKKM8xZOG9cZBRdCVXvwHYuNJUVkAiJ9oWyqkA+9Bj2gjMsHgkkhsYevobQBWs8I2/Xvw==}
 
   typescript@5.4.5:
     resolution: {integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==}
@@ -2468,9 +2468,9 @@ snapshots:
 
   '@types/prop-types@15.7.5': {}
 
-  '@types/ramda@0.29.12':
+  '@types/ramda@0.30.0':
     dependencies:
-      types-ramda: 0.29.10
+      types-ramda: 0.30.0
 
   '@types/react@18.3.1':
     dependencies:
@@ -4192,7 +4192,7 @@ snapshots:
     dependencies:
       is-typedarray: 1.0.0
 
-  types-ramda@0.29.10:
+  types-ramda@0.30.0:
     dependencies:
       ts-toolbelt: 9.6.0
 
