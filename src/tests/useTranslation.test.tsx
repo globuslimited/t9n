@@ -138,7 +138,7 @@ test("should support prefixes", () => {
     const {result} = renderHook(
         () =>
             useTranslation(
-                {},
+                dict,
                 {
                     prefix: "only",
                 },
@@ -293,7 +293,7 @@ describe("extend", () => {
     });
 
     test("useTranslation 的 extend 特性", () => {
-        const {result} = renderHook(() => useTranslation(extendTranslation), {wrapper: ContextMockWrapper});
+        const {result} = renderHook(() => useTranslation(extendTranslation.extend(dict)), {wrapper: ContextMockWrapper});
         const {t, language} = result.current;
 
         expect(t("cool")).toBe("厉害");
